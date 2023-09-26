@@ -1,6 +1,6 @@
 CREATE TABLE "follow_user" (
-  "follower_id" INTEGER,
-  "followed_id" INTEGER
+  "follower_id" INTEGER NOT NULL,
+  "followed_id" INTEGER NOT NULL
 );
 
 CREATE TABLE "user" (
@@ -16,7 +16,7 @@ CREATE TABLE "user" (
 
 CREATE TABLE "post" (
   "id" INTEGER SERIAL PRIMARY KEY,
-  "user_id" INTEGER,
+  "user_id" INTEGER NOT NULL,
   "topic_id" INTEGER,
   "title" VARCHAR(100) NOT NULL,
   "content" TEXT NOT NULL,
@@ -36,8 +36,8 @@ CREATE TABLE "topic" (
 );
 
 CREATE TABLE "follows_topic" (
-  "follower_id" INTEGER,
-  "topic_id" INTEGER
+  "follower_id" INTEGER NOT NULL,
+  "topic_id" INTEGER NOT NULL
 );
 
 COMMENT ON COLUMN "post"."user_id" IS 'Post Creator';
