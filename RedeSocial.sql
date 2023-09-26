@@ -1,60 +1,60 @@
 CREATE TABLE "follow_user" (
-  "follower_id" integer,
-  "followed_id" integer
+  "follower_id" INTEGER,
+  "followed_id" INTEGER
 );
 
 CREATE TABLE "user" (
-  "id" integer PRIMARY KEY,
-  "name" varchar,
-  "surname" varchar,
-  "birthday" date,
-  "gender" varchar,
-  "email" varchar,
-  "password" varchar,
-  "created_at" timestamp
+  "id" INTEGER SERIAL PRIMARY KEY,
+  "name" VARCHAR(30) NOT NULL,
+  "surname" VARCHAR(60) NOT NULL,
+  "birthday" DATE,
+  "gender" CHAR(1) NOT NULL,
+  "email" VARCHAR NOT NULL,
+  "password" VARCHAR NOT NULL,
+  "created_at" TIMESTAMP
 );
 
 CREATE TABLE "post" (
-  "id" integer PRIMARY KEY,
-  "id_user" integer,
-  "id_topic" integer,
-  "title" varchar,
-  "content" text,
-  "creation_data" timestamp
+  "id" INTEGER SERIAL PRIMARY KEY,
+  "user_id" INTEGER,
+  "topic_id" INTEGER,
+  "title" VARCHAR(100) NOT NULL,
+  "content" TEXT NOT NULL,
+  "creation_data" TIMESTAMP
 );
 
 CREATE TABLE "reaction" (
-  "id" integer PRIMARY KEY,
-  "id_user" integer,
-  "id_post" integer,
-  "type" varchar
+  "id" INTEGER SERIAL PRIMARY KEY,
+  "user_id" INTEGER,
+  "post_id" INTEGER,
+  "type" VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE "topic" (
-  "id" integer PRIMARY KEY,
-  "subject" varchar
+  "id" INTEGER SERIAL PRIMARY KEY,
+  "subject" VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE "follows_topic" (
-  "follower_id" integer,
-  "topic_id" integer
+  "follower_id" INTEGER,
+  "topic_id" INTEGER
 );
 
-COMMENT ON COLUMN "post"."id_user" IS 'Post Creator';
+COMMENT ON COLUMN "post"."user_id" IS 'Post Creator';
 
 COMMENT ON COLUMN "post"."id_topic" IS 'Which topic belongs to';
 
-ALTER TABLE "post" ADD FOREIGN KEY ("id_user") REFERENCES "user" ("id");
+ALTER TABLE "post" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
 ALTER TABLE "follow_user" ADD FOREIGN KEY ("follower_id") REFERENCES "user" ("id");
 
 ALTER TABLE "follow_user" ADD FOREIGN KEY ("followed_id") REFERENCES "user" ("id");
 
-ALTER TABLE "reaction" ADD FOREIGN KEY ("id_user") REFERENCES "user" ("id");
+ALTER TABLE "reaction" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
-ALTER TABLE "reaction" ADD FOREIGN KEY ("id_post") REFERENCES "post" ("id");
+ALTER TABLE "reaction" ADD FOREIGN KEY ("post_id") REFERENCES "post" ("id");
 
-ALTER TABLE "post" ADD FOREIGN KEY ("id_topico") REFERENCES "topic" ("id");
+ALTER TABLE "post" ADD FOREIGN KEY ("topic_id") REFERENCES "topic" ("id");
 
 ALTER TABLE "follows_topic" ADD FOREIGN KEY ("follower_id") REFERENCES "user" ("id");
 
