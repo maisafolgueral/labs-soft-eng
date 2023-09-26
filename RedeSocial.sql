@@ -7,6 +7,7 @@ CREATE TABLE "user" (
   "id" integer PRIMARY KEY,
   "name" varchar,
   "surname" varchar,
+  "birthday" date,
   "gender" varchar,
   "email" varchar,
   "password" varchar,
