@@ -25,8 +25,8 @@ CREATE TABLE "post" (
 
 CREATE TABLE "reaction" (
   "id" INTEGER SERIAL PRIMARY KEY,
-  "user_id" INTEGER,
-  "post_id" INTEGER,
+  "user_id" INTEGER NOT NULL,
+  "post_id" INTEGER NOT NULL,
   "type" VARCHAR(30) NOT NULL
 );
 
