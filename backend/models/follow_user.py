@@ -14,7 +14,7 @@ Base = declarative_base()
 
 class FollowUserModel(Base):
 
-    __tablename__ = 'reaction'
+    __tablename__ = 'follow user'
 
     follower_id = Column(Integer, nullable=False)
     followed_id = Column(Integer, nullable=False)
