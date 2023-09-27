@@ -30,6 +30,13 @@ CREATE TABLE "reaction" (
   "type" VARCHAR(30) NOT NULL
 );
 
+CREATE TABLE "comment" (
+  "id" INTEGER SERIAL PRIMARY KEY,
+  "user_id" INTEGER NOT NULL,
+  "post_id" INTEGER NOT NULL,
+  "content" TEXT NOT NULL
+);
+
 CREATE TABLE "topic" (
   "id" INTEGER SERIAL PRIMARY KEY,
   "subject" VARCHAR(100) NOT NULL
