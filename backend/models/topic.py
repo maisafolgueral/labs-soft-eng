@@ -17,6 +17,4 @@ class TopicModel(Base):
     __tablename__ = 'topic'
 
     id = Column(Integer, primary_key=True, autoincrement="auto")
-    user_id = Column(Integer, nullable=False)
-    post_id = Column(Integer, nullable=False)
-    type = Column(String(30), nullable=False)
+    subject = Column(String(100), nullable=False)
