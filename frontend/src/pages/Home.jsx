@@ -18,6 +18,71 @@ export default function Login() {
     >
       <Grid 
         container  
+        spacing={2}
+      >
+        <Grid
+          container  
+          item
+          spacing={2}
+          xs={9}
+        >
+          <img 
+            src={isologo}
+            style={{
+              height: 100,
+              paddingLeft: '60px',
+              paddingTop: '60px'
+            }}
+          />
+        </Grid>
+
+        <Grid
+          container  
+          item
+          spacing={2}
+          xs={3}
+        >
+          <Stack 
+              direction="row" 
+              spacing={2}
+              style={{
+                height: 100,
+                paddingTop: '60px',
+                paddingLeft: '60px'
+              }}
+            >
+              <Button 
+                variant="text"
+                style={{
+                  color: '#C4C4C4',
+                }}
+                href="/Login"
+              >
+                Entrar
+              </Button>
+              <Button 
+                variant="outlined"
+                style={{ 
+                  color: '#1976D2',
+                }}
+                href="/request-access"
+              >
+                Solicitar Acesso
+              </Button>
+            </Stack>
+        </Grid>
+
+
+          
+      </Grid>
+
+
+
+
+
+
+      <Grid 
+        container  
         sx={{ 
           minHeight: '100%'
         }}
@@ -29,14 +94,6 @@ export default function Login() {
             backgroundColor: '#F7F7F7',
           }}
         >
-          <img 
-            src={isologo}
-            style={{
-              width: 164.4,
-              paddingLeft: '60px',
-              paddingTop: '60px'
-            }}
-          />
           <Typography
             variant='h5'
             component='h1'
@@ -44,7 +101,7 @@ export default function Login() {
               paddingLeft: '60px',
               fontSize: '50px',
               fontWeight: 'bold',
-              paddingTop: '100px',
+              paddingTop: '150px',
               color: '#212121',
               textAlign: 'left',
             }}
@@ -76,42 +133,12 @@ export default function Login() {
           />
         </Grid>
         <Grid item xs={8}>
-          <Stack 
-            direction="row" 
-            spacing={2}
-            style={{
-              paddingTop: '60px',
-              paddingLeft: '650px'
-            }}
-          >
-            <Button 
-              variant="text"
-              style={{
-                color: '#C4C4C4',
-                textTransform: 'none'
-              }}
-              href="/Login"
-            >
-              Entrar
-            </Button>
-            <Button 
-              variant="outlined"
-              style={{ 
-                color: '#1976D2',
-                textTransform: 'none',
-                borderRadius: '20px' 
-              }}
-              href="/request-access"
-            >
-              Solicitar Acesso
-            </Button>
-          </Stack>
           <Box
             component='img'
             sx={{
               width: '85%',
               height: '85vh',
-              paddingBottom: '150px',
+              paddingBottom: '100px',
               paddingLeft: '180px',
               paddingTop: '50px',
               objectFit: 'contain',
