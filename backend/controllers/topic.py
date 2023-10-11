@@ -2,9 +2,9 @@ from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
-from api.config.database import engine
-from api.models.user import TopicModel
-from api.schemas.user import TopicSchema
+from config.database import engine
+from models.user import TopicModel
+from schemas.user import TopicSchema
 import json
 
 # Set current module
