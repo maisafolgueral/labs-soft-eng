@@ -89,7 +89,7 @@ def updateFollowTopic(id):
         session.rollback()
         abort(500)
 
-@followtopic_controller.route('/followtopics/<follower_id,topic_id>', methods=["DELETE"])
+@followtopic_controller.route('/followtopics/<follower_id>/topics', methods=["DELETE"])
 def deleteFollowTopic(follower_id, topic_id):
     try:
         session.query(FollowTopicModel).filter_by(follower_id=follower_id and topic_id=topic_id).delete()
