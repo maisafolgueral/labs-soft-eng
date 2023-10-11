@@ -19,7 +19,7 @@ export default function Register() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    navigate("/");
+    navigate("/h/timeline");
   }
 
   return (

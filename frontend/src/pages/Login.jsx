@@ -15,7 +15,7 @@ export default function Login() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    navigate("/");
+    navigate("/h/timeline");
   }
 
   return (
