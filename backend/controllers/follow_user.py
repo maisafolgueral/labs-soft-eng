@@ -89,7 +89,7 @@ def updateFollowUser(id):
         session.rollback()
         abort(500)
 
-@followuser_controller.route('/followusers/<follower_id,followed_id>', methods=["DELETE"])
+@followuser_controller.route('/followusers/<follower_id>/users', methods=["DELETE"])
 def deleteFollowUser(follower_id, followed_id):
     try:
         session.query(FollowUserModel).filter_by(follower_id=follower_id and followed_id=followed_id).delete()
