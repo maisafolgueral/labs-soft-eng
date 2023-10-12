@@ -3,8 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config.database import engine
-from models.user import PostModel
-from schemas.user import PostSchema
+from models.user import Post as PostModel
+from schemas.user import Post as PostSchema
 import json
 
 # Set current module
@@ -13,28 +13,8 @@ post_controller = Blueprint('post_controller', __name__)
 # Create database session
 session = sessionmaker(bind=engine)
 
-@post_controller.route('/posts', methods=["GET"])
-def getAllPosts():
-    try:
-        posts = session.query(PostModel).all()
-        result = PostSchema(many=True).dump(posts)
-        return jsonify(result)
-    except:
-        abort(500)
-
-@post_controller.route('/posts/<id>', methods=["GET"])
-def getPost(id):
-    try:
-        post = session.query(postModel).filter_by(id==id).first()
-        result = PostSchema().dump(post)
-        return jsonify(result)
-    except NoResultFound:
-        abort(404, 'Post not found')
-    except:
-        abort(500)
-
 @post_controller.route('/posts', methods=["POST"])
-def addPost():
+def createPost():
     try:
         # URL data
         data = request.args
@@ -57,6 +37,17 @@ def addPost():
         abort(400, err.messages)
     except:
         session.rollback()
+        abort(500)
+
+@post_controller.route('/posts/<id>', methods=["GET"])
+def getPost(id):
+    try:
+        post = session.query(PostModel).filter_by(id==id).first()
+        result = PostSchema().dump(post)
+        return jsonify(result)
+    except NoResultFound:
+        abort(404, 'Post not found')
+    except:
         abort(500)
 
 @post_controller.route('/posts/<id>', methods=["PUT"])
@@ -102,3 +93,53 @@ def deletePost(id):
     except:
         session.rollback()
         session.abort(500)
+
+@post_controller.route('/posts/<post_id>/reactions', methods=["POST"])
+def addReactionToPost(post_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/reactions', methods=["GET"])
+def getAllPostReactions(post_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/reactions/<reaction_id>', methods=["GET"])
+def getPostReaction(post_id, reaction_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/reactions/<reaction_id>', methods=["PUT"])
+def updatePostReaction(post_id, reaction_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/reactions/<reaction_id>', methods=["DELETE"])
+def deletePostReaction(post_id, reaction_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/comments', methods=["POST"])
+def addCommentToPost(post_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/comments', methods=["GET"])
+def getAllPostComments(post_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/comments/<comment_id>', methods=["GET"])
+def getPostComment(post_id, comment_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/comments/<comment_id>', methods=["PUT"])
+def updatePostComment(post_id, comment_id):
+    # todo
+    return 'todo'
+
+@post_controller.route('/posts/<post_id>/comments/<comment_id>', methods=["DELETE"])
+def deletePostComment(post_id, comment_id):
+    # todo
+    return 'todo'

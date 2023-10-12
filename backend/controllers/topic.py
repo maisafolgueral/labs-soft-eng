@@ -3,8 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config.database import engine
-from models.user import TopicModel
-from schemas.user import TopicSchema
+from models.user import Topic as TopicModel
+from schemas.user import Topic as TopicSchema
 import json
 
 # Set current module
@@ -22,83 +22,12 @@ def getAllTopics():
     except:
         abort(500)
 
-@topic_controller.route('/topics/<id>', methods=["GET"])
-def getTopic(id):
-    try:
-        topic = session.query(TopicModel).filter_by(id==id).first()
-        result = TopicSchema().dump(topic)
-        return jsonify(result)
-    except NoResultFound:
-        abort(404, 'Topic not found')
-    except:
-        abort(500)
+@topic_controller.route('/topics/<topic_id>/users', methods=["GET"])
+def getAllTopicFollowers():
+    # todo
+    return 'todo'
 
-@topic_controller.route('/topics', methods=["POST"])
-def addTopic():
-    try:
-        # URL data
-        data = request.args
-
-        # URL data args in json format
-        data_json = json.loads(json.dumps(data))
-
-        # Validate data
-        TopicSchema().load(data_json)
-
-        # Persist data into the database
-        session.add(TopicModel(**data))
-        session.commit()
-
-        return jsonify({
-            'code':'created',
-            'description':'Successfully created'
-        })
-    except ValidationError as err:
-        abort(400, err.messages)
-    except:
-        session.rollback()
-        abort(500)
-
-@topic_controller.route('/topics/<id>', methods=["PUT"])
-def updateTopic(id):
-    try:
-        # URL data
-        data = request.args
-
-        # URL data args in json format
-        data_json = json.loads(json.dumps(data))
-
-        # Validate data
-        TopicSchema().load(data_json)
-
-        # Persist data into the database
-        session.query(TopicModel).filter(session.id==id).update(data)
-        session.commit()
-
-        return jsonify({
-            'code':'updated',
-            'description':'Successfully updated'}), 200
-
-    except ValidationError as err:
-        abort(400, err.messages)
-    except NoResultFound:
-        abort(404, 'Topic not found')
-    except:
-        session.rollback()
-        abort(500)
-
-@topic_controller.route('/topics/<id>', methods=["DELETE"])
-def deleteTopic(id):
-    try:
-        session.query(TopicModel).filter_by(id=id).delete()
-        session.commit()
-
-        return jsonify({
-            'code':'deleted',
-            'description':'Successfully deleted'})
-
-    except NoResultFound:
-        abort(404, 'Topic not found')
-    except:
-        session.rollback()
-        session.abort(500)
+@topic_controller.route('/topics/<topic_id>/posts', methods=["GET"])
+def getAllTopicPosts():
+    # todo
+    return 'todo'

@@ -2,6 +2,9 @@ from flask import Flask
 from werkzeug.exceptions import HTTPException
 from flasgger import Swagger
 from controllers.user import user_controller
+from controllers.topic import topic_controller
+from controllers.post import post_controller
+from controllers.feedback import feedback_controller
 import json
 
 # Define application
@@ -12,6 +15,9 @@ swagger = Swagger(app)
 
 # Controllers
 app.register_blueprint(user_controller, url_prefix='/api')
+app.register_blueprint(topic_controller, url_prefix='/api')
+app.register_blueprint(post_controller, url_prefix='/api')
+app.register_blueprint(feedback_controller, url_prefix='/api')
 
 # Global generic error handler
 @app.errorhandler(HTTPException)

@@ -5,16 +5,16 @@ for ORM
 '''
 
 from sqlalchemy import Column
-from sqlalchemy.types import Integer, String
+from sqlalchemy.types import Integer, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
-import bcrypt
 
 Base = declarative_base()
 
-class FollowUserModel(Base):
+class FollowUser(Base):
 
-    __tablename__ = 'follow user'
+    __tablename__ = 'follow_user'
 
-    follower_id = Column(Integer, nullable=False)
-    followed_id = Column(Integer, nullable=False)
+    follower_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    followed_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    created_at = Column(DateTime(timezone=True), default=datetime.datetime.now)

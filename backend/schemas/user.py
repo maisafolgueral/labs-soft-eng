@@ -6,7 +6,7 @@ in a specified format
 
 from marshmallow import Schema, fields
 
-class UserSchema(Schema):
+class User(Schema):
 
     id = fields.Integer(dump_only=True)
     name = fields.String(required=True)

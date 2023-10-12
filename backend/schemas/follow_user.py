@@ -6,7 +6,7 @@ in a specified format
 
 from marshmallow import Schema, fields
 
-class FollowUserSchema(Schema):
+class FollowUser(Schema):
 
     follower_id = fields.Integer(dump_only=True)
     followed_id = fields.Integer(dump_only=True)

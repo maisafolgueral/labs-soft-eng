@@ -6,7 +6,8 @@ in a specified format
 
 from marshmallow import Schema, fields
 
-class FollowTopic(Schema):
+class Feedback(Schema):
 
-    follower_id = fields.Integer(dump_only=True)
-    topic_id = fields.Integer(dump_only=True)
+    pass
+
+    # todo
