@@ -70,7 +70,6 @@ export default function Login() {
                   style={{ 
                     color: "#1976D2",
                   }}
-                  href="/request-access"
                 >
                   Solicitar Acesso
                 </Button>
