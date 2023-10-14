@@ -4,17 +4,17 @@ model of a specified class
 for ORM
 '''
 
-from sqlalchemy import Column
-from sqlalchemy.types import Integer, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, Table
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
 
 Base = declarative_base()
 
-class FollowUser(Base):
+follow_user = Table(
+    'follow_user',
+    Base.metadata,
+    Column('follower_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('followed_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('created_at', DateTime(timezone=True), default=datetime.datetime.now)
+)
 
-    __tablename__ = 'follow_user'
-
-    follower_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    followed_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.now)

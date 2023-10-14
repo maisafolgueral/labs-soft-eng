@@ -7,6 +7,8 @@ from models.user import User as UserModel
 from schemas.user import User as UserSchema
 import json
 
+from sqlalchemy import text
+
 # Set current module
 user_controller = Blueprint('user_controller', __name__)
 
@@ -41,14 +43,18 @@ def createUser():
 
 @user_controller.route('/users/<id>', methods=["GET"])
 def getUser(id):
-    try:
-        user = session.query(UserModel).filter_by(id==id).first()
-        result = UserSchema().dump(user)
-        return jsonify(result)
-    except NoResultFound:
-        abort(404, 'User not found')
-    except:
-        abort(500)
+    with engine.connect() as connection:
+        result = connection.execute(text('select name from "user"'))
+        for row in result:
+            return jsonify({'name':row.name})
+    # try:
+    # user = session.query(UserModel).filter_by(id==id).first()
+    # result = UserSchema().dump(user)
+    # return jsonify(result)
+    # except NoResultFound:
+    #     abort(404, 'User not found')
+    # except:
+    #     abort(500)
        
 @user_controller.route('/users/<id>', methods=["PUT"])
 def updateUser(id):

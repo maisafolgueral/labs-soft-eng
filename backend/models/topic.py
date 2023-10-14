@@ -4,10 +4,10 @@ model of a specified class
 for ORM
 '''
 
-from sqlalchemy import Column
-from sqlalchemy.types import Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from models.follow_topic import follow_topic
 import datetime
 
 Base = declarative_base()
@@ -20,5 +20,5 @@ class Topic(Base):
     subject = Column(String(100), nullable=False)
     created_at = Column(DateTime(timezone=True), default=datetime.datetime.now)
 
-    followers = relationship("User", secondary="follow_topic", back_populates="topics")
+    followers = relationship("User", secondary=follow_topic, back_populates="topics")
     posts = relationship("Post", back_populates="topic")

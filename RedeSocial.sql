@@ -1,5 +1,5 @@
 CREATE TABLE "user" (
-  "id" INTEGER SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "name" VARCHAR(30) NOT NULL,
   "surname" VARCHAR(60) NOT NULL,
   "birthday" DATE,
@@ -12,7 +12,7 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE "post" (
-  "id" INTEGER SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "user_id" INTEGER NOT NULL,
   "topic_id" INTEGER NOT NULL,
   "title" VARCHAR(100) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE "post" (
 );
 
 CREATE TABLE "reaction" (
-  "id" INTEGER SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "user_id" INTEGER NOT NULL,
   "post_id" INTEGER NOT NULL,
   "type" VARCHAR(30) NOT NULL
@@ -29,7 +29,7 @@ CREATE TABLE "reaction" (
 );
 
 CREATE TABLE "comment" (
-  "id" INTEGER SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "user_id" INTEGER NOT NULL,
   "post_id" INTEGER NOT NULL,
   "content" TEXT NOT NULL,
@@ -37,13 +37,13 @@ CREATE TABLE "comment" (
 );
 
 CREATE TABLE "topic" (
-  "id" INTEGER SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "subject" VARCHAR(100) NOT NULL
   "created_at" TIMESTAMP
 );
 
 CREATE TABLE "feedback" (
-  "id" INTEGER SERIAL PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "user_id" INTEGER NOT NULL,
   "subject" VARCHAR(100) NOT NULL,
   "description" TEXT NOT NULL,
@@ -52,13 +52,13 @@ CREATE TABLE "feedback" (
 
 CREATE TABLE "follow_user" (
   "follower_id" INTEGER NOT NULL,
-  "followed_id" INTEGER NOT NULL
+  "followed_id" INTEGER NOT NULL,
   "created_at" TIMESTAMP
 );
 
 CREATE TABLE "follow_topic" (
   "follower_id" INTEGER NOT NULL,
-  "topic_id" INTEGER NOT NULL
+  "topic_id" INTEGER NOT NULL,
   "created_at" TIMESTAMP
 );
 

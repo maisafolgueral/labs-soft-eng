@@ -10,7 +10,7 @@ USER = "postgres"
 PASSWORD = "holapostgres"
 SERVER = "postgres-1.csa5zq8qsnjp.us-east-1.rds.amazonaws.com"
 PORT = "5432"
-DATABASE = "postgres-1"
+DATABASE = "postgres"
 
 engine = create_engine(
     f"postgresql+psycopg2://{USER}:{PASSWORD}@{SERVER}:{PORT}/{DATABASE}"

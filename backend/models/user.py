@@ -4,10 +4,11 @@ model of a specified class
 for ORM
 '''
 
-from sqlalchemy import Column
-from sqlalchemy.types import Integer, String, Date, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, Date, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from models.follow_user import follow_user
+from models.follow_topic import follow_topic
 import datetime
 import bcrypt
 
@@ -28,9 +29,9 @@ class User(Base):
     is_bot = Column(Boolean, nullable=False)
     created_at = Column(DateTime(timezone=True), default=datetime.datetime.now)
     
-    followers = relationship("User", secondary="follow_user", back_populates="followeds")
-    followeds = relationship("User", secondary="follow_user", back_populates="followers")
-    topics = relationship("Topic", secondary="follow_topic", back_populates="followers")
+    followers = relationship("User", secondary=follow_user, back_populates="followeds")
+    followeds = relationship("User", secondary=follow_user, back_populates="followers")
+    topics = relationship("Topic", secondary=follow_topic, back_populates="followers")
     reactions = relationship("Reaction", back_populates="user")
     posts = relationship("Post", back_populates="user")
     comments = relationship("Comment", back_populates="user")
