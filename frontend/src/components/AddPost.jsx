@@ -3,9 +3,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
-export default function TopBar() {
+export default function AddPost() {
   return (
     <Box
       sx={{
@@ -14,7 +18,6 @@ export default function TopBar() {
         backgroundColor: '#fff',
         border: '1px solid #c4c4c4',
         paddingTop: "30px",
-        paddingLeft: "30px",
         borderRadius: "5px",
       }}
     >
@@ -23,14 +26,16 @@ export default function TopBar() {
                 item 
                 xs={12}
             >
-
-                <Typography 
-                component="span"
-                fontSize={18} 
-                color="#c4c4c4"
-                >
-                    Escreva sobre alguma coisa...
-                </Typography>
+                <TextField
+                    id="filled-multiline-flexible"
+                    label="Escreva sobre alguma coisa..."
+                    multiline
+                    variant="filled"
+                    sx={{
+                        width: "100%",
+                        backgroundColor: '#fff',
+                    }}
+                />
 
             </Grid>
 
@@ -41,24 +46,32 @@ export default function TopBar() {
                 <Stack 
                     direction="row" 
                     spacing={2}
-                    paddingLeft="73%"
-                    paddingTop="9%"
+                    paddingLeft="70%"
+                    paddingRight="50px"
+                    paddingTop="20px"
                 >
-
-                    <Button 
-                        variant="text"
-                        style={{
-                            color: "#C4C4C4",
-                            outline: "1px solid #C4C4C4"
-                        }}
-                    >
-                        Tópico
-                    </Button>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label"
+                        >Tópico</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            label="Topico"
+                            sx={{
+                                color: "#C4C4C4",
+                            }}
+                        >
+                            <MenuItem value={10}>Tópico 1</MenuItem>
+                            <MenuItem value={20}>Tópico 2</MenuItem>
+                            <MenuItem value={30}>Tópico 3</MenuItem>
+                        </Select>
+                    </FormControl>
 
                     <Button 
                         variant="outlined"
                         style={{ 
                             color: "#1976D2",
+                            width: "150px"
                         }}
                     >
                     Publicar
