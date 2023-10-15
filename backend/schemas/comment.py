@@ -12,3 +12,4 @@ class Comment(Schema):
     user_id = fields.Integer(dump_only=True)
     post_id = fields.Integer(dump_only=True)
     content = fields.String(required=True)
+    created_at = fields.DateTime(dump_only=True)

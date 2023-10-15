@@ -12,3 +12,4 @@ class Reaction(Schema):
     user_id = fields.Integer(dump_only=True)
     post_id = fields.Integer(dump_only=True)
     type = fields.String(required=True)
+    created_at = fields.DateTime(dump_only=True)

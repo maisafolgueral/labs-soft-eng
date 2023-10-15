@@ -9,8 +9,8 @@ from marshmallow import Schema, fields
 class Post(Schema):
 
     id = fields.Integer(dump_only=True)
-    user_id = fields.Integer(dump_only=True)
-    topic_id = fields.Integer()
+    user_id = fields.Integer(required=True)
+    topic_id = fields.Integer(required=True)
     title = fields.String(required=True)
     content = fields.String(required=True)
     created_at = fields.DateTime(dump_only=True)

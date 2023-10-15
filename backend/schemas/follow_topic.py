@@ -10,3 +10,4 @@ class FollowTopic(Schema):
 
     follower_id = fields.Integer(dump_only=True)
     topic_id = fields.Integer(dump_only=True)
+    created_at = fields.DateTime(dump_only=True)

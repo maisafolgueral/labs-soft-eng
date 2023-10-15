@@ -10,3 +10,4 @@ class FollowUser(Schema):
 
     follower_id = fields.Integer(dump_only=True)
     followed_id = fields.Integer(dump_only=True)
+    created_at = fields.DateTime(dump_only=True)

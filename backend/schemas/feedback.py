@@ -8,6 +8,8 @@ from marshmallow import Schema, fields
 
 class Feedback(Schema):
 
-    pass
-
-    # todo
+    id = fields.Integer(dump_only=True)
+    user_id = fields.Integer(required=True)
+    subject = fields.String(required=True)
+    description = fields.String(required=True)
+    created_at = fields.DateTime(dump_only=True)
