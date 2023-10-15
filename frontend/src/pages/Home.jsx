@@ -1,14 +1,13 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Main } from "@/components/Styled";
+import { Stack } from "@mui/material";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerHome from "@/assets/images/banner-home.png";
-import footerHome from "@/assets/images/footer-home.png";
-import { Stack } from "@mui/material";
+
 
 export default function Login() {  
   return (

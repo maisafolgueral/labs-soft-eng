@@ -7,6 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 
+
 export default function TopBar() {
   return (
     <Box

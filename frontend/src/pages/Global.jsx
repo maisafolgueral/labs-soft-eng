@@ -3,6 +3,7 @@ import TopBar from '@/components/TopBar';
 import LeftBar from '@/components/LeftBar';
 import Container from '@mui/material/Container';
 
+
 export default function Global() {
   return (
     <>
