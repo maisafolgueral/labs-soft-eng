@@ -15,129 +15,83 @@ export default function Login() {
     <Main
       sx={{
         backgroundColor: "#F7F7F7",
+        padding: "60px 94px"
       }}
     >
 
-      <Grid 
-        container  
-        spacing={2}
-      >
-        <Grid
-          container  
-          item
-          spacing={2}
-          xs={9}
-        >
+      <Grid container>
+        <Grid item xs={6}>
           <img 
             src={isologo}
             style={{
-              height: 100,
-              paddingLeft: "60px",
-              paddingTop: "60px"
+              height: 34
             }}
           />
         </Grid>
-
-        <Grid
-          container  
-          item
-          spacing={2}
-          xs={3}
-        >
+        <Grid item xs={6}>
           <Stack 
-              direction="row" 
-              spacing={2}
+            spacing="30px"
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-end"
+          >
+            <Button 
+              variant="text"
+              size="large"
+              href="/Login"
               style={{
-                height: 100,
-                paddingTop: "60px",
-                paddingLeft: "60px"
+                color: "#C4C4C4",
               }}
             >
-              <Link href="/Login">
-                <Button 
-                  variant="text"
-                  style={{
-                    color: "#C4C4C4",
-                  }}
-                >
-                  Entrar
-                </Button>
-              </Link>
-
-              <Link href="/request-access">
-                <Button 
-                  variant="outlined"
-                  style={{ 
-                    color: "#1976D2",
-                  }}
-                >
-                  Solicitar Acesso
-                </Button>
-              </Link>
-            </Stack>
+              Entrar
+            </Button>
+            <Button 
+              variant="outlined"
+              size="large"
+              href="/request-access"
+              style={{ 
+                color: "#1976D2",
+              }}
+            >
+              Solicitar Acesso
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
 
-      <Grid 
-        container  
-        sx={{ 
-          minHeight: "100%"
-        }}
-      >
-        <Grid 
-          item 
-          xs={4}
-          sx={{ 
-            backgroundColor: "#F7F7F7",
-          }}
-        >
-          <Typography
-            variant="h5"
-            component="h1"
-            sx={{
-              paddingLeft: "60px",
-              fontSize: "50px",
-              fontWeight: "bold",
-              paddingTop: "150px",
-              color: "#212121",
-              textAlign: "left",
-            }}
+      <Grid container sx={{ height: "100%" }} alignItems="center">
+        <Grid item xs={6}>
+          <Stack
+            spacing="20px"
           >
-            Tudo começa <br/> com um <span style={{ color: "#1976D2" }}>olá</span>
-          </Typography>
-          <Typography
-            variant="h5"
-            component="p"
-            sx={{
-              paddingLeft: "60px",
-              fontSize: "20px",
-              color: "#212121",
-              textAlign: "left",
-            }}
-          >
-            Venha se socializar com pessoas que <br /> gostam dos mesmos assuntos que você
-          </Typography>
-          <img 
-            src={footerHome}
-            style={{
-              width: 412.1,
-              height: 166.39,
-              padding: 0,
-              margin: 0,
-              bottom: 0,
-              position: "fixed",
-            }}
-          />
+            <Typography
+              component="h1"
+              sx={{
+                fontSize: "57px",
+                lineHeight: "1.1",
+                fontWeight: "900",
+                color: "#212121"
+              }}
+            >
+              Tudo começa <br/> com um <span style={{ color: "#1976D2" }}>olá</span>
+            </Typography>
+            <Typography
+              component="p"
+              sx={{
+                fontSize: "18px",
+                color: "#000",
+                lineHeight: "1.2"
+              }}
+            >
+              Venha se socializar com pessoas que <br /> gostam dos mesmos assuntos que você
+            </Typography>
+          </Stack>
         </Grid>
-        <Grid item xs={8}>
+        <Grid container item xs={6} justifyContent="flex-end">
           <Box
             component="img"
             sx={{
-              width: "85%",
-              height: "85vh",
-              paddingBottom: "100px",
-              paddingLeft: "180px",
-              paddingTop: "50px",
+              width: "100%",
               objectFit: "contain",
               backgroundColor: "#F7F7F7",
             }}
@@ -145,6 +99,7 @@ export default function Login() {
           />
         </Grid>
       </Grid>
+
     </Main>
   );
 }
