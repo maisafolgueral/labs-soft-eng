@@ -1,5 +1,6 @@
 import Grid from "@mui/material/Grid";
 import AddPost from '@/components/AddPost';
+import InfoBox from "@/components/InfoBox";
 
 export default function Timeline() {
   return (
@@ -9,7 +10,7 @@ export default function Timeline() {
           <AddPost/>
         </Grid>
         <Grid item xs={5}>
-
+          <InfoBox/>
         </Grid>
       </Grid>
     </>
