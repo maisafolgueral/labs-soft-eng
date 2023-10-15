@@ -18,7 +18,7 @@ export default function TopBar() {
         position: "fixed",
         backgroundColor: "#fff",
         borderBottom: "1px solid #c4c4c4",
-        padding: "14px 27px"
+        padding: "17px 27px"
       }}
     >
       <Grid container>
@@ -27,22 +27,28 @@ export default function TopBar() {
             <img 
               src={isologo}
               style={{
-                width: "122.73px",
-                height: "34.6px"
+                height: "34px"
               }}
             />
           </Link>
         </Grid>
         <Grid item xs={1}>
           <Stack 
-            spacing={{ xs: 1, sm: 1 }} 
+            spacing={1} 
             direction="row"
+            alignItems="center"
+            justifyContent="flex-end"
           >
-            <Avatar src="/broken-image.jpg" sx={{ width: 32, height: 32 }}/>
+            <Avatar 
+              src="/broken-image.jpg" 
+              sx={{ 
+                width: 34, 
+                height: 34 
+              }}
+            />
             <Typography 
               component="span"
-              paddingTop='3px' 
-              fontSize={18} 
+              fontSize={18}
               color="#404040"
             >
               Marie
@@ -50,7 +56,6 @@ export default function TopBar() {
           </Stack>
         </Grid>
       </Grid>
-    
     </Box>
   );
 }

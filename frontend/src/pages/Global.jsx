@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import TopBar from '@/components/TopBar';
 import LeftBar from '@/components/LeftBar';
-import AddPost from '@/components/AddPost';
 import Container from '@mui/material/Container';
 
 export default function Global() {
@@ -22,7 +21,6 @@ export default function Global() {
         }}
       >
         <Outlet/>
-        <AddPost/>
       </Container>
     </>
   );
