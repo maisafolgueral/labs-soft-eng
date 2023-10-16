@@ -9,7 +9,7 @@ import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerHome from "@/assets/images/banner-home.png";
 
 
-export default function Login() {  
+export default function Home() {  
   return (
     <Main
       sx={{
@@ -45,12 +45,9 @@ export default function Login() {
               Entrar
             </Button>
             <Button 
-              variant="outlined"
+              variant="contained"
               size="large"
               href="/request-access"
-              style={{ 
-                color: "#1976D2",
-              }}
             >
               Solicitar Acesso
             </Button>

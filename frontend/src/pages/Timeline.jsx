@@ -9,7 +9,7 @@ export default function Timeline() {
         <Grid item xs={7}>
           <AddPost/>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} sx={{ paddingLeft: "27px" }}>
           <InfoBox/>
         </Grid>
       </Grid>
