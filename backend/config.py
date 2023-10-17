@@ -6,6 +6,7 @@ of the project
 
 from sqlalchemy import create_engine 
 
+# Database
 USER = "postgres"
 PASSWORD = "holapostgres"
 SERVER = "postgres-1.csa5zq8qsnjp.us-east-1.rds.amazonaws.com"

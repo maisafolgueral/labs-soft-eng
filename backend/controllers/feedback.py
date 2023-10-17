@@ -2,9 +2,9 @@ from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
-from config.database import engine
+from config import engine
 from models import Feedback as FeedbackModel
-from schemas.feedback import Feedback as FeedbackSchema
+from schemas import Feedback as FeedbackSchema
 import json
 
 # Set current module
