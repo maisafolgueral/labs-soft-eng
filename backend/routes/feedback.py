@@ -8,12 +8,12 @@ from schemas import Feedback as FeedbackSchema
 import json
 
 # Set current module
-feedback_controller = Blueprint('feedback_controller', __name__)
+feedback_bp = Blueprint('feedback_bp', __name__)
 
 # Create database session
 session = sessionmaker(bind=engine)()
 
-@feedback_controller.route('/feedbacks', methods=["POST"])
+@feedback_bp.route('/feedbacks', methods=["POST"])
 def sendFeedback():
     # todo
     return 'todo'

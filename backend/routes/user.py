@@ -5,34 +5,28 @@ from marshmallow import ValidationError
 from config import engine
 from models import User as UserModel
 from schemas import User as UserSchema
-import json
-
-from sqlalchemy import text
 
 # Set current module
-user_controller = Blueprint('user_controller', __name__)
+user_bp = Blueprint('user_bp', __name__)
 
 # Create database session
 session = sessionmaker(bind=engine)()
 
-@user_controller.route('/users', methods=["POST"])
+@user_bp.route('/users', methods=["POST"])
 def createUser():
     try:
-        # URL data
-        data = request.args
-
-        # URL data args in json format
-        data_json = json.loads(json.dumps(data))
+        # Received data
+        data = request.get_json()
 
         # Validate data
-        UserSchema().load(data_json)
+        UserSchema().load(data)
 
         # Persist data into the database
         session.add(UserModel(**data))
         session.commit()
             
         return jsonify({
-            'code':'created',
+            'code': 201,
             'description': 'Successfully created'
         })
     except ValidationError as err:
@@ -41,42 +35,34 @@ def createUser():
         session.rollback()
         abort(500)
 
-@user_controller.route('/users/<id>', methods=["GET"])
+@user_bp.route('/users/<id>', methods=["GET"])
 def getUser(id):
-    user = session.query(UserModel).filter_by(id=id).first()
-    result = UserSchema().dump(user)
-    return jsonify(result)
-            
-    return jsonify({})
-    # try:
-    # user = session.query(UserModel).filter_by(id==id).first()
-    # result = UserSchema().dump(user)
-    # return jsonify(result)
-    # except NoResultFound:
-    #     abort(404, 'User not found')
-    # except:
-    #     abort(500)
+    try:
+        user = session.query(UserModel).filter_by(id=id).first()
+        result = UserSchema().dump(user)
+        return jsonify(result)
+    except NoResultFound:
+        abort(404, 'User not found')
+    except:
+        abort(500)
        
-@user_controller.route('/users/<id>', methods=["PUT"])
+@user_bp.route('/users/<id>', methods=["PUT"])
 def updateUser(id):
     try:
-        # URL data
-        data = request.args
-
-        # URL data args in json format
-        data_json = json.loads(json.dumps(data))
+        # Received data
+        data = request.get_json()
 
         # Validate data
-        UserSchema().load(data_json)
+        UserSchema().load(data)
 
         # Persist data into the database
-        session.query(UserModel).filter(session.id==id).update(data)
+        session.query(UserModel).filter_by(id=id).update(data)
         session.commit()
             
         return jsonify({
-            'code':'updated',
+            'code': 200,
             'description': 'Successfully updated'
-        }), 200
+        })
     except ValidationError as err:
         abort(400, err.messages)
     except NoResultFound:
@@ -85,14 +71,14 @@ def updateUser(id):
         session.rollback()
         abort(500)
 
-@user_controller.route('/users/<id>', methods=["DELETE"])
+@user_bp.route('/users/<id>', methods=["DELETE"])
 def deleteUser(id):
     try:
         session.query(UserModel).filter_by(id=id).delete()
         session.commit()
             
         return jsonify({
-            'code':'deleted',
+            'code': 200,
             'description': 'Successfully deleted'
         })
     except NoResultFound:
@@ -101,47 +87,47 @@ def deleteUser(id):
         session.rollback()
         abort(500)
 
-@user_controller.route('/users/<user_id>/followers', methods=["GET"])
+@user_bp.route('/users/<user_id>/followers', methods=["GET"])
 def getAllUserFollowers(user_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
+@user_bp.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
 def deleteUserFollower(user_id, follower_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/followeds', methods=["GET"])
+@user_bp.route('/users/<user_id>/followeds', methods=["GET"])
 def getAllUserFolloweds(user_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/followeds/<followed_id>', methods=["PUT"])
+@user_bp.route('/users/<user_id>/followeds/<followed_id>', methods=["PUT"])
 def followUser(user_id, followed_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/followeds/<followed_id>', methods=["DELETE"])
+@user_bp.route('/users/<user_id>/followeds/<followed_id>', methods=["DELETE"])
 def unfollowUser(user_id, followed_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/topics', methods=["GET"])
+@user_bp.route('/users/<user_id>/topics', methods=["GET"])
 def getAllUserFollowedTopics(user_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/topics/<topic_id>', methods=["PUT"])
+@user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["PUT"])
 def followTopic(user_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/topics/<topic_id>', methods=["DELETE"])
+@user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["DELETE"])
 def unfollowTopic(user_id):
     # todo
     return 'todo'
 
-@user_controller.route('/users/<user_id>/posts', methods=["GET"])
+@user_bp.route('/users/<user_id>/posts', methods=["GET"])
 def getAllUserPosts(user_id):
     # todo
     return 'todo'

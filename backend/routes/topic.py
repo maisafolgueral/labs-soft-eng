@@ -8,12 +8,12 @@ from schemas import Topic as TopicSchema
 import json
 
 # Set current module
-topic_controller = Blueprint('topic_controller', __name__)
+topic_bp = Blueprint('topic_bp', __name__)
 
 # Create database session
 session = sessionmaker(bind=engine)
 
-@topic_controller.route('/topics', methods=["GET"])
+@topic_bp.route('/topics', methods=["GET"])
 def getAllTopics():
     try:
         topics = session.query(TopicModel).all()
@@ -22,12 +22,12 @@ def getAllTopics():
     except:
         abort(500)
 
-@topic_controller.route('/topics/<topic_id>/users', methods=["GET"])
+@topic_bp.route('/topics/<topic_id>/users', methods=["GET"])
 def getAllTopicFollowers():
     # todo
     return 'todo'
 
-@topic_controller.route('/topics/<topic_id>/posts', methods=["GET"])
+@topic_bp.route('/topics/<topic_id>/posts', methods=["GET"])
 def getAllTopicPosts():
     # todo
     return 'todo'

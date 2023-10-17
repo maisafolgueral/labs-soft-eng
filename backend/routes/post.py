@@ -8,12 +8,12 @@ from schemas import Post as PostSchema
 import json
 
 # Set current module
-post_controller = Blueprint('post_controller', __name__)
+post_bp = Blueprint('post_bp', __name__)
 
 # Create database session
 session = sessionmaker(bind=engine)
 
-@post_controller.route('/posts', methods=["POST"])
+@post_bp.route('/posts', methods=["POST"])
 def createPost():
     try:
         # URL data
@@ -39,7 +39,7 @@ def createPost():
         session.rollback()
         abort(500)
 
-@post_controller.route('/posts/<id>', methods=["GET"])
+@post_bp.route('/posts/<id>', methods=["GET"])
 def getPost(id):
     try:
         post = session.query(PostModel).filter_by(id==id).first()
@@ -50,7 +50,7 @@ def getPost(id):
     except:
         abort(500)
 
-@post_controller.route('/posts/<id>', methods=["PUT"])
+@post_bp.route('/posts/<id>', methods=["PUT"])
 def updatePost(id):
     try:
         # URL data
@@ -78,7 +78,7 @@ def updatePost(id):
         session.rollback()
         abort(500)
 
-@post_controller.route('/posts/<id>', methods=["DELETE"])
+@post_bp.route('/posts/<id>', methods=["DELETE"])
 def deletePost(id):
     try:
         session.query(PostModel).filter_by(id=id).delete()
@@ -94,52 +94,52 @@ def deletePost(id):
         session.rollback()
         session.abort(500)
 
-@post_controller.route('/posts/<post_id>/reactions', methods=["POST"])
+@post_bp.route('/posts/<post_id>/reactions', methods=["POST"])
 def addReactionToPost(post_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/reactions', methods=["GET"])
+@post_bp.route('/posts/<post_id>/reactions', methods=["GET"])
 def getAllPostReactions(post_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/reactions/<reaction_id>', methods=["GET"])
+@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["GET"])
 def getPostReaction(post_id, reaction_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/reactions/<reaction_id>', methods=["PUT"])
+@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["PUT"])
 def updatePostReaction(post_id, reaction_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/reactions/<reaction_id>', methods=["DELETE"])
+@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["DELETE"])
 def deletePostReaction(post_id, reaction_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/comments', methods=["POST"])
+@post_bp.route('/posts/<post_id>/comments', methods=["POST"])
 def addCommentToPost(post_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/comments', methods=["GET"])
+@post_bp.route('/posts/<post_id>/comments', methods=["GET"])
 def getAllPostComments(post_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/comments/<comment_id>', methods=["GET"])
+@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["GET"])
 def getPostComment(post_id, comment_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/comments/<comment_id>', methods=["PUT"])
+@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["PUT"])
 def updatePostComment(post_id, comment_id):
     # todo
     return 'todo'
 
-@post_controller.route('/posts/<post_id>/comments/<comment_id>', methods=["DELETE"])
+@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["DELETE"])
 def deletePostComment(post_id, comment_id):
     # todo
     return 'todo'

@@ -1,7 +1,6 @@
 '''
 In this file, it is set the
-schema to load and dump data
-in a specified format
+schema of input and output data
 '''
 
 from marshmallow import Schema, fields
