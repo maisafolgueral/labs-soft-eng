@@ -3,10 +3,11 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config.database import engine
-from models.user import User as UserModel
+from models import User as UserModel
 from schemas.user import User as UserSchema
 import json
 
+from sqlalchemy import text
 
 # Set current module
 user_controller = Blueprint('user_controller', __name__)
@@ -42,9 +43,13 @@ def createUser():
 
 @user_controller.route('/users/<id>', methods=["GET"])
 def getUser(id):
-    # try:
     user = session.query(UserModel).filter_by(id=id).first()
-    return jsonify({'name':user.name})
+    result = UserSchema().dump(user)
+    return jsonify(result)
+            
+    return jsonify({})
+    # try:
+    # user = session.query(UserModel).filter_by(id==id).first()
     # result = UserSchema().dump(user)
     # return jsonify(result)
     # except NoResultFound:

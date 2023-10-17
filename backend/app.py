@@ -19,14 +19,14 @@ app.register_blueprint(topic_controller, url_prefix='/api')
 app.register_blueprint(post_controller, url_prefix='/api')
 app.register_blueprint(feedback_controller, url_prefix='/api')
 
-# # Global generic error handler
-# @app.errorhandler(HTTPException)
-# def handle_exception(e):
-#     response = e.get_response()
-#     response.data = json.dumps({
-#         'code': e.code,
-#         'name': e.name,
-#         'description': e.description,
-#     })
-#     response.content_type = 'application/json'
-#     return response
+# Global generic error handler
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    response = e.get_response()
+    response.data = json.dumps({
+        'code': e.code,
+        'name': e.name,
+        'description': e.description,
+    })
+    response.content_type = 'application/json'
+    return response

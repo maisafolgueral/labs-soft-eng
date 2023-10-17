@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config.database import engine
-from models.feedback import Feedback as FeedbackModel
+from models import Feedback as FeedbackModel
 from schemas.feedback import Feedback as FeedbackSchema
 import json
 

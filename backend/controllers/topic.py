@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config.database import engine
-from models.topic import Topic as TopicModel
+from models import Topic as TopicModel
 from schemas.topic import Topic as TopicSchema
 import json
 

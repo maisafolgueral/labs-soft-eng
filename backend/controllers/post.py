@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config.database import engine
-from models.post import Post as PostModel
+from models import Post as PostModel
 from schemas.post import Post as PostSchema
 import json
 
