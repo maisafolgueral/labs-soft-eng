@@ -19,7 +19,8 @@ export default function TopBar() {
         position: "fixed",
         backgroundColor: "#fff",
         borderBottom: "1px solid #c4c4c4",
-        padding: "17px 27px"
+        padding: "17px 27px",
+        zIndex: "3000"
       }}
     >
       <Grid container>

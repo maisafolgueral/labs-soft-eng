@@ -22,6 +22,7 @@ export default function LeftBar() {
         position: "fixed",
         backgroundColor: "#fff",
         borderRight: "1px solid #c4c4c4",
+        zIndex: "3000"
       }}
     >
       <Stack spacing="20px" sx={{ padding: "27px" }}>
