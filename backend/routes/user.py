@@ -108,8 +108,8 @@ def getAllUserFollowers(user_id):
 
 @user_bp.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
 def deleteUserFollower(user_id, follower_id):
-    # todo
-    return 'todo'
+    # TODO
+    return 'TODO'
 
 
 # Who does the user follows.
@@ -133,30 +133,46 @@ def getAllUserFolloweds(user_id):
 
 @user_bp.route('/users/<user_id>/followeds/<followed_id>', methods=["PUT"])
 def followUser(user_id, followed_id):
-    # todo
-    return 'todo'
+    # TODO
+    return 'TODO'
 
 @user_bp.route('/users/<user_id>/followeds/<followed_id>', methods=["DELETE"])
 def unfollowUser(user_id, followed_id):
-    # todo
-    return 'todo'
+    # TODO
+    return 'TODO'
 
+
+# Topics that the user follows.
 @user_bp.route('/users/<user_id>/topics', methods=["GET"])
 def getAllUserFollowedTopics(user_id):
-    # todo
-    return 'todo'
+    try:
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            abort(404, 'User not found')
+        
+        topics = user.topics
+        topics_data = UserSchema(many=True).dump(topics)
+
+        return jsonify(topics_data)
+    
+    except NoResultFound:
+        abort(404, f'Topics by {user_id} were not found')
+    except:
+        session.rollback()
+        abort(500)
+
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["PUT"])
 def followTopic(user_id):
-    # todo
-    return 'todo'
+    # TODO
+    return 'TODO'
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["DELETE"])
 def unfollowTopic(user_id):
-    # todo
-    return 'todo'
+    # TODO
+    return 'TODO'
 
 @user_bp.route('/users/<user_id>/posts', methods=["GET"])
 def getAllUserPosts(user_id):
-    # todo
-    return 'todo'
+    # TODO
+    return 'TODO'
