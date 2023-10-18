@@ -19,7 +19,7 @@ class FollowUser(Schema):
 
 
 class User(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     name = fields.String(required=True)
     surname = fields.String(required=True)
     birthday = fields.Date()
@@ -32,13 +32,13 @@ class User(Schema):
 
 
 class Topic(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     subject = fields.String(required=True)
     created_at = fields.DateTime(dump_only=True)
 
 
 class Reaction(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     user_id = fields.Integer(required=True)
     post_id = fields.Integer(required=True)
     type = fields.String(required=True)
@@ -46,7 +46,7 @@ class Reaction(Schema):
 
 
 class Post(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     user_id = fields.Integer(required=True)
     topic_id = fields.Integer(required=True)
     title = fields.String(required=True)
@@ -55,7 +55,7 @@ class Post(Schema):
 
 
 class Comment(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     user_id = fields.Integer(required=True)
     post_id = fields.Integer(required=True)
     content = fields.String(required=True)
@@ -63,7 +63,7 @@ class Comment(Schema):
 
 
 class Feedback(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     user_id = fields.Integer(required=True)
     subject = fields.String(required=True)
     description = fields.String(required=True)

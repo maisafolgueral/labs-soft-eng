@@ -87,10 +87,24 @@ def deleteUser(id):
         session.rollback()
         abort(500)
 
+
 @user_bp.route('/users/<user_id>/followers', methods=["GET"])
 def getAllUserFollowers(user_id):
-    # todo
-    return 'todo'
+    try:
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            abort(404, 'User not found')
+        
+        followers = user.followers
+        follower_data = UserSchema(many=True).dump(followers)
+
+        return jsonify(follower_data)
+    
+    except NoResultFound:
+        abort(404, 'Followers from this user were not found')
+    except:
+        session.rollback()
+        abort(500)
 
 @user_bp.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
 def deleteUserFollower(user_id, follower_id):
