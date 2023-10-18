@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import TopBar from '@/components/TopBar';
 import LeftBar from '@/components/LeftBar';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
 
 export default function Global() {
@@ -9,20 +9,16 @@ export default function Global() {
     <>
       <TopBar/>
       <LeftBar/>
-      <Container
-        disableGutters
+      <Box
         sx={{
-          minWidth: '100%',
-          height: '100vh',
-          marginTop: '68px',
-          marginLeft: '219px',
-          padding: '28px',
+          minHeight: '100vh',
+          padding: '96px 28px 28px 247px',
           boxSizing: 'border-box',
           backgroundColor: '#eaeaea'
         }}
       >
         <Outlet/>
-      </Container>
+      </Box>
     </>
   );
 }

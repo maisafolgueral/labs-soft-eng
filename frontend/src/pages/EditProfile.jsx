@@ -6,18 +6,14 @@ import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
-import { 
-    ChatQuote,
-    Person,
-    PencilFill,
-} from "react-bootstrap-icons";
 
-export default function Form() {
-    return (
-        <Box
+
+export default function EditProfile() {
+  return (
+    <>
+      <Box
             sx={{
-                marginTop: "30px",
-                width: "1093px",
+                width: "100%",
                 height: "595px",
                 backgroundColor: "#fff",
                 border: "1px solid #c4c4c4",
@@ -93,6 +89,6 @@ export default function Form() {
             </Grid>
 
         </Box>
-                                                            
-    );
+    </>
+  );
 }
