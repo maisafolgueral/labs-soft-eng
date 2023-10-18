@@ -172,7 +172,22 @@ def unfollowTopic(user_id):
     # TODO
     return 'TODO'
 
+
+# Posts from the user.
 @user_bp.route('/users/<user_id>/posts', methods=["GET"])
 def getAllUserPosts(user_id):
-    # TODO
-    return 'TODO'
+    try:
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            abort(404, 'User not found')
+        
+        posts = user.posts
+        posts_data = UserSchema(many=True).dump(posts)
+
+        return jsonify(posts_data)
+    
+    except NoResultFound:
+        abort(404, f'Posts by {user_id} were not found')
+    except:
+        session.rollback()
+        abort(500)
