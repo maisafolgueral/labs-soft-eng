@@ -3,7 +3,16 @@ In this file, it is set the
 schema of input and output data
 '''
 
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate, ValidationError
+from datetime import datetime, timedelta
+
+def validate_birthday_within_range(value):
+    today = datetime.now().date()
+    min_birthdate = today - timedelta(days=30*365)  # 30 years ago
+    max_birthdate = today - timedelta(days=20*365)  # 20 years ago
+    
+    if not min_birthdate <= value <= max_birthdate:
+        raise ValidationError('Birthday must be between 20 and 30 years ago.')
 
 
 class FollowTopic(Schema):
@@ -20,10 +29,10 @@ class FollowUser(Schema):
 
 class User(Schema):
     id = fields.Integer(required=True)
-    name = fields.String(required=True)
-    surname = fields.String(required=True)
-    birthday = fields.Date()
-    gender = fields.String(required=True)
+    name = fields.String(required=True, validate=[validate.Length(min=2, max=50)])
+    surname = fields.String(required=True, validate=[validate.Length(min=2, max=50)])
+    birthday = fields.Date(format='%Y-%m-%d', required=True, validate=[validate_birthday_within_range])
+    gender = fields.String(required=True, validate=[validate.OneOf(['M', 'F'])])
     email = fields.Email(required=True)
     password = fields.String(required=True, load_only=True)
     is_bot = fields.Boolean(required=True)
