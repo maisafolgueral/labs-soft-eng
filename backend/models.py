@@ -55,9 +55,9 @@ class User(Base):
         secondary='follow_user',
         primaryjoin='User.id == follow_user.c.followed_id',
         secondaryjoin='User.id == follow_user.c.follower_id',
-        back_populates='followeds'
+        back_populates='followed'
     )
-    followeds = relationship(
+    followed = relationship(
         'User',
         secondary='follow_user',
         primaryjoin='User.id == follow_user.c.follower_id',

@@ -4,7 +4,11 @@ from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
 from models import User as UserModel
-from schemas import User as UserSchema
+from schemas import (
+    User as UserSchema,
+    Topic as TopicSchema,
+    Post as PostSchema
+)
 
 # Set current module
 user_bp = Blueprint('user_bp', __name__)
@@ -39,6 +43,8 @@ def createUser():
 def getUser(id):
     try:
         user = session.query(UserModel).filter_by(id=id).first()
+        if user is None:
+            raise NoResultFound
         result = UserSchema().dump(user)
         return jsonify(result)
     except NoResultFound:
@@ -87,23 +93,21 @@ def deleteUser(id):
         session.rollback()
         abort(500)
 
-
 @user_bp.route('/users/<user_id>/followers', methods=["GET"])
 def getAllUserFollowers(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
         if user is None:
-            abort(404, 'User not found')
+            raise NoResultFound
         
         followers = user.followers
-        follower_data = UserSchema(many=True).dump(followers)
+        result = UserSchema(many=True).dump(followers)
 
-        return jsonify(follower_data)
+        return jsonify(result)
     
     except NoResultFound:
-        abort(404, 'Followers from this user were not found')
+        abort(404, 'User not found')
     except:
-        session.rollback()
         abort(500)
 
 @user_bp.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
@@ -111,36 +115,33 @@ def deleteUserFollower(user_id, follower_id):
     # TODO
     return 'TODO'
 
-
 # Who does the user follows.
-@user_bp.route('/users/<user_id>/followeds', methods=["GET"])
-def getAllUserFolloweds(user_id):
+@user_bp.route('/users/<user_id>/followed', methods=["GET"])
+def getAllUserFollowed(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
         if user is None:
-            abort(404, 'User not found')
+            raise NoResultFound
         
-        followeds = user.followeds
-        followed_data = UserSchema(many=True).dump(followeds)
+        followed = user.followed
+        result = UserSchema(many=True).dump(followed)
 
-        return jsonify(followed_data)
+        return jsonify(result)
     
     except NoResultFound:
-        abort(404, f'Users followed by {user_id} were not found')
+        abort(404, 'User not found')
     except:
-        session.rollback()
         abort(500)
 
-@user_bp.route('/users/<user_id>/followeds/<followed_id>', methods=["PUT"])
+@user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["PUT"])
 def followUser(user_id, followed_id):
     # TODO
     return 'TODO'
 
-@user_bp.route('/users/<user_id>/followeds/<followed_id>', methods=["DELETE"])
+@user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["DELETE"])
 def unfollowUser(user_id, followed_id):
     # TODO
     return 'TODO'
-
 
 # Topics that the user follows.
 @user_bp.route('/users/<user_id>/topics', methods=["GET"])
@@ -148,19 +149,17 @@ def getAllUserFollowedTopics(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
         if user is None:
-            abort(404, 'User not found')
+            raise NoResultFound   
         
         topics = user.topics
-        topics_data = UserSchema(many=True).dump(topics)
+        result = TopicSchema(many=True).dump(topics)
 
-        return jsonify(topics_data)
+        return jsonify(result)
     
     except NoResultFound:
-        abort(404, f'Topics by {user_id} were not found')
+        abort(404, 'User not found')
     except:
-        session.rollback()
         abort(500)
-
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["PUT"])
 def followTopic(user_id):
@@ -172,22 +171,20 @@ def unfollowTopic(user_id):
     # TODO
     return 'TODO'
 
-
 # Posts from the user.
 @user_bp.route('/users/<user_id>/posts', methods=["GET"])
 def getAllUserPosts(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
         if user is None:
-            abort(404, 'User not found')
+            raise NoResultFound    
         
         posts = user.posts
-        posts_data = UserSchema(many=True).dump(posts)
+        result = PostSchema(many=True).dump(posts)
 
-        return jsonify(posts_data)
+        return jsonify(result)
     
     except NoResultFound:
-        abort(404, f'Posts by {user_id} were not found')
+        abort(404, 'User not found')
     except:
-        session.rollback()
         abort(500)
