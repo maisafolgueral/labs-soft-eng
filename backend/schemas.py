@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def validate_birthday_within_range(value):
     today = datetime.now().date()
     min_birthdate = today - timedelta(days=30*365)  # 30 years ago
-    max_birthdate = today - timedelta(days=20*365)  # 20 years ago
+    max_birthdate = today - timedelta(days=14*365)  # 14 years ago
     
     if not min_birthdate <= value <= max_birthdate:
         raise ValidationError('Birthday must be between 20 and 30 years ago.')
