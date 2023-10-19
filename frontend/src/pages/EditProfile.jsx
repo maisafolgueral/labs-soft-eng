@@ -59,14 +59,15 @@ export default function EditProfile(props) {
                 height: "595px",
                 backgroundColor: "#fff",
                 border: "1px solid #c4c4c4",
-                borderRadius: "5px"
+                borderRadius: "5px",
+                padding: "26px"
             }}
         >
 
-            <Grid container alignItems="center" margin="30px">
+            <Grid container alignItems="center">
                 <Grid item xs={12}>
                     <AvatarInfo 
-                        avatarSize={40}
+                        avatarSize={55}
                         title="Marie Canon"
                         subtitle="@mariecanon"
                     />
@@ -77,6 +78,7 @@ export default function EditProfile(props) {
                 sx={{ 
                     borderBottom: 1, 
                     borderColor: 'divider',
+                    marginTop: "53px"
                 }}
             >
                 <Tabs value={value} onChange={handleChangeTab} aria-label="basic tabs example">
@@ -86,62 +88,54 @@ export default function EditProfile(props) {
             </Box>
 
             <CustomTabPanel value={value} index={0}>
-                <Grid container alignItems="center" margin="30px">
+                <Grid container alignItems="center">
                     <Grid item xs={6}>
                         <FormControl fullWidth>
-                            <TextField 
-                                id="name" 
-                                label="Nome" 
-                                variant="outlined" 
-                                sx={{
-                                    paddingBottom: "70px",
-                                    height: "47.5px"
-                                }}
-                                defaultValue="Marie"
-                            />
+                            <Stack spacing="28px">
+                                <TextField 
+                                    id="name" 
+                                    label="Nome" 
+                                    variant="outlined" 
+                                    defaultValue="Marie"
+                                    size="small"
+                                />
 
-                            <TextField 
-                                id="lastname" 
-                                label="Sobrenome" 
-                                variant="outlined" 
-                                sx={{
-                                    paddingBottom: "70px",
-                                    height: "47.5px"
-                                }}
-                                defaultValue="Canon"
-                            />
+                                <TextField 
+                                    id="lastname" 
+                                    label="Sobrenome" 
+                                    variant="outlined" 
+                                    defaultValue="Canon"
+                                    size="small"
+                                />
 
-                            <TextField 
-                                id="birthday" 
-                                label="Aniversário" 
-                                variant="outlined" 
-                                sx={{
-                                    paddingBottom: "70px",
-                                    height: "47.5px"
-                                }}
-                                defaultValue="06/04/1992"
-                            />
+                                <TextField 
+                                    id="birthday" 
+                                    label="Aniversário" 
+                                    variant="outlined" 
+                                    defaultValue="06/04/1992"
+                                    size="small"
+                                />
 
-                            <TextField 
-                                id="email" 
-                                label="E-mail" 
-                                variant="outlined" 
-                                sx={{
-                                    paddingBottom: "70px",
-                                    height: "47.5px"
-                                }}
-                                defaultValue="marie.canon@gmail.com"
-                            />
+                                <TextField 
+                                    id="email" 
+                                    label="E-mail" 
+                                    variant="outlined" 
+                                    defaultValue="marie.canon@gmail.com"
+                                    size="small"
+                                />
 
-                            <Stack direction="row" spacing={2} justifyContent="right">
-                                <Button 
-                                    variant="contained"
-                                    size="medium"
-                                    spacing={2}
-                                >
-                                    Atualizar
-                                </Button>
+                                <Stack direction="row" spacing={2} justifyContent="right">
+                                    <Button 
+                                        variant="contained"
+                                        size="medium"
+                                        spacing={2}
+                                    >
+                                        Atualizar
+                                    </Button>
+                                </Stack>
                             </Stack>
+
+
 
                         </FormControl>
                     </Grid>
@@ -149,51 +143,46 @@ export default function EditProfile(props) {
             </CustomTabPanel>
 
             <CustomTabPanel value={value} index={1}>
-                <Grid container alignItems="center" margin="30px">
+                <Grid container alignItems="center">
                     <Grid item xs={6}>
                         <FormControl fullWidth>
-                            <TextField 
-                                id="password" 
-                                label="Senha Atual" 
-                                variant="outlined" 
-                                sx={{
-                                    paddingBottom: "70px",
-                                    height: "47.5px"
-                                }}
-                                defaultValue="******"
-                            />
+                            <Stack spacing="28px">
+                                <TextField 
+                                    id="password" 
+                                    label="Senha Atual" 
+                                    variant="outlined" 
+                                    defaultValue="******"
+                                    size="small"
+                                />
 
-                            <TextField 
-                                id="newpassword" 
-                                label="Nova senha" 
-                                variant="outlined" 
-                                sx={{
-                                    paddingBottom: "70px",
-                                    height: "47.5px"
-                                }}
-                                defaultValue="******"
-                            />
+                                <TextField 
+                                    id="newpassword" 
+                                    label="Nova senha" 
+                                    variant="outlined" 
+                                    defaultValue="******"
+                                    size="small"
+                                />
 
-                            <TextField 
-                                id="newpassword" 
-                                label="Repita a Nova Senha" 
-                                variant="outlined" 
-                                sx={{
-                                    paddingBottom: "70px",
-                                    height: "47.5px"
-                                }}
-                                defaultValue="******"
-                            />  
+                                <TextField 
+                                    id="newpassword" 
+                                    label="Repita a Nova Senha" 
+                                    variant="outlined" 
+                                    defaultValue="******"
+                                    size="small"
+                                />  
 
-                            <Stack direction="row" spacing={2} justifyContent="right">
-                                <Button 
-                                    variant="contained"
-                                    size="medium"
-                                    spacing={2}
-                                >
-                                    Atualizar
-                                </Button>
+                                <Stack direction="row" spacing={2} justifyContent="right">
+                                    <Button 
+                                        variant="contained"
+                                        size="medium"
+                                        spacing={2}
+                                    >
+                                        Atualizar
+                                    </Button>
+                                </Stack>
                             </Stack>
+
+
 
                         </FormControl>
                     </Grid>
