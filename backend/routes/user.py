@@ -255,8 +255,28 @@ def followTopic(user_id, topic_id):
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["DELETE"])
 def unfollowTopic(user_id, topic_id):
-    # TODO
-    return 'TODO'
+    try:
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            raise NoResultFound('User not found')
+        
+        topic = session.query(TopicModel).filter_by(id=topic_id).first()
+        if topic is None:
+            raise NoResultFound('Topic not found')
+        
+        user.topics.remove(topic)
+
+        session.commit()
+            
+        return jsonify({
+            'code': 200,
+            'description': 'Successfully deleted'
+        })
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        session.rollback()
+        abort(500)
 
 # Posts from the user.
 @user_bp.route('/users/<user_id>/posts', methods=["GET"])
