@@ -1,10 +1,8 @@
 from flask import Blueprint, jsonify, request, abort
-from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
-
 from models import (
     User as UserModel,
     Topic as TopicModel

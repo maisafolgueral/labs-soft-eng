@@ -1,15 +1,13 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, abort
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
-from marshmallow import ValidationError
 from config import engine
-import json
-
 from models import Topic as TopicModel
-
-from schemas import Topic as TopicSchema
-from schemas import Post as PostSchema
-from schemas import FollowTopic as FollowTopicSchema
+from schemas import (
+    Topic as TopicSchema,
+    Post as PostSchema,
+    User as UserSchema
+)
 
 # Set current module
 topic_bp = Blueprint('topic_bp', __name__)
@@ -33,17 +31,16 @@ def getAllTopicFollowers(topic_id):
     try:
         topic = session.query(TopicModel).filter_by(id=topic_id).first()
         if topic is None:
-            abort(404, 'Topic not found')
+            raise NoResultFound('Topic not found')
         
         users = topic.followers
-        users_data = FollowTopicSchema(many=True).dump(users)
+        users_data = UserSchema(many=True).dump(users)
         
         return jsonify(users_data)
     
-    except NoResultFound:
-        abort(404, 'Followers from this topic were not found')
+    except NoResultFound as err:
+        abort(404, err.args)
     except:
-        session.rollback()
         abort(500)
 
 
@@ -52,15 +49,15 @@ def getAllTopicPosts(topic_id):
     try:
         topic = session.query(TopicModel).filter_by(id=topic_id).first()
         if topic is None:
-            abort(404, 'Topic not found')
+            raise NoResultFound('Topic not found')
         
         posts = topic.posts
         posts_data = PostSchema(many=True).dump(posts)
         
         return jsonify(posts_data)
     
-    except NoResultFound:
-        abort(404, 'Followers from this topic were not found')
+    except NoResultFound as err:
+        abort(404, err.args)
     except:
         session.rollback()
         abort(500)
