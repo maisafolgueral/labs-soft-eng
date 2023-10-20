@@ -151,8 +151,7 @@ def followUser(user_id, followed_id):
         # Create relationship
         user.followed.append(followed)
 
-        # Persist data into the database
-        session.add(user)
+        # Persist into the database
         session.commit()
             
         return jsonify({
@@ -169,8 +168,32 @@ def followUser(user_id, followed_id):
 
 @user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["DELETE"])
 def unfollowUser(user_id, followed_id):
-    # TODO
-    return 'TODO'
+    try:
+        # Get user that follows
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            raise NoResultFound('User not found')
+        
+        # Get user that is followed
+        followed = session.query(UserModel).filter_by(id=followed_id).first()
+        if followed is None:
+            raise NoResultFound('User to unfollow not found')
+        
+        # Remove relationship
+        user.followed.remove(followed)
+
+        # Persist into the database
+        session.commit()
+            
+        return jsonify({
+            'code': 200,
+            'description': 'Successfully deleted'
+        })
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        session.rollback()
+        abort(500)
 
 # Topics that the user follows.
 @user_bp.route('/users/<user_id>/topics', methods=["GET"])
