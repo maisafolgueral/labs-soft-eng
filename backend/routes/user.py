@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
+<<<<<<< HEAD
 from models import (
     User as UserModel,
     Topic as TopicModel
@@ -13,6 +14,16 @@ from schemas import (
     Topic as TopicSchema,
     Post as PostSchema
 )
+=======
+
+from models import User as UserModel
+
+from schemas import User as UserSchema
+from schemas import Post as PostSchema
+from schemas import Topic as TopicSchema
+from schemas import FollowTopic as FollowTopicSchema
+from schemas import FollowUser as FollowUserSchema
+>>>>>>> c66d743 (Create new routes for both topics and users)
 
 # Set current module
 user_bp = Blueprint('user_bp', __name__)
@@ -218,7 +229,11 @@ def getAllUserTopics(user_id):
             raise NoResultFound('User not found') 
         
         topics = user.topics
+<<<<<<< HEAD
         result = TopicSchema(many=True).dump(topics)
+=======
+        topics_data = TopicSchema(many=True).dump(topics)
+>>>>>>> c66d743 (Create new routes for both topics and users)
 
         return jsonify(result)
     
@@ -268,7 +283,11 @@ def getAllUserPosts(user_id):
             raise NoResultFound('User not found')
         
         posts = user.posts
+<<<<<<< HEAD
         result = PostSchema(many=True).dump(posts)
+=======
+        posts_data = PostSchema(many=True).dump(posts)
+>>>>>>> c66d743 (Create new routes for both topics and users)
 
         return jsonify(result)
     
