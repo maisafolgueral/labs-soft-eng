@@ -79,10 +79,13 @@ def updateUser(id):
         result = UserSchema().dump(user.first())
             
         return jsonify(result)
+    
     except ValidationError as err:
         abort(400, err.messages)
+    
     except NoResultFound as err:
         abort(404, err.args)
+    
     except:
         session.rollback()
         abort(500)
@@ -127,8 +130,34 @@ def getAllUserFollowers(user_id):
 
 @user_bp.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
 def deleteUserFollower(user_id, follower_id):
-    # TODO
-    return 'TODO'
+    try:
+        # Get user who is followed
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            raise NoResultFound('User not found')
+        
+        # Get user who follows
+        follower = session.query(UserModel).filter_by(id=follower_id).first()
+        if follower is None:
+            raise NoResultFound('User to unfollow not found')
+        
+        # Remove relationship
+        user.followers.remove(follower)
+
+        # Persist into the database
+        session.commit()
+            
+        return jsonify({
+            'code': 200,
+            'description': 'Successfully deleted'
+        })
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    
+    except:
+        session.rollback()
+        abort(500)
 
 # Who does the user follows.
 @user_bp.route('/users/<user_id>/followed', methods=["GET"])
