@@ -66,15 +66,14 @@ export default function EditProfile(props) {
             }}
         >
 
-            <Grid container alignItems="center">
+            <Grid container>
                 <Grid item xs={12}>
-                    <Stack direction="row" spacing="5px">
+                    <Stack direction="row" spacing="14px" alignItems="center">
                         <PencilFill color="#777777" size={32}/>
                         <Typography
                             variant="h4"
-                            sx={{
-                                color: "#777777"
-                            }}
+                            fontSize="28px"
+                            color= "#777777"
                         >
                             Editar perfil
                         </Typography>

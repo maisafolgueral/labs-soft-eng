@@ -16,7 +16,7 @@ export default function Feedback() {
       <Box
             sx={{
                 width: "100%",
-                height: "595px",
+                height: "auto",
                 backgroundColor: "#fff",
                 border: "1px solid #c4c4c4",
                 borderRadius: "5px",
@@ -24,15 +24,14 @@ export default function Feedback() {
             }}
         >
 
-            <Grid container alignItems="center" marginBottom="50px">
+            <Grid container>
                 <Grid item xs={12}>
-                    <Stack direction="row" spacing="5px">
+                    <Stack direction="row" spacing="14px" alignItems="center">
                         <ExclamationTriangle color="#777777" size={32}/>
                         <Typography
                             variant="h4"
-                            sx={{
-                                color: "#777777"
-                            }}
+                            fontSize="28px"
+                            color= "#777777"
                         >
                             Enviar feedback
                         </Typography>
@@ -40,10 +39,10 @@ export default function Feedback() {
                 </Grid>
             </Grid>
 
-                <Grid container alignItems="center">
+                <Grid container alignItems="center" marginTop="60px">
                     <Grid item xs={6}>
                         <FormControl fullWidth>
-                            <Stack spacing="28px">
+                            <Stack spacing="21px">
                                 <TextField 
                                     id="password" 
                                     label="Qual o motivo?" 
@@ -55,7 +54,7 @@ export default function Feedback() {
                                     id="outlined-multiline-flexible" 
                                     label="Faça uma breve descrição do motivo" 
                                     multiline
-                                    rows={13}
+                                    rows={10}
                                     variant="outlined" 
                                     size="small"
                                 />
