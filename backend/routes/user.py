@@ -4,7 +4,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
-from models import User as UserModel
+from models import (
+    User as UserModel,
+    Topic as TopicModel
+)
 from schemas import (
     User as UserSchema,
     Topic as TopicSchema,
@@ -225,12 +228,34 @@ def getAllUserTopics(user_id):
         abort(500)
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["PUT"])
-def followTopic(user_id):
-    # TODO
-    return 'TODO'
+def followTopic(user_id, topic_id):
+    try:
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            raise NoResultFound('User not found')
+        
+        topic = session.query(TopicModel).filter_by(id=topic_id).first()
+        if topic is None:
+            raise NoResultFound('Topic not found')
+        
+        user.topics.append(topic)
+
+        session.commit()
+            
+        return jsonify({
+            'code': 201,
+            'description': 'Successfully created'
+        })
+    except ValidationError as err:
+        abort(400, err.messages)
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        session.rollback()
+        abort(500)
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["DELETE"])
-def unfollowTopic(user_id):
+def unfollowTopic(user_id, topic_id):
     # TODO
     return 'TODO'
 
