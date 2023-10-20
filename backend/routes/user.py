@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request, abort
+from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
@@ -7,7 +8,8 @@ from models import User as UserModel
 from schemas import (
     User as UserSchema,
     Topic as TopicSchema,
-    Post as PostSchema
+    Post as PostSchema,
+    FollowUser as FollowUserSchema
 )
 
 # Set current module
@@ -135,8 +137,35 @@ def getAllUserFollowed(user_id):
 
 @user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["PUT"])
 def followUser(user_id, followed_id):
-    # TODO
-    return 'TODO'
+    try:
+        # Get user that will follow
+        user = session.query(UserModel).filter_by(id=user_id).first()
+        if user is None:
+            raise NoResultFound('User not found')
+        
+        # Get user that will be followed
+        followed = session.query(UserModel).filter_by(id=followed_id).first()
+        if followed is None:
+            raise NoResultFound('User to follow not found')
+        
+        # Create relationship
+        user.followed.append(followed)
+
+        # Persist data into the database
+        session.add(user)
+        session.commit()
+            
+        return jsonify({
+            'code': 201,
+            'description': 'Successfully created'
+        })
+    except ValidationError as err:
+        abort(400, err.messages)
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        session.rollback()
+        abort(500)
 
 @user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["DELETE"])
 def unfollowUser(user_id, followed_id):
