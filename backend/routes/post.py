@@ -186,15 +186,61 @@ def getPostReaction(post_id, reaction_id):
     except:
         abort(500)
 
+# NOT WORKING. DON'T KNOW WHY. 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["PUT"])
 def updatePostReaction(post_id, reaction_id):
-    # todo
-    return 'todo'
+    try:
+        # Received data
+        data = request.get_json()
+        data["post_id"] = post_id
+
+        # Validate data
+        ReactionSchema().load(data)
+
+        post = session.query(PostModel).filter_by(id=post_id)
+        if post.first() is None:
+            raise NoResultFound('Post not found')
+
+        reaction = session.query(ReactionModel).filter_by(id=reaction_id)
+        if reaction.first() is None:
+            raise NoResultFound('Reaction not found')
+        
+        reaction.update(data)
+        session.commit()
+        
+        result = ReactionSchema().dump(reaction.first())
+        
+        return jsonify(result)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        abort(500)
 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["DELETE"])
 def deletePostReaction(post_id, reaction_id):
-    # todo
-    return 'todo'
+    try:
+        post = session.query(PostModel).filter_by(id=post_id)
+        if post.first() is None:
+            raise NoResultFound('Post not found')
+        
+        # Get user to be deleted
+        reaction = session.query(ReactionModel).filter_by(id=reaction_id)
+        if reaction.first() is None:
+            raise NoResultFound('Reaction not found')
+        
+        reaction.delete()
+        session.commit()
+            
+        return jsonify({
+            'code': 200,
+            'description': 'Successfully deleted'
+        })
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        session.rollback()
+        abort(500)
 
 @post_bp.route('/posts/<post_id>/comments', methods=["POST"])
 def addCommentToPost(post_id):
