@@ -3,77 +3,96 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
-from models import Post as PostModel
-from schemas import Post as PostSchema
+
+from models import (
+    Post as PostModel,
+    Reaction as ReactionModel
+)
+
+from schemas import (
+    Post as PostSchema,
+    Reaction as ReactionSchema
+)
+
 import json
 
 # Set current module
 post_bp = Blueprint('post_bp', __name__)
 
 # Create database session
-session = sessionmaker(bind=engine)
+session = sessionmaker(bind=engine)()
 
 @post_bp.route('/posts', methods=["POST"])
 def createPost():
     try:
-        # URL data
-        data = request.args
-
-        # URL data args in json format
-        data_json = json.loads(json.dumps(data))
+        # Received data
+        data = request.get_json()
 
         # Validate data
-        PostSchema().load(data_json)
+        PostSchema().load(data)
 
         # Persist data into the database
         session.add(PostModel(**data))
         session.commit()
-
+            
         return jsonify({
-            'code':'created',
-            'description':'Successfully created'
+            'code': 201,
+            'description': 'Successfully created'
         })
+    
     except ValidationError as err:
         abort(400, err.messages)
     except:
         session.rollback()
         abort(500)
 
+
 @post_bp.route('/posts/<id>', methods=["GET"])
 def getPost(id):
     try:
-        post = session.query(PostModel).filter_by(id==id).first()
+        post = session.query(PostModel).filter_by(id=id).first()
+        
+        if post is None:
+            raise NoResultFound('Post not found')
+        
         result = PostSchema().dump(post)
         return jsonify(result)
-    except NoResultFound:
-        abort(404, 'Post not found')
+    
+    except NoResultFound as err:
+        abort(404, err.args)
     except:
         abort(500)
+
 
 @post_bp.route('/posts/<id>', methods=["PUT"])
 def updatePost(id):
     try:
-        # URL data
-        data = request.args
-
-        # URL data args in json format
-        data_json = json.loads(json.dumps(data))
+        # Received data
+        data = request.get_json()
 
         # Validate data
-        PostSchema().load(data_json)
+        PostSchema().load(data)
+
+        # Get post 
+        post = session.query(PostModel).filter_by(id=id)
+        if post.first() is None:
+            raise NoResultFound('Post not found')
 
         # Persist data into the database
-        session.query(PostModel).filter(session.id==id).update(data)
+        post.update(data)
         session.commit()
 
-        return jsonify({
-            'code':'updated',
-            'description':'Successfully updated'}), 200
-
+        # Dump post updated data
+        result = PostSchema().dump(post.first())
+            
+        return jsonify(result)
+    
     except ValidationError as err:
         abort(400, err.messages)
-    except NoResultFound:
-        abort(404, 'Post not found')
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    
     except:
         session.rollback()
         abort(500)
@@ -81,23 +100,58 @@ def updatePost(id):
 @post_bp.route('/posts/<id>', methods=["DELETE"])
 def deletePost(id):
     try:
-        session.query(PostModel).filter_by(id=id).delete()
+        # Get post to be deleted
+        post = session.query(PostModel).filter_by(id=id)
+        if post.first() is None:
+            raise NoResultFound('Post not found')
+        
+        post.delete()
         session.commit()
-
+            
         return jsonify({
-            'code':'deleted',
-            'description':'Successfully deleted'})
-
-    except NoResultFound:
-        abort(404, 'Post not found')
+            'code': 200,
+            'description': 'Successfully deleted'
+        })
+    except NoResultFound as err:
+        abort(404, err.args)
     except:
         session.rollback()
-        session.abort(500)
+        abort(500)
 
 @post_bp.route('/posts/<post_id>/reactions', methods=["POST"])
 def addReactionToPost(post_id):
-    # todo
-    return 'todo'
+    try:
+        # Retireve the post from the database.
+        p = session.query(PostModel).filter_by(id=post_id).first()
+        if p is None:
+            raise NoResultFound('Post Not Found')
+        
+        # Parse the reaction data from the request.
+        data = request.get_json()
+        ReactionSchema().load(data)
+        
+        # Create the new reaction for the post.
+        reaction = ReactionModel(**data)
+        session.add(reaction)
+        session.flush()
+        
+        p.reactions.append(reaction)
+        session.commit()
+        
+        return jsonify({
+            'code': 201,
+            'description': 'Successfully added reaction to the post'
+        })
+        
+    except ValidationError as err:
+        abort(400, err.messages)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    
+    except Exception as e:
+        session.rollback()
+        abort(500, 'Internal Server Error')
 
 @post_bp.route('/posts/<post_id>/reactions', methods=["GET"])
 def getAllPostReactions(post_id):

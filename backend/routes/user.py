@@ -52,6 +52,7 @@ def getUser(id):
         result = UserSchema().dump(user)
 
         return jsonify(result)
+    
     except NoResultFound as err:
         abort(404, err.args)
     except:
