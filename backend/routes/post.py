@@ -155,8 +155,20 @@ def addReactionToPost(post_id):
 
 @post_bp.route('/posts/<post_id>/reactions', methods=["GET"])
 def getAllPostReactions(post_id):
-    # todo
-    return 'todo'
+    try:
+        post = session.query(PostModel).filter_by(id=post_id).first()
+        if post is None:
+            raise NoResultFound('Post not found')
+        
+        reactions = post.reactions
+        result = ReactionSchema(many=True).dump(reactions)
+        return jsonify(result)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        abort(500)
+
 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["GET"])
 def getPostReaction(post_id, reaction_id):
