@@ -1,7 +1,6 @@
 import * as React from "react";
 import PropTypes from 'prop-types';
 import Box from "@mui/material/Box";
-import AvatarInfo from '@/components/AvatarInfo';
 import Grid from "@mui/material/Grid";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -10,6 +9,9 @@ import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { 
+    PencilFill
+} from "react-bootstrap-icons";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -66,11 +68,17 @@ export default function EditProfile(props) {
 
             <Grid container alignItems="center">
                 <Grid item xs={12}>
-                    <AvatarInfo 
-                        avatarSize={55}
-                        title="Marie Canon"
-                        subtitle="@mariecanon"
-                    />
+                    <Stack direction="row" spacing="5px">
+                        <PencilFill color="#777777" size={32}/>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                color: "#777777"
+                            }}
+                        >
+                            Editar perfil
+                        </Typography>
+                    </Stack>
                 </Grid>
             </Grid>
 
@@ -134,9 +142,6 @@ export default function EditProfile(props) {
                                     </Button>
                                 </Stack>
                             </Stack>
-
-
-
                         </FormControl>
                     </Grid>
                 </Grid>
@@ -181,9 +186,6 @@ export default function EditProfile(props) {
                                     </Button>
                                 </Stack>
                             </Stack>
-
-
-
                         </FormControl>
                     </Grid>
                 </Grid>
