@@ -2,13 +2,16 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import AvatarInfo from "@/components/AvatarInfo";
-import { ChatQuote } from "react-bootstrap-icons";
+import Reaction from "@/components/Reaction";
+import { ChatQuote, Chat } from "react-bootstrap-icons";
 import reaction1 from "@/assets/icons/reactions/1.svg";
 import reaction2 from "@/assets/icons/reactions/2.svg";
 import reaction3 from "@/assets/icons/reactions/3.svg";
 import reaction4 from "@/assets/icons/reactions/4.svg";
 import reaction5 from "@/assets/icons/reactions/5.svg";
+
 
 export default function Post() {
   return (
@@ -63,16 +66,32 @@ export default function Post() {
             </Typography>
         </Box>
         
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" sx={{ paddingTop: "35px" }}>
             <Grid item xs={6}>
-                <Stack spacing="8px" direction="row">
-                    <Stack spacing="5px">
-                        
-                    </Stack>
+                <Stack direction="row" spacing="25px">
+                    <Reaction icon={reaction1} title="Amei"/>
+                    <Reaction icon={reaction2} title="Engraçado"/>
+                    <Reaction icon={reaction3} title="Surpreso"/>
+                    <Reaction icon={reaction4} title="Triste"/>
+                    <Reaction icon={reaction5} title="Raiva"/>
                 </Stack>
             </Grid>
             <Grid item container xs={6} justifyContent="right">
-                
+                <Stack 
+                    spacing="8px" 
+                    alignItems="center"
+                    direction="row"
+                >
+                    <Button 
+                        startIcon={<Chat color="#777777" size={23}/>}
+                        sx={{
+                            fontSize: "15px",
+                            color: "#777777"
+                        }}
+                    >
+                        Comentar
+                    </Button>
+                </Stack>
             </Grid>
         </Grid>
 
