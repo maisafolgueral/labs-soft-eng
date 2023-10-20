@@ -172,8 +172,19 @@ def getAllPostReactions(post_id):
 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["GET"])
 def getPostReaction(post_id, reaction_id):
-    # todo
-    return 'todo'
+    try:
+        reaction = session.query(ReactionModel).filter_by(id=reaction_id, post_id=post_id).first()
+        if reaction is None:
+            raise NoResultFound('User to unfollow not found')
+        
+        result = ReactionSchema().dump(reaction)
+        
+        return jsonify(result)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        abort(500)
 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["PUT"])
 def updatePostReaction(post_id, reaction_id):
