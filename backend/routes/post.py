@@ -339,5 +339,26 @@ def updatePostComment(post_id, comment_id):
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["DELETE"])
 def deletePostComment(post_id, comment_id):
-    # todo
-    return 'todo'
+    try:
+        post = session.query(PostModel).filter_by(id=post_id)
+        if post.first() is None:
+            raise NoResultFound('Post not found')
+        
+        # Get user to be deleted
+        comment = session.query(CommentModel).filter_by(id=comment_id)
+        if comment.first() is None:
+            raise NoResultFound('Comment not found')
+        
+        comment.delete()
+        session.commit()
+            
+        return jsonify({
+            'code': 200,
+            'description': 'Successfully deleted'
+        })
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        session.rollback()
+        abort(500)
+
