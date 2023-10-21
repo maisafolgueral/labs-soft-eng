@@ -9,6 +9,9 @@ import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import { 
     PencilFill
 } from "react-bootstrap-icons";
@@ -123,6 +126,17 @@ export default function EditProfile(props) {
                                     size="small"
                                 />
 
+                                <FormControl size="small" disabled defaultValue="F">
+                                    <InputLabel>Sexo</InputLabel>
+                                    <Select
+                                        value="F"
+                                        label="Sexo"
+                                    >
+                                        <MenuItem value="M">Masculino</MenuItem>
+                                        <MenuItem value="F">Feminino</MenuItem>
+                                    </Select>
+                                </FormControl>
+
                                 <TextField 
                                     id="email" 
                                     label="E-mail" 
@@ -151,26 +165,29 @@ export default function EditProfile(props) {
                     <Grid item xs={6}>
                         <FormControl fullWidth>
                             <Stack spacing="28px">
-                                <TextField 
-                                    id="password" 
+                                <TextField
+                                    id="currentpassword"
                                     label="Senha Atual" 
                                     variant="outlined" 
-                                    defaultValue="******"
+                                    type="password"
+                                    defaultValue="******" 
                                     size="small"
                                 />
 
                                 <TextField 
-                                    id="newpassword" 
+                                    id="newpassword"
                                     label="Nova senha" 
                                     variant="outlined" 
+                                    type="password"
                                     defaultValue="******"
                                     size="small"
                                 />
 
                                 <TextField 
-                                    id="newpassword" 
+                                    id="newpassword"
                                     label="Repita a Nova Senha" 
                                     variant="outlined" 
+                                    type="password"
                                     defaultValue="******"
                                     size="small"
                                 />  
