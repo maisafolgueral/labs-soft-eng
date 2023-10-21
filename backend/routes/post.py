@@ -309,8 +309,33 @@ def getPostComment(post_id, comment_id):
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["PUT"])
 def updatePostComment(post_id, comment_id):
-    # todo
-    return 'todo'
+    try:
+        # Received data
+        data = request.get_json()
+        data["post_id"] = post_id
+
+        # Validate data
+        CommentSchema().load(data)
+
+        post = session.query(PostModel).filter_by(id=post_id)
+        if post.first() is None:
+            raise NoResultFound('Post not found')
+
+        comment = session.query(CommentModel).filter_by(id=comment_id)
+        if comment.first() is None:
+            raise NoResultFound('Comment not found')
+        
+        comment.update(data)
+        session.commit()
+        
+        result = CommentSchema().dump(comment.first())
+        
+        return jsonify(result)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        abort(500)
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["DELETE"])
 def deletePostComment(post_id, comment_id):
