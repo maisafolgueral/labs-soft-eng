@@ -292,8 +292,20 @@ def getAllPostComments(post_id):
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["GET"])
 def getPostComment(post_id, comment_id):
-    # todo
-    return 'todo'
+    try:
+        comment = session.query(CommentModel).filter_by(id=comment_id, post_id=post_id).first()
+        if comment is None:
+            raise NoResultFound('Comment not found')
+        
+        result = CommentSchema().dump(comment)
+        
+        return jsonify(result)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        abort(500)
+
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["PUT"])
 def updatePostComment(post_id, comment_id):
