@@ -46,12 +46,10 @@ def createPost():
         session.rollback()
         abort(500)
 
-
 @post_bp.route('/posts/<id>', methods=["GET"])
 def getPost(id):
     try:
         post = session.query(PostModel).filter_by(id=id).first()
-        
         if post is None:
             raise NoResultFound('Post not found')
         
@@ -62,7 +60,6 @@ def getPost(id):
         abort(404, err.args)
     except:
         abort(500)
-
 
 @post_bp.route('/posts/<id>', methods=["PUT"])
 def updatePost(id):
@@ -175,7 +172,7 @@ def getPostReaction(post_id, reaction_id):
     try:
         reaction = session.query(ReactionModel).filter_by(id=reaction_id, post_id=post_id).first()
         if reaction is None:
-            raise NoResultFound('User to unfollow not found')
+            raise NoResultFound('Reaction not found')
         
         result = ReactionSchema().dump(reaction)
         
