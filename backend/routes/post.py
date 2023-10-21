@@ -244,8 +244,38 @@ def deletePostReaction(post_id, reaction_id):
 
 @post_bp.route('/posts/<post_id>/comments', methods=["POST"])
 def addCommentToPost(post_id):
-    # todo
-    return 'todo'
+    try:
+        # Retireve the post from the database.
+        post = session.query(PostModel).filter_by(id=post_id).first()
+        if post is None:
+            raise NoResultFound('Post Not Found')
+        
+        # Parse the comment data from the request.
+        data = request.get_json()
+        CommentSchema().load(data)
+        
+        # Create the new comment for the post.
+        comment = CommentModel(**data)
+        session.add(comment)
+        session.flush()
+        
+        post.comments.append(comment)
+        session.commit()
+        
+        return jsonify({
+            'code': 201,
+            'description': 'Successfully added comment to the post'
+        })
+        
+    except ValidationError as err:
+        abort(400, err.messages)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    
+    except Exception as e:
+        session.rollback()
+        abort(500, 'Internal Server Error')
 
 @post_bp.route('/posts/<post_id>/comments', methods=["GET"])
 def getAllPostComments(post_id):
