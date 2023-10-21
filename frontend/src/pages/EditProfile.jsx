@@ -58,7 +58,7 @@ export default function EditProfile(props) {
       <Box
             sx={{
                 width: "100%",
-                height: "595px",
+                height: "auto",
                 backgroundColor: "#fff",
                 border: "1px solid #c4c4c4",
                 borderRadius: "5px",

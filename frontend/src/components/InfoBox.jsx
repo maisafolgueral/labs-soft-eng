@@ -27,7 +27,7 @@ export default function InfoBox() {
     return (
         <Box
             sx={{
-                width: "302px",
+                width: "100%",
                 backgroundColor: "#fff",
                 border: "1px solid #c4c4c4",
                 borderRadius: "5px",
