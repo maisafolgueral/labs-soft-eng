@@ -38,8 +38,9 @@ export default function InfoBox() {
                 <Grid item xs={7}>
                     <AvatarInfo 
                         avatarSize={40}
-                        title="Marie Canon"
-                        subtitle="@mariecanon"
+                        avatarFontSize={18}
+                        name="Marie Canon"
+                        description="@mariecanon"
                     />
                 </Grid>
                 <Grid container item xs={5} justifyContent="right">
@@ -48,6 +49,7 @@ export default function InfoBox() {
                         variant="contained"
                         size="small"
                         startIcon={<PencilFill size={10} />}
+                        href="/h/profile/edit"
                     >
                         Editar
                     </Button>

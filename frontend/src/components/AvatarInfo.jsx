@@ -1,22 +1,20 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from "@mui/material/Stack";
-import Avatar from "@mui/material/Avatar";
+import AvatarWithLetter from '@/components/AvatarWithLetter';
 
 
-export default function Profile(props) {
+export default function AvatarInfo(props) {
     return (
         <Stack 
             spacing="10px"
             direction="row"
             alignItems="center"
         >
-            <Avatar 
-                src="/broken-image.jpg" 
-                sx={{ 
-                    width: props.avatarSize, 
-                    height: props.avatarSize
-                }}
+            <AvatarWithLetter
+                name={props.name}
+                size={props.avatarSize}
+                fontSize={props.avatarFontSize}
             />
             <Stack spacing="7px">
                 <Typography 
@@ -25,14 +23,14 @@ export default function Profile(props) {
                     color= "#404040"
                     height= "10.7px" 
                 >
-                    { props.title }
+                    { props.name }
                 </Typography>
                 <Typography 
                     component= "span"
                     fontSize= {11}
                     color= "#777777"
                 >
-                    { props.subtitle }
+                    { props.description }
                 </Typography>
             </Stack>
         </Stack>

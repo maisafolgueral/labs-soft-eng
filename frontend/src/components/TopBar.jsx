@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import AvatarWithLetter from "@/components/AvatarWithLetter";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 
 
@@ -41,12 +41,10 @@ export default function TopBar() {
             alignItems="center"
             justifyContent="flex-end"
           >
-            <Avatar 
-              src="/broken-image.jpg" 
-              sx={{ 
-                width: 34, 
-                height: 34 
-              }}
+            <AvatarWithLetter
+              name="Marie Canon"
+              size={34}
+              fontSize={15}
             />
             <Typography 
               component="span"

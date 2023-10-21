@@ -29,8 +29,9 @@ export default function Post() {
             <Grid item xs={6}>
                 <AvatarInfo 
                     avatarSize={35}
-                    title="Mark Alain"
-                    subtitle="Publicado em 03 set 2023"
+                    avatarFontSize={16}
+                    name="Mark Alain"
+                    description="Publicado em 03 set 2023"
                 />
             </Grid>
             <Grid item container xs={6} justifyContent="right">
