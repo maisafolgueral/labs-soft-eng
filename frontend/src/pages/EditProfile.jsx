@@ -16,6 +16,11 @@ import InputLabel from '@mui/material/InputLabel';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { 
     PencilFill
 } from "react-bootstrap-icons";
@@ -58,6 +63,22 @@ export default function EditProfile(props) {
 
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+
+  const handleClickShowCurrentPassword = () => setShowCurrentPassword((show) => !show);
+
+  const [showNewPassword, setShowNewPassword] = React.useState(false);
+
+  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -171,32 +192,71 @@ export default function EditProfile(props) {
                     <Grid item xs={6}>
                         <FormControl fullWidth>
                             <Stack spacing="28px">
-                                <TextField
-                                    id="currentpassword"
-                                    label="Senha Atual" 
-                                    variant="outlined" 
-                                    type="password"
-                                    defaultValue="******" 
-                                    size="small"
-                                />
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password">Senha atual</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={showCurrentPassword ? 'text' : 'password'}
+                                        endAdornment={
+                                        <InputAdornment position="end" >
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowCurrentPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            >
+                                            {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        }
+                                        label="Senha atual"
+                                        defaultValue="senhaatual" 
+                                    />
+                                </FormControl>
 
-                                <TextField 
-                                    id="newpassword"
-                                    label="Nova senha" 
-                                    variant="outlined" 
-                                    type="password"
-                                    defaultValue="******"
-                                    size="small"
-                                />
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password">Nova senha</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={showNewPassword ? 'text' : 'password'}
+                                        endAdornment={
+                                        <InputAdornment position="end" >
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowNewPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            >
+                                            {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        }
+                                        label="Nova senha"
+                                        defaultValue="novasenha" 
+                                    />
+                                </FormControl>
 
-                                <TextField 
-                                    id="newpassword"
-                                    label="Repita a Nova Senha" 
-                                    variant="outlined" 
-                                    type="password"
-                                    defaultValue="******"
-                                    size="small"
-                                />  
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password">Repita a nova senha</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        endAdornment={
+                                        <InputAdornment position="end" >
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        }
+                                        label="Repita a nova senha"
+                                        defaultValue="novasenha" 
+                                    />
+                                </FormControl>
 
                                 <Stack direction="row" spacing={2} justifyContent="right">
                                     <Button 
