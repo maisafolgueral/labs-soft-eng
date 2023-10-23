@@ -1,4 +1,5 @@
 import * as React from "react";
+import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -12,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { 
     PencilFill
 } from "react-bootstrap-icons";
@@ -118,13 +122,15 @@ export default function EditProfile(props) {
                                     size="small"
                                 />
 
-                                <TextField 
-                                    id="birthday" 
-                                    label="Aniversário" 
-                                    variant="outlined" 
-                                    defaultValue="06/04/1992"
-                                    size="small"
-                                />
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker 
+                                        id="birthday" 
+                                        label="Aniversário" 
+                                        variant="outlined" 
+                                        slotProps={{ textField: { size: 'small' } }}
+                                        defaultValue={dayjs('2022-04-25')}
+                                    />
+                                </LocalizationProvider>
 
                                 <FormControl size="small" disabled defaultValue="F">
                                     <InputLabel>Sexo</InputLabel>
