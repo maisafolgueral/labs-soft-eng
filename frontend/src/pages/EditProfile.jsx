@@ -125,64 +125,62 @@ export default function EditProfile(props) {
             <CustomTabPanel value={value} index={0}>
                 <Grid container alignItems="center">
                     <Grid item xs={6}>
-                        <FormControl fullWidth>
-                            <Stack spacing="28px">
-                                <TextField 
-                                    id="name" 
-                                    label="Nome" 
+                        <Stack spacing="28px">
+                            <TextField 
+                                id="name" 
+                                label="Nome" 
+                                variant="outlined" 
+                                defaultValue="Marie"
+                                size="small"
+                            />
+
+                            <TextField 
+                                id="lastname" 
+                                label="Sobrenome" 
+                                variant="outlined" 
+                                defaultValue="Canon"
+                                size="small"
+                            />
+
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker 
+                                    id="birthday" 
+                                    label="Aniversário" 
                                     variant="outlined" 
-                                    defaultValue="Marie"
-                                    size="small"
+                                    slotProps={{ textField: { size: 'small' } }}
+                                    defaultValue={dayjs('2022-04-25')}
                                 />
+                            </LocalizationProvider>
 
-                                <TextField 
-                                    id="lastname" 
-                                    label="Sobrenome" 
-                                    variant="outlined" 
-                                    defaultValue="Canon"
-                                    size="small"
-                                />
+                            <FormControl size="small" disabled defaultValue="F">
+                                <InputLabel>Sexo</InputLabel>
+                                <Select
+                                    value="F"
+                                    label="Sexo"
+                                >
+                                    <MenuItem value="M">Masculino</MenuItem>
+                                    <MenuItem value="F">Feminino</MenuItem>
+                                </Select>
+                            </FormControl>
 
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker 
-                                        id="birthday" 
-                                        label="Aniversário" 
-                                        variant="outlined" 
-                                        slotProps={{ textField: { size: 'small' } }}
-                                        defaultValue={dayjs('2022-04-25')}
-                                    />
-                                </LocalizationProvider>
+                            <TextField 
+                                id="email" 
+                                label="E-mail" 
+                                variant="outlined" 
+                                defaultValue="marie.canon@gmail.com"
+                                size="small"
+                            />
 
-                                <FormControl size="small" disabled defaultValue="F">
-                                    <InputLabel>Sexo</InputLabel>
-                                    <Select
-                                        value="F"
-                                        label="Sexo"
-                                    >
-                                        <MenuItem value="M">Masculino</MenuItem>
-                                        <MenuItem value="F">Feminino</MenuItem>
-                                    </Select>
-                                </FormControl>
-
-                                <TextField 
-                                    id="email" 
-                                    label="E-mail" 
-                                    variant="outlined" 
-                                    defaultValue="marie.canon@gmail.com"
-                                    size="small"
-                                />
-
-                                <Stack direction="row" spacing={2} justifyContent="right">
-                                    <Button 
-                                        variant="contained"
-                                        size="medium"
-                                        spacing={2}
-                                    >
-                                        Atualizar
-                                    </Button>
-                                </Stack>
+                            <Stack direction="row" spacing={2} justifyContent="right">
+                                <Button 
+                                    variant="contained"
+                                    size="medium"
+                                    spacing={2}
+                                >
+                                    Atualizar
+                                </Button>
                             </Stack>
-                        </FormControl>
+                        </Stack>
                     </Grid>
                 </Grid>
             </CustomTabPanel>
@@ -190,85 +188,86 @@ export default function EditProfile(props) {
             <CustomTabPanel value={value} index={1}>
                 <Grid container alignItems="center">
                     <Grid item xs={6}>
-                        <FormControl fullWidth>
-                            <Stack spacing="28px">
-                                <FormControl variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Senha atual</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={showCurrentPassword ? 'text' : 'password'}
-                                        endAdornment={
-                                        <InputAdornment position="end" >
-                                            <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowCurrentPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                            >
-                                            {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                        }
-                                        label="Senha atual"
-                                        defaultValue="senhaatual" 
-                                    />
-                                </FormControl>
+                        <Stack spacing="28px">
+                            <FormControl variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">Senha atual</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    type={showCurrentPassword ? 'text' : 'password'}
+                                    endAdornment={
+                                    <InputAdornment position="end" >
+                                        <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowCurrentPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                        >
+                                        {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    }
+                                    label="Senha atual"
+                                    defaultValue="senhaatual" 
+                                    size="small"
+                                />
+                            </FormControl>
 
-                                <FormControl variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Nova senha</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={showNewPassword ? 'text' : 'password'}
-                                        endAdornment={
-                                        <InputAdornment position="end" >
-                                            <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowNewPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                            >
-                                            {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                        }
-                                        label="Nova senha"
-                                        defaultValue="novasenha" 
-                                    />
-                                </FormControl>
+                            <FormControl variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">Nova senha</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    type={showNewPassword ? 'text' : 'password'}
+                                    endAdornment={
+                                    <InputAdornment position="end" >
+                                        <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowNewPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                        >
+                                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    }
+                                    label="Nova senha"
+                                    defaultValue="novasenha" 
+                                    size="small"
+                                />
+                            </FormControl>
 
-                                <FormControl variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Repita a nova senha</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        endAdornment={
-                                        <InputAdornment position="end" >
-                                            <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                            >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                        }
-                                        label="Repita a nova senha"
-                                        defaultValue="novasenha" 
-                                    />
-                                </FormControl>
+                            <FormControl variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">Repita a nova senha</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    endAdornment={
+                                    <InputAdornment position="end" >
+                                        <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                        >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    }
+                                    label="Repita a nova senha"
+                                    defaultValue="novasenha" 
+                                    size="small"
+                                />
+                            </FormControl>
 
-                                <Stack direction="row" spacing={2} justifyContent="right">
-                                    <Button 
-                                        variant="contained"
-                                        size="medium"
-                                        spacing={2}
-                                    >
-                                        Atualizar
-                                    </Button>
-                                </Stack>
+                            <Stack direction="row" spacing={2} justifyContent="right">
+                                <Button 
+                                    variant="contained"
+                                    size="medium"
+                                    spacing={2}
+                                >
+                                    Atualizar
+                                </Button>
                             </Stack>
-                        </FormControl>
+                        </Stack>
                     </Grid>
                 </Grid>
             </CustomTabPanel>

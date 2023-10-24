@@ -1,8 +1,59 @@
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import Button from '@mui/material/Button';
 import Post from '@/components/Post';
 import InfoBox from "@/components/InfoBox";
+import AvatarInfo from '@/components/AvatarInfo';
+import ListDetail from '@/components/ListDetail';
+import { 
+    ChatQuote,
+    Person,
+    PencilFill
+} from "react-bootstrap-icons";
 
+
+function InfoBoxHeader() {
+  return (
+    <Grid container alignItems="center">
+      <Grid item xs={7}>
+        <AvatarInfo 
+          avatarSize={40}
+          avatarFontSize={18}
+          name="Marie Canon"
+          description="@mariecanon"
+        />
+      </Grid>
+      <Grid container item xs={5} justifyContent="right">
+        <Button 
+          fontSize={10}
+          variant="contained"
+          size="small"
+          startIcon={<PencilFill size={10} />}
+          href="/h/profile/edit"
+        >
+          Editar
+        </Button>
+      </Grid>
+    </Grid>
+  );
+}
+
+function InfoBoxContent() {
+  let listDetailItems = [
+    {
+        "icon": <Person color="#777777" size={20}/>,
+        "title": "20 pessoas"
+    },
+    {
+        "icon": <ChatQuote color="#777777" size={20}/>,
+        "title": "5 tópicos"
+    }
+  ];
+
+  return (
+    <ListDetail title="Seguindo" items={listDetailItems}/>
+  );
+}
 
 export default function Profile() {
   return (
@@ -16,7 +67,10 @@ export default function Profile() {
           </Stack>
         </Grid>
         <Grid item xs={4} sx={{ paddingLeft: "27px" }}>
-          <InfoBox/>
+          <InfoBox
+            Header={InfoBoxHeader}
+            Content={InfoBoxContent}
+          />
         </Grid>
       </Grid>
     </>

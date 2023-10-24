@@ -1,7 +1,13 @@
-import * as React from "react";
+import * as React from 'react';
+import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { styled } from "@mui/system";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
@@ -27,32 +33,67 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
 }));
 
 export default function AddPost() {
-  return (
-    <Box
-        sx={{
-            width: "100%",
-            height: "196px",
-            backgroundColor: "#fff",
-            border: "1px solid #c4c4c4",
-            borderRadius: "5px"
-        }}
-    >
-        <CustomTextField
-            label="Escreva sobre alguma coisa..."
-            multiline
-            variant="filled"
-            rows={4}
-            inputProps={{
-                style: {
-                    height: "107px"
-                }
-            }}
-            sx={{
-                width: "100%"
-            }}
-        />
+    const [topic, setTopic] = React.useState('');
 
-    </Box>
-                                                        
-  );
+    const handleChange = (event) => {
+        setTopic(event.target.value);
+    };
+
+    return (
+        <Box
+            sx={{
+                width: "100%",
+                height: "auto",
+                backgroundColor: "#fff",
+                border: "1px solid #c4c4c4",
+                borderRadius: "5px"
+            }}
+        >
+            <CustomTextField
+                label="Escreva sobre alguma coisa..."
+                multiline
+                variant="filled"
+                rows={4}
+                inputProps={{
+                    style: {
+                        height: "107px"
+                    }
+                }}
+                sx={{
+                    width: "100%"
+                }}
+            />
+            <Stack 
+                direction="row" 
+                spacing="12px" 
+                justifyContent="right"
+                sx={{
+                    margin: "12px"
+                }}
+            >
+                <FormControl sx={{ minWidth: 120 }} size="small">
+                    <InputLabel>Tópico</InputLabel>
+                    <Select
+                        value={topic}
+                        label="Tópico"
+                        onChange={handleChange}
+                    >
+                        <MenuItem value={10} >Galáxias</MenuItem>
+                        <MenuItem value={20}>Futebol</MenuItem>
+                        <MenuItem value={30}>Medicina</MenuItem>
+                    </Select>
+                </FormControl>
+                <Button 
+                    fontSize={10}
+                    variant="contained"
+                    size="small"
+                    sx={{
+                        width: "120px"
+                    }}
+                >
+                    Publicar
+                </Button>
+            </Stack>
+        </Box>                                                
+    );
 }
