@@ -16,11 +16,13 @@ function Header() {
     <Grid container alignItems="center">
       <Grid item xs={7}>
         <Stack spacing="8px" direction="row">
-          <ChatQuote color="#777777" size={23}/>
+          <ChatQuote color="#404040" size={23}/>
           <Typography 
               component="span"
-              fontSize={18}
-              color="#777777"
+              color="#404040"
+              sx={{
+                fontSize: "17px"
+              }}
           >
               Galáxias
           </Typography>
@@ -28,10 +30,12 @@ function Header() {
       </Grid>
       <Grid container item xs={5} justifyContent="right">
         <Button 
-          fontSize={10}
           variant="contained"
           size="small"
-          startIcon={<PlusLg size={14} />}
+          startIcon={<PlusLg size={13}/>}
+          sx={{
+            fontSize: "12px"
+          }}
         >
           Seguir
         </Button>

@@ -25,11 +25,13 @@ function InfoBoxHeader() {
       </Grid>
       <Grid container item xs={5} justifyContent="right">
         <Button 
-          fontSize={10}
           variant="contained"
           size="small"
           startIcon={<PencilFill size={10} />}
           href="/h/profile/edit"
+          sx={{
+            fontSize: "12px"
+          }}
         >
           Editar
         </Button>

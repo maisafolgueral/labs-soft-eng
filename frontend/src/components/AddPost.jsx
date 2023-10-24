@@ -71,24 +71,28 @@ export default function AddPost() {
                     margin: "12px"
                 }}
             >
-                <FormControl sx={{ minWidth: 120 }} size="small">
-                    <InputLabel>Tópico</InputLabel>
+                <FormControl sx={{ width: "110px" }} size="small">
+                    <InputLabel sx={{ fontSize: "15px" }}>Tópico</InputLabel>
                     <Select
                         value={topic}
                         label="Tópico"
                         onChange={handleChange}
+                        sx={{
+                            height: "36px"
+                        }}
                     >
-                        <MenuItem value={10} >Galáxias</MenuItem>
+                        <MenuItem value={10}>Galáxias</MenuItem>
                         <MenuItem value={20}>Futebol</MenuItem>
                         <MenuItem value={30}>Medicina</MenuItem>
                     </Select>
                 </FormControl>
                 <Button 
-                    fontSize={10}
                     variant="contained"
                     size="small"
                     sx={{
-                        width: "120px"
+                        width: "110px",
+                        height: "36px",
+                        fontSize: "15px"
                     }}
                 >
                     Publicar

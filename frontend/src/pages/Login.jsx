@@ -75,6 +75,9 @@ export default function Login() {
                 fullWidth 
                 variant="contained"
                 type="submit"
+                sx={{
+                  fontSize: "16px"
+                }}
               >
                 Acessar
               </Button>

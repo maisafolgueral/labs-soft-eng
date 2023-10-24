@@ -117,6 +117,9 @@ export default function Register() {
                 fullWidth 
                 variant="contained"
                 type="submit"
+                sx={{
+                  fontSize: "16px"
+                }}
               >
                 Criar conta
               </Button>

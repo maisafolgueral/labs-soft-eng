@@ -25,10 +25,12 @@ function InfoBoxHeader() {
       </Grid>
       <Grid container item xs={5} justifyContent="right">
         <Button 
-          fontSize={10}
           variant="contained"
           size="small"
-          startIcon={<PlusLg size={14} />}
+          startIcon={<PlusLg size={13} />}
+          sx={{
+            fontSize: "12px"
+          }}
         >
           Seguir
         </Button>

@@ -19,7 +19,7 @@ export default function Home() {
     >
 
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item container alignItems="center" xs={6}>
           <img 
             src={isologo}
             style={{
@@ -40,6 +40,7 @@ export default function Home() {
               href="/Login"
               style={{
                 color: "#C4C4C4",
+                fontSize: "16px"
               }}
             >
               Entrar
@@ -48,6 +49,9 @@ export default function Home() {
               variant="contained"
               size="large"
               href="/request-access"
+              style={{
+                fontSize: "16px"
+              }}
             >
               Solicitar Acesso
             </Button>
