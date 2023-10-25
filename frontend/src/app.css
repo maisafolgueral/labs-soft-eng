@@ -1,10 +1,36 @@
+/*
+Global
+*/
 * { 
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
+
 body {
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
+}
+
+/*
+Left Bar
+*/
+.left-bar-item {
+    text-decoration: none;
+}
+
+.left-bar-item-icon,
+.left-bar-item-title {
+    color: #777777;
+}
+
+.left-bar-item.active .left-bar-item-icon,
+.left-bar-item.active .left-bar-item-title {
+    color: #212121;
+}
+
+.left-bar-item:not(.active):hover .left-bar-item-icon,
+.left-bar-item:not(.active):hover .left-bar-item-title {
+    color: #4D4D4D;
 }
 

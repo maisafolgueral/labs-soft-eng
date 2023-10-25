@@ -3,13 +3,14 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Divider from '@mui/material/Divider';
+import { NavLink } from "react-router-dom"
 import { 
   House,
   ChatQuote,
   ExclamationTriangle,
   BoxArrowLeft
 } from "react-bootstrap-icons";
-import Link from '@mui/material/Link';
+
 
 
 export default function LeftBar() {
@@ -27,59 +28,59 @@ export default function LeftBar() {
       }}
     >
       <Stack spacing="20px" sx={{ padding: "27px" }}>
-        <Link href="/h/timeline" underline="none">
+        <NavLink to="/h/timeline" className="left-bar-item">
           <Stack 
             spacing="12px" 
             direction="row" 
             sx={{ height: "30px" }}
           >
-            <House color="#777777" size={30}/>
+            <House size={30} className="left-bar-item-icon"/>
             <Typography 
               component="span"
               fontSize={20}
-              color="#777777"
+              className="left-bar-item-title"
             >
               Início
             </Typography>
           </Stack>
-        </Link>
-        <Link href="/h/topics" underline="none">
+        </NavLink>
+        <NavLink to="/h/topics" className="left-bar-item">
           <Stack spacing="12px" direction="row">
-            <ChatQuote color="#777777" size={30}/>
+            <ChatQuote size={30} className="left-bar-item-icon"/>
             <Typography 
               component="span"
               fontSize={20}
-              color="#777777"
+              className="left-bar-item-title"
             >
               Tópicos
             </Typography>
           </Stack>
-        </Link>
+        </NavLink>
         <Divider variant="middle" sx={{ background: "#c4c4c4" }}/>
-        <Link href="/h/feedback" underline="none">
+        <NavLink to="/h/feedback" className="left-bar-item">
           <Stack spacing="12px" direction="row">
-            <ExclamationTriangle color="#777777" size={30}/>
+            <ExclamationTriangle size={30} className="left-bar-item-icon"/>
             <Typography 
               component="span"
               fontSize={20}
-              color="#777777"
+              className="left-bar-item-title"
             >
               Feedback
             </Typography>
           </Stack>
-        </Link>
-        <Link href="/" underline="none">
+        </NavLink>
+        <NavLink to="/" className="left-bar-item">
           <Stack spacing="12px" direction="row">
-            <BoxArrowLeft color="#777777" size={30}/>
+            <BoxArrowLeft size={30} className="left-bar-item-icon"/>
             <Typography 
               component="span"
               fontSize={20}
-              color="#777777"
+              className="left-bar-item-title"
             >
               Sair
             </Typography>
           </Stack>
-        </Link>
+        </NavLink>
       </Stack>
     </Box>
   );
