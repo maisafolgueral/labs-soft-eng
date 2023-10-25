@@ -1,11 +1,10 @@
 import * as React from 'react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import AppBar from '@mui/material/AppBar';
+import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -16,6 +15,33 @@ import { Chat } from "react-bootstrap-icons";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+function PostHeader() {
+  return (
+    <Grid container alignItems="center">
+      <Grid item xs={6}>
+        <AvatarInfo 
+          avatarSize={35}
+          avatarFontSize={16}
+          name="Mark Alain"
+          description="Publicado em 03 set 2023"
+        />
+      </Grid>
+      <Grid item container xs={6} justifyContent="right">
+        <Stack spacing="8px" direction="row">
+          <ChatQuote color="#777777" size={23}/>
+          <Typography 
+              component="span"
+              fontSize={18}
+              color="#777777"
+          >
+              Galáxias
+          </Typography>
+        </Stack>
+      </Grid>
+    </Grid>
+  );
+}
 
 export default function FullScreenDialog() {
   const [open, setOpen] = React.useState(false);
@@ -45,9 +71,21 @@ export default function FullScreenDialog() {
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
+        sx={{
+          zIndex: 3001
+        }}
       >
-        <AppBar sx={{ position: 'relative' }}>
-          <Toolbar>
+        <Box
+          sx={{
+            width: "100%",
+            height: "68px",
+            position: "relative",
+            backgroundColor: "#fff",
+            borderBottom: "1px solid #c4c4c4",
+            padding: "17px 27px"
+          }}
+        >
+          <Stack direction="row" spacing="10px" alignItems="center">
             <IconButton
               edge="start"
               color="inherit"
@@ -57,25 +95,25 @@ export default function FullScreenDialog() {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              Publicação
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItem>
-        </List>
+          </Stack>
+        </Box>
+        <Grid container sx={{ height: "100%" }}>
+          <Grid item xs={7}>
+            
+          </Grid>
+          <Grid 
+            item 
+            xs={5}
+            sx={{
+              borderLeft: "1px solid #c4c4c4"
+            }}
+          >
+            
+          </Grid>
+        </Grid>
+        
       </Dialog>
     </div>
   );
