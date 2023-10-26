@@ -6,7 +6,6 @@ Global
     margin: 0;
     box-sizing: border-box;
 }
-
 body {
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
@@ -18,17 +17,14 @@ Left Bar
 .left-bar-item {
     text-decoration: none;
 }
-
 .left-bar-item-icon,
 .left-bar-item-title {
     color: #777777;
 }
-
 .left-bar-item.active .left-bar-item-icon,
 .left-bar-item.active .left-bar-item-title {
     color: #212121;
 }
-
 .left-bar-item:not(.active):hover .left-bar-item-icon,
 .left-bar-item:not(.active):hover .left-bar-item-title {
     color: #4D4D4D;
@@ -54,10 +50,17 @@ Slim Scroll Bar
 Reactions
 */
 .reaction {
+    width: 40px;
+}
+.reaction-icon {
     height: 28px;
     cursor: pointer;
     transition: transform .2s;
+    opacity: 1;
 }
-.reaction:hover {
-    transform: scale(1.5);
+.reaction-title {
+    color: #404040;
+}
+.reaction:hover > .reaction-icon{
+    transform: scale(1.3);
 }

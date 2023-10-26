@@ -14,7 +14,7 @@ export default function Reactions() {
             "icon": reaction1
         },
         {
-            "title": "Engraçado",
+            "title": "Rindo",
             "icon": reaction2
         },
         {
@@ -26,7 +26,7 @@ export default function Reactions() {
             "icon": reaction4
         },
         {
-            "title": "Raiva",
+            "title": "Bravo",
             "icon": reaction5
         },
     ];
@@ -38,18 +38,16 @@ export default function Reactions() {
                 spacing="2px"
                 alignItems="center"
                 justifyContent="center"
+                className="reaction"
             >
                 <img 
                     src={reaction.icon} 
-                    className="reaction"
+                    className="reaction-icon"
                 />
                 <Typography 
                     component="span"
                     fontSize={11}
-                    color="#404040"
-                    sx={{
-                        display: 'none'
-                    }}
+                    className="reaction-title"
                 >
                     { reaction.title }
                 </Typography>
