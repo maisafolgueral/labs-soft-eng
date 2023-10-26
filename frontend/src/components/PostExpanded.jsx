@@ -9,12 +9,7 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import { ChatQuote, Chat } from "react-bootstrap-icons";
-import Reaction from "@/components/Reaction";
-import reaction1 from "@/assets/icons/reactions/1.svg";
-import reaction2 from "@/assets/icons/reactions/2.svg";
-import reaction3 from "@/assets/icons/reactions/3.svg";
-import reaction4 from "@/assets/icons/reactions/4.svg";
-import reaction5 from "@/assets/icons/reactions/5.svg";
+import Reactions from "@/components/Reactions";
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
@@ -74,15 +69,9 @@ function Footer() {
   return (
     <Grid container alignItems="center">
             <Grid item xs={6}>
-                <Stack direction="row" spacing="25px">
-                    <Reaction icon={reaction1} title="Amei"/>
-                    <Reaction icon={reaction2} title="Engraçado"/>
-                    <Reaction icon={reaction3} title="Surpreso"/>
-                    <Reaction icon={reaction4} title="Triste"/>
-                    <Reaction icon={reaction5} title="Raiva"/>
-                </Stack>
+              <Reactions/>
             </Grid>
-            <Grid item xs={6} >
+            <Grid item xs={6}>
             </Grid>
         </Grid>
   );

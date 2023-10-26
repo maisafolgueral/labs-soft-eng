@@ -5,13 +5,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AvatarInfo from "@/components/AvatarInfo";
 import PostExpanded from "@/components/PostExpanded";
-import Reaction from "@/components/Reaction";
+import Reactions from "@/components/Reactions";
 import { ChatQuote, Chat } from "react-bootstrap-icons";
-import reaction1 from "@/assets/icons/reactions/1.svg";
-import reaction2 from "@/assets/icons/reactions/2.svg";
-import reaction3 from "@/assets/icons/reactions/3.svg";
-import reaction4 from "@/assets/icons/reactions/4.svg";
-import reaction5 from "@/assets/icons/reactions/5.svg";
 
 
 export default function Post() {
@@ -70,13 +65,7 @@ export default function Post() {
         
         <Grid container alignItems="center" sx={{ paddingTop: "35px" }}>
             <Grid item xs={6}>
-                <Stack direction="row" spacing="25px">
-                    <Reaction icon={reaction1} title="Amei"/>
-                    <Reaction icon={reaction2} title="Engraçado"/>
-                    <Reaction icon={reaction3} title="Surpreso"/>
-                    <Reaction icon={reaction4} title="Triste"/>
-                    <Reaction icon={reaction5} title="Raiva"/>
-                </Stack>
+                <Reactions/>
             </Grid>
             <Grid item container xs={6} justifyContent="right">
                 <Stack 
