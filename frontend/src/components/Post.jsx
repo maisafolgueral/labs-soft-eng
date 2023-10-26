@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AvatarInfo from "@/components/AvatarInfo";
-import Comment from "@/components/Comment";
+import PostExpanded from "@/components/PostExpanded";
 import Reaction from "@/components/Reaction";
 import { ChatQuote, Chat } from "react-bootstrap-icons";
 import reaction1 from "@/assets/icons/reactions/1.svg";
@@ -84,7 +84,7 @@ export default function Post() {
                     alignItems="center"
                     direction="row"
                 >
-                    <Comment/>
+                    <PostExpanded/>
                 </Stack>
             </Grid>
         </Grid>

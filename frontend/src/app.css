@@ -34,3 +34,18 @@ Left Bar
     color: #4D4D4D;
 }
 
+/*
+Slim Scroll Bar
+*/
+.slim-scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+.slim-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.slim-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+}
+.slim-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
