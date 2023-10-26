@@ -7,7 +7,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import Button from "@mui/material/Button";
+import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
@@ -59,6 +59,17 @@ function a11yProps(index) {
 }
 
 export default function EditProfile(props) {
+  const [loadingPersonal, setLoadingPersonal] = React.useState(false);
+  const [loadingSecurity, setLoadingSecurity] = React.useState(false);
+
+  const handlePersonal= () => {
+    setLoadingPersonal(true);
+  };
+
+  const handleSecurity= () => {
+    setLoadingSecurity(true);
+  };
+
   const [value, setValue] = React.useState(0);
 
   const handleChangeTab = (event, newValue) => {
@@ -172,13 +183,15 @@ export default function EditProfile(props) {
                             />
 
                             <Stack direction="row" spacing={2} justifyContent="right">
-                                <Button 
+                                <LoadingButton 
                                     variant="contained"
                                     size="medium"
                                     spacing={2}
+                                    onClick={handlePersonal}
+                                    loading={loadingPersonal}
                                 >
                                     Atualizar
-                                </Button>
+                                </LoadingButton>
                             </Stack>
                         </Stack>
                     </Grid>
@@ -259,13 +272,15 @@ export default function EditProfile(props) {
                             </FormControl>
 
                             <Stack direction="row" spacing={2} justifyContent="right">
-                                <Button 
+                                <LoadingButton 
                                     variant="contained"
                                     size="medium"
                                     spacing={2}
+                                    onClick={handleSecurity}
+                                    loading={loadingSecurity}
                                 >
                                     Atualizar
-                                </Button>
+                                </LoadingButton>
                             </Stack>
                         </Stack>
                     </Grid>

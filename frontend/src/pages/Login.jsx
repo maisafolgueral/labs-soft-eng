@@ -1,16 +1,23 @@
+import * as React from 'react';
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import LoadingButton from '@mui/lab/LoadingButton';
 import { Main } from "@/components/Styled";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
 
 
 export default function Login() {
+  const [loading, setLoading] = React.useState(false);
+
+  const handleLogin = () => {
+      setLoading(true);
+  };
+
   const navigate = useNavigate();
 
   const submitHandler = (event) => {
@@ -71,16 +78,18 @@ export default function Login() {
                 size="small"
                 type="password"
               />
-              <Button 
+              <LoadingButton 
                 fullWidth 
                 variant="contained"
                 type="submit"
                 sx={{
                   fontSize: "16px"
                 }}
+                onClick={handleLogin}
+                loading={loading}
               >
                 Acessar
-              </Button>
+              </LoadingButton>
             </Stack>
           </Box>
         </Grid>

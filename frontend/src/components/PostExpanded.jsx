@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import AvatarInfo from "@/components/AvatarInfo";
@@ -102,6 +103,12 @@ function Comment() {
 }
 
 export default function PostExpanded() {
+  const [loading, setLoading] = React.useState(false);
+
+  const handleComment= () => {
+      setLoading(true);
+  };
+  
   const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('lg');
@@ -217,15 +224,17 @@ export default function PostExpanded() {
                       size="small"                  
                     />
                 </FormControl>
-                <Button 
+                <LoadingButton 
                     variant="contained"
                     size="medium"
                     sx={{
                       height: "35px"
                     }}
+                    onClick={handleComment}
+                    loading={loading}
                   >
                     Comentar
-                  </Button>
+                  </LoadingButton>
               </Stack>
             </Box>            
           </Grid>

@@ -1,10 +1,11 @@
+import * as React from 'react';
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import LoadingButton from '@mui/lab/LoadingButton';
 import MenuItem from "@mui/material/MenuItem";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -15,6 +16,12 @@ import bannerConversation from "@/assets/images/banner-conversation.png";
 
 
 export default function Register() {
+  const [loading, setLoading] = React.useState(false);
+
+  const handleRegister= () => {
+      setLoading(true);
+  };
+
   const navigate = useNavigate();
 
   const submitHandler = (event) => {
@@ -113,16 +120,18 @@ export default function Register() {
                 size="small"
                 type="password"
               />
-              <Button 
+              <LoadingButton 
                 fullWidth 
                 variant="contained"
                 type="submit"
                 sx={{
                   fontSize: "16px"
                 }}
+                onClick={handleRegister}
+                loading={loading}
               >
                 Criar conta
-              </Button>
+              </LoadingButton>
             </Stack>
           </Box>
         </Grid>

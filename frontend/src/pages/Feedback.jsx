@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import Button from "@mui/material/Button";
+import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { 
@@ -11,6 +11,12 @@ import {
 } from "react-bootstrap-icons";
 
 export default function Feedback() {
+  const [loading, setLoading] = React.useState(false);
+
+  const handleFeedback= () => {
+        setLoading(true);
+  };
+
   return (
     <>
       <Box
@@ -60,13 +66,15 @@ export default function Feedback() {
                                 />
 
                                 <Stack direction="row" spacing={2} justifyContent="right">
-                                    <Button 
+                                    <LoadingButton 
                                         variant="contained"
                                         size="medium"
                                         spacing={2}
+                                        onClick={handleFeedback}
+                                        loading={loading}
                                     >
                                         Enviar
-                                    </Button>
+                                    </LoadingButton>
                                 </Stack>
                             </Stack>
                         </FormControl>
