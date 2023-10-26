@@ -6,12 +6,14 @@ from config import engine
 
 from models import (
     Post as PostModel,
-    Reaction as ReactionModel
+    Reaction as ReactionModel,
+    Comment as CommentModel
 )
 
 from schemas import (
     Post as PostSchema,
-    Reaction as ReactionSchema
+    Reaction as ReactionSchema,
+    Comment as CommentSchema
 )
 
 import json
