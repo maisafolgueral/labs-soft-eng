@@ -41,10 +41,7 @@ export default function Reactions() {
             >
                 <img 
                     src={reaction.icon} 
-                    style={{
-                        height: "28px",
-                        cursor: "pointer"
-                    }}
+                    className="reaction"
                 />
                 <Typography 
                     component="span"
