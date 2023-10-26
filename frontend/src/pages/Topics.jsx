@@ -1,3 +1,4 @@
+import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -7,11 +8,22 @@ import InfoBox from "@/components/InfoBox";
 import { 
     ChatQuote,
     Person,
-    PlusLg
+    PlusLg,
+    CheckLg
 } from "react-bootstrap-icons";
 
 
 function Header() {
+  const [following, setFollowing] = React.useState(false);
+
+  const handleFollow = () => {
+    setFollowing(true);
+  };
+
+  const handleUnfollow = () => {
+    setFollowing(false);
+  };
+
   return (
     <Grid container alignItems="center">
       <Grid item xs={7}>
@@ -29,6 +41,20 @@ function Header() {
         </Stack>
       </Grid>
       <Grid container item xs={5} justifyContent="right">
+        {following ?
+        <Button 
+          variant="contained"
+          size="small"
+          color="secondary"
+          startIcon={<CheckLg size={13}/>}
+          sx={{
+            fontSize: "12px"
+          }}
+          onClick={handleUnfollow}
+        >
+          Seguindo
+        </Button>
+        :
         <Button 
           variant="contained"
           size="small"
@@ -36,9 +62,11 @@ function Header() {
           sx={{
             fontSize: "12px"
           }}
+          onClick={handleFollow}
         >
           Seguir
         </Button>
+        }
       </Grid>
     </Grid>
   );

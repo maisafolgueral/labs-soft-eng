@@ -12,7 +12,6 @@ import {
 } from "react-bootstrap-icons";
 
 
-
 export default function LeftBar() {
   return (
     <Box
