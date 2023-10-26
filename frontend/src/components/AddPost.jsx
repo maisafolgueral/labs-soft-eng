@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import LoadingButton from '@mui/lab/LoadingButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -34,9 +34,14 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
 
 export default function AddPost() {
     const [topic, setTopic] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
     const handleChange = (event) => {
         setTopic(event.target.value);
+    };
+
+    const handlePublish = () => {
+        setLoading(true);
     };
 
     return (
@@ -86,7 +91,7 @@ export default function AddPost() {
                         <MenuItem value={30}>Medicina</MenuItem>
                     </Select>
                 </FormControl>
-                <Button 
+                <LoadingButton 
                     variant="contained"
                     size="small"
                     sx={{
@@ -94,9 +99,11 @@ export default function AddPost() {
                         height: "36px",
                         fontSize: "15px"
                     }}
+                    onClick={handlePublish}
+                    loading={loading}
                 >
                     Publicar
-                </Button>
+                </LoadingButton>
             </Stack>
         </Box>                                                
     );
