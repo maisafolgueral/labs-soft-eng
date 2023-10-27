@@ -72,6 +72,7 @@ export default function Feedback() {
                                         spacing={2}
                                         onClick={handleFeedback}
                                         loading={loading}
+                                        disabled
                                     >
                                         Enviar
                                     </LoadingButton>

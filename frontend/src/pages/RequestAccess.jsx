@@ -80,6 +80,7 @@ export default function RequestAccess() {
                 }}
                 onClick={handleRequestAccess}
                 loading={loading}
+                disabled
               >
                 Enviar
               </LoadingButton>

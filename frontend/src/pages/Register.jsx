@@ -182,6 +182,7 @@ export default function Register() {
                 }}
                 onClick={handleRegister}
                 loading={loading}
+                disabled
               >
                 Criar conta
               </LoadingButton>

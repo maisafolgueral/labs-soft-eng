@@ -87,6 +87,7 @@ export default function Login() {
                 }}
                 onClick={handleLogin}
                 loading={loading}
+                disabled
               >
                 Acessar
               </LoadingButton>

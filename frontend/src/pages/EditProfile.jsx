@@ -191,6 +191,7 @@ export default function EditProfile(props) {
                                     spacing={2}
                                     onClick={handlePersonal}
                                     loading={loadingPersonal}
+                                    disabled
                                 >
                                     Atualizar
                                 </LoadingButton>
@@ -277,6 +278,7 @@ export default function EditProfile(props) {
                                     spacing={2}
                                     onClick={handleSecurity}
                                     loading={loadingSecurity}
+                                    disabled
                                 >
                                     Atualizar
                                 </LoadingButton>

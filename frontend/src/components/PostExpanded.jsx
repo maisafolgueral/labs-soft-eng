@@ -232,6 +232,7 @@ export default function PostExpanded() {
                     }}
                     onClick={handleComment}
                     loading={loading}
+                    disabled
                   >
                     Comentar
                   </LoadingButton>
