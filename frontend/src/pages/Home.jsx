@@ -37,7 +37,7 @@ export default function Home() {
             <Button 
               variant="text"
               size="large"
-              href="/Login"
+              href="/login"
               style={{
                 color: "#C4C4C4",
                 fontSize: "16px"

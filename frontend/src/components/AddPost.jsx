@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
@@ -9,28 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-
-const CustomTextField = styled(TextField)(({ theme }) => ({
-    "& .MuiFormLabel-root": {
-        fontSize: "20px",
-        color: "#777777"
-    },
-    "& .MuiInputBase-input, .MuiInputBase-root": {
-        backgroundColor: "white"
-    },
-    "& .css-85zwa9-MuiInputBase-root-MuiFilledInput-root:before": {
-        borderBottom: "1px solid #c4c4c4"
-    },
-    "& .css-85zwa9-MuiInputBase-root-MuiFilledInput-root:hover": {
-        backgroundColor: "white"
-    },
-    "& .css-85zwa9-MuiInputBase-root-MuiFilledInput-root.Mui-focused": {
-        backgroundColor: "white"
-    },
-    "& .MuiFormLabel-root.Mui-focused": {
-        color: "#1976d2"
-    },
-}));
 
 export default function AddPost() {
     const [topic, setTopic] = React.useState('');
@@ -54,20 +31,27 @@ export default function AddPost() {
                 borderRadius: "5px"
             }}
         >
-            <CustomTextField
-                label="Escreva sobre alguma coisa..."
-                multiline
-                variant="filled"
-                rows={4}
-                inputProps={{
-                    style: {
-                        height: "107px"
-                    }
-                }}
+            <Box
                 sx={{
-                    width: "100%"
+                    
+                    padding: "12px 12px 0 12px"
                 }}
-            />
+            >
+                <Stack spacing="12px">
+                    <TextField 
+                        label="Título" 
+                        variant="outlined" 
+                        size="small"
+                    />
+                    <TextField 
+                        label="Escreva sobre alguma coisa..." 
+                        multiline
+                        rows={5}
+                        variant="outlined" 
+                        size="small"
+                    />
+                </Stack>
+            </Box>
             <Stack 
                 direction="row" 
                 spacing="12px" 
@@ -101,6 +85,7 @@ export default function AddPost() {
                     }}
                     onClick={handlePublish}
                     loading={loading}
+                    disabled
                 >
                     Publicar
                 </LoadingButton>
