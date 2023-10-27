@@ -8,11 +8,12 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from '@mui/lab/LoadingButton';
 import MenuItem from "@mui/material/MenuItem";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Main } from "@/components/Styled";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
+import "dayjs/locale/pt";
 
 
 export default function Register() {
@@ -81,15 +82,14 @@ export default function Register() {
                 variant="outlined"
                 size="small"
               />
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker 
-                  fullWidth  
-                  label="Aniversário" 
-                  variant="outlined"
-                  slotProps={{ 
-                    textField:{ size: "small" }
-                  }}
-                />
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt">
+                  <DatePicker 
+                      id="birthday" 
+                      label="Aniversário" 
+                      variant="outlined" 
+                      format="DD/MM/YYYY"
+                      slotProps={{ textField: { size: 'small' } }}
+                  />
               </LocalizationProvider>
               <TextField
                 // value={value}

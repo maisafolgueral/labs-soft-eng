@@ -24,6 +24,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { 
     PencilFill
 } from "react-bootstrap-icons";
+import "dayjs/locale/pt";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -153,11 +154,12 @@ export default function EditProfile(props) {
                                 size="small"
                             />
 
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt">
                                 <DatePicker 
                                     id="birthday" 
                                     label="Aniversário" 
                                     variant="outlined" 
+                                    format="DD/MM/YYYY"
                                     slotProps={{ textField: { size: 'small' } }}
                                     defaultValue={dayjs('2022-04-25')}
                                 />
