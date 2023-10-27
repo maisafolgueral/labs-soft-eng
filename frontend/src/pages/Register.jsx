@@ -14,9 +14,28 @@ import { Main } from "@/components/Styled";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
 import "dayjs/locale/pt";
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import IconButton from '@mui/material/IconButton';
 
 
 export default function Register() {
+  const [showNewPassword, setShowNewPassword] = React.useState(false);
+
+  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  
   const [loading, setLoading] = React.useState(false);
 
   const handleRegister= () => {
@@ -113,13 +132,47 @@ export default function Register() {
                 variant="outlined"
                 size="small"
               />
-              <TextField 
-                fullWidth  
-                label="Senha" 
-                variant="outlined"
-                size="small"
-                type="password"
-              />
+              <FormControl variant="outlined" size="small">
+                  <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
+                  <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showNewPassword ? 'text' : 'password'}
+                      endAdornment={
+                      <InputAdornment position="end" >
+                          <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowNewPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          >
+                          {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                      </InputAdornment>
+                      }
+                      label="Senha"
+                  />
+              </FormControl>
+
+              <FormControl variant="outlined" size="small">
+                  <InputLabel htmlFor="outlined-adornment-password">Repita a senha</InputLabel>
+                  <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? 'text' : 'password'}
+                      endAdornment={
+                      <InputAdornment position="end" >
+                          <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                      </InputAdornment>
+                      }
+                      label="Repita a senha"
+                  />
+              </FormControl>
               <LoadingButton 
                 fullWidth 
                 variant="contained"

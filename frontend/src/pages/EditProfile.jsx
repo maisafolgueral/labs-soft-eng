@@ -204,7 +204,7 @@ export default function EditProfile(props) {
                 <Grid container alignItems="center">
                     <Grid item xs={6}>
                         <Stack spacing="28px">
-                            <FormControl variant="outlined">
+                            <FormControl variant="outlined" size="small">
                                 <InputLabel htmlFor="outlined-adornment-password">Senha atual</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
@@ -223,11 +223,10 @@ export default function EditProfile(props) {
                                     }
                                     label="Senha atual"
                                     defaultValue="senhaatual" 
-                                    size="small"
                                 />
                             </FormControl>
 
-                            <FormControl variant="outlined">
+                            <FormControl variant="outlined" size="small">
                                 <InputLabel htmlFor="outlined-adornment-password">Nova senha</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
@@ -246,11 +245,10 @@ export default function EditProfile(props) {
                                     }
                                     label="Nova senha"
                                     defaultValue="novasenha" 
-                                    size="small"
                                 />
                             </FormControl>
 
-                            <FormControl variant="outlined">
+                            <FormControl variant="outlined" size="small">
                                 <InputLabel htmlFor="outlined-adornment-password">Repita a nova senha</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
@@ -269,7 +267,6 @@ export default function EditProfile(props) {
                                     }
                                     label="Repita a nova senha"
                                     defaultValue="novasenha" 
-                                    size="small"
                                 />
                             </FormControl>
 
