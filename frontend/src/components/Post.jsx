@@ -28,6 +28,7 @@ export default function Post() {
                     avatarFontSize={16}
                     name="Mark Alain"
                     description="Publicado em 03 set 2023"
+                    href="/h/profile/:id"
                 />
             </Grid>
             <Grid item container xs={6} justifyContent="right">

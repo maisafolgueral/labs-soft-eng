@@ -21,6 +21,7 @@ function InfoBoxHeader() {
           avatarFontSize={18}
           name="Marie Canon"
           description="@mariecanon"
+          href="/h/profile/:id"
         />
       </Grid>
       <Grid container item xs={5} justifyContent="right">
