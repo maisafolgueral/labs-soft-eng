@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import Post from '@/components/Post';
 import Typography from "@mui/material/Typography";
 import InfoBox from '@/components/InfoBox';
-import AvatarInfo from '@/components/AvatarInfo';
 import ListDetail from '@/components/ListDetail';
 import { 
     ChatQuote,
@@ -46,14 +45,7 @@ function Header() {
                 fontSize: "17px"
               }}
           >
-            <Link href="/h/topics/:id"
-              sx={{
-                  textDecoration: "none",
-                  color: "inherit"
-              }}
-            >
-              Galáxias
-            </Link>
+            Galáxias
           </Typography>
         </Stack>
       </Grid>
@@ -108,7 +100,7 @@ export default function OneTopic() {
       <Grid container>
         <Grid item xs={8}>
           <Stack spacing="28px">
-            <AddPost/>
+            <AddPost insideTopic/>
             {Array.from(Array(10)).map((_, index) => (
               <Post/>
             ))}

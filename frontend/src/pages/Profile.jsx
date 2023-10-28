@@ -14,6 +14,7 @@ import {
     CheckLg
 } from "react-bootstrap-icons";
 
+
 function InfoBoxAction() {
   const [following, setFollowing] = React.useState(false);
 

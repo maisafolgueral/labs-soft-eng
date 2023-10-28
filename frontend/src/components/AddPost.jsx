@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-export default function AddPost() {
+export default function AddPost({ insideTopic }) {
     const [topic, setTopic] = React.useState('');
     const [loading, setLoading] = React.useState(false);
 
@@ -60,6 +60,7 @@ export default function AddPost() {
                     margin: "12px"
                 }}
             >
+                {!insideTopic &&
                 <FormControl sx={{ width: "110px" }} size="small">
                     <InputLabel sx={{ fontSize: "15px" }}>Tópico</InputLabel>
                     <Select
@@ -75,6 +76,7 @@ export default function AddPost() {
                         <MenuItem value={30}>Medicina</MenuItem>
                     </Select>
                 </FormControl>
+                }
                 <LoadingButton 
                     variant="contained"
                     size="small"
