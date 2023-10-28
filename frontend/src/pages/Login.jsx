@@ -27,85 +27,86 @@ export default function Login() {
 
   return (
     <Main>
-      <Grid 
-        container  
+      <Box
         sx={{ 
-          minHeight: "100%"
+          width: "500px",
+          backgroundColor: "#fff",
+          padding: "60px",
+          boxSizing: "border-box"
         }}
       >
-        <Grid 
-          item 
-          xs={4}
-          sx={{ 
-            backgroundColor: "#fff",
-            padding: "60px"
+        <img 
+          src={isologo}
+          style={{
+            width: 164.4
+          }}
+        />
+        <Typography
+          variant="h5"
+          component="h1"
+          sx={{
+            fontSize: "28px",
+            paddingTop: "125px",
+            paddingBottom: "50px"
           }}
         >
-          <img 
-            src={isologo}
-            style={{
-              width: 164.4
-            }}
-          />
-          <Typography
-            variant="h5"
-            component="h1"
-            sx={{
-              fontSize: "28px",
-              paddingTop: "125px",
-              paddingBottom: "50px"
-            }}
-          >
-            Acessar conta
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            onSubmit={submitHandler}
-          >
-            <Stack direction="column" spacing={2}>
-              <TextField 
-                fullWidth  
-                label="E-mail" 
-                variant="outlined"
-                size="small"
-              />
-              <TextField 
-                fullWidth  
-                label="Senha" 
-                variant="outlined"
-                size="small"
-                type="password"
-              />
-              <LoadingButton 
-                fullWidth 
-                variant="contained"
-                type="submit"
-                sx={{
-                  fontSize: "16px"
-                }}
-                onClick={handleLogin}
-                loading={loading}
-                disabled
-              >
-                Acessar
-              </LoadingButton>
-            </Stack>
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          <Box
-            component="img"
-            sx={{
-              width: "100%",
-              height: "100vh",
-              objectFit: "cover"
-            }}
-            src={bannerConversation}
-          />
-        </Grid>
-      </Grid>
+          Acessar conta
+        </Typography>
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={submitHandler}
+        >
+          <Stack direction="column" spacing={2}>
+            <TextField 
+              fullWidth  
+              label="E-mail" 
+              variant="outlined"
+              size="small"
+            />
+            <TextField 
+              fullWidth  
+              label="Senha" 
+              variant="outlined"
+              size="small"
+              type="password"
+            />
+            <LoadingButton 
+              fullWidth 
+              variant="contained"
+              type="submit"
+              sx={{
+                fontSize: "16px"
+              }}
+              onClick={handleLogin}
+              loading={loading}
+              disabled
+            >
+              Acessar
+            </LoadingButton>
+          </Stack>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: "500px"
+        }}
+      >
+        <Box
+          component="img"
+          sx={{
+            width: "100%",
+            height: "100vh",
+            objectFit: "cover",
+          }}
+          src={bannerConversation}
+        />
+      </Box>
     </Main>
   );
 }
