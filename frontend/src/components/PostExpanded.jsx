@@ -16,7 +16,7 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 
 
-function Header() {
+function Header({ insideTopic }) {
   return (
     <Grid container alignItems="center">
       <Grid item xs={6}>
@@ -29,6 +29,7 @@ function Header() {
         />
       </Grid>
       <Grid item container xs={6} justifyContent="right">
+        {!insideTopic &&
         <Stack spacing="8px" direction="row">
           <ChatQuote color="#777777" size={23}/>
           <Typography 
@@ -39,6 +40,7 @@ function Header() {
               Galáxias
           </Typography>
         </Stack>
+        }
       </Grid>
     </Grid>
   );
@@ -104,7 +106,7 @@ function Comment() {
   );
 }
 
-export default function PostExpanded() {
+export default function PostExpanded({ insideTopic }) {
   const [loading, setLoading] = React.useState(false);
 
   const handleComment= () => {
@@ -175,7 +177,7 @@ export default function PostExpanded() {
             }}
           >
             <Stack spacing="40px">
-              <Header/>
+              <Header insideTopic={insideTopic ? insideTopic : undefined}/>
               <Content/>
               <Footer/>
             </Stack>

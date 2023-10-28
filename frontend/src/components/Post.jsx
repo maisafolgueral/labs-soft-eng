@@ -10,7 +10,7 @@ import { ChatQuote, Chat } from "react-bootstrap-icons";
 import Link from "@mui/material/Link";
 
 
-export default function Post() {
+export default function Post({ insideTopic }) {
   return (
     <Box
         sx={{
@@ -33,6 +33,7 @@ export default function Post() {
                 />
             </Grid>
             <Grid item container xs={6} justifyContent="right">
+                {!insideTopic && 
                 <Stack spacing="8px" direction="row">
                     <Link href="/h/topics/:id"
                         sx={{
@@ -41,6 +42,7 @@ export default function Post() {
                     >
                         <ChatQuote color="#777777" size={23}/>
                     </Link>
+                        
                         <Typography 
                             component="span"
                             fontSize={18}
@@ -55,8 +57,8 @@ export default function Post() {
                                 Galáxias
                             </Link>
                         </Typography>
-
                 </Stack>
+                }
             </Grid>
         </Grid>
 
@@ -89,7 +91,7 @@ export default function Post() {
                     alignItems="center"
                     direction="row"
                 >
-                    <PostExpanded/>
+                    <PostExpanded insideTopic={insideTopic ? insideTopic : undefined}/>
                 </Stack>
             </Grid>
         </Grid>
