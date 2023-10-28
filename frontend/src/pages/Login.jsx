@@ -29,7 +29,7 @@ export default function Login() {
     <Main>
       <Box
         sx={{ 
-          width: "500px",
+          width: "480px",
           backgroundColor: "#fff",
           padding: "60px",
           boxSizing: "border-box"
@@ -94,7 +94,7 @@ export default function Login() {
           top: 0,
           right: 0,
           bottom: 0,
-          left: "500px"
+          left: "480px"
         }}
       >
         <Box

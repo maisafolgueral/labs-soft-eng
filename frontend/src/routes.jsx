@@ -13,7 +13,6 @@ import Topics from '@/pages/Topics';
 import OneTopic from '@/pages/OneTopic';
 import Profile from '@/pages/Profile';
 import EditProfile from '@/pages/EditProfile';
-import AnotherProfile from '@/pages/AnotherProfile';
 import Feedback from '@/pages/Feedback';
 
 export default function AppRoutes() {
@@ -28,9 +27,8 @@ export default function AppRoutes() {
                     <Route path="timeline" element={<Timeline />}/>
                     <Route path="topics" element={<Topics />}/>
                     <Route path="topics/:id" element={<OneTopic />}/>
-                    <Route path="profile" element={<Profile />}/>
+                    <Route path="profile/:id" element={<Profile />}/>
                     <Route path="profile/edit" element={<EditProfile />}/>
-                    <Route path="profile/:id" element={<AnotherProfile />}/>
                     <Route path="feedback" element={<Feedback />}/>
                 </Route>
             </Routes>
