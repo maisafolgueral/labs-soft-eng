@@ -49,14 +49,20 @@ Slim Scroll Bar
 /*
 Reactions
 */
+.reactions.reacted .reaction:not(.active) {
+    opacity: 0.5;
+}
 .reaction {
     width: 40px;
+    opacity: 1;
+}
+.reaction.active {
+    opacity: 1;
 }
 .reaction-icon {
     height: 28px;
     cursor: pointer;
     transition: transform .2s;
-    opacity: 1;
 }
 .reaction-title {
     color: #404040;

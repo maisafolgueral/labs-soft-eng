@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import reaction1 from "@/assets/icons/reactions/1.svg";
@@ -31,14 +32,30 @@ export default function Reactions() {
         },
     ];
 
+    const [activeReaction, setActiveReaction] = useState(null);
+
+    const handleReactionClick = (index) => {
+        if(activeReaction === index) {
+            setActiveReaction(null);
+        } else {
+            setActiveReaction(index);
+        }
+    };
+
     return (
-        <Stack direction="row" spacing="25px">
+        <Stack 
+            direction="row" 
+            spacing="25px" 
+            className={`reactions${activeReaction !== null ? ' reacted' : ''}`}
+        >
             {Array.from(reactions).map((reaction, index) => (
             <Stack 
+                key={index}
                 spacing="2px"
                 alignItems="center"
                 justifyContent="center"
-                className="reaction"
+                className={`reaction${activeReaction === index ? ' active' : ''}`}
+                onClick={() => handleReactionClick(index)}
             >
                 <img 
                     src={reaction.icon} 
