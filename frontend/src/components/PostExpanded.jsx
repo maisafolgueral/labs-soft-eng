@@ -194,10 +194,11 @@ export default function PostExpanded({ insideTopic }) {
               className="slim-scrollbar"
               spacing="27px"
               sx={{
-                marginBottom: "140px", 
-                height:"291px",
-                overflowY: "auto",
+                position: "absolute",
+                top: 0,
+                bottom: "140px",
                 padding: "27px",
+                overflowY: "auto"
               }}
             >
                 {Array.from(Array(10)).map((_, index) => (

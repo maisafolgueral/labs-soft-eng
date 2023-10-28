@@ -13,7 +13,6 @@ import {
     CheckLg
 } from "react-bootstrap-icons";
 import AddPost from '@/components/AddPost';
-import Link from "@mui/material/Link";
 
 
 function Header() {
@@ -31,13 +30,7 @@ function Header() {
     <Grid container alignItems="center">
       <Grid item xs={7}>
         <Stack spacing="8px" direction="row">
-          <Link href="/h/topics/:id"
-            sx={{
-                textDecoration: "none"
-            }}
-          >
-            <ChatQuote color="#404040" size={23}/>
-          </Link>
+          <ChatQuote color="#404040" size={23}/>
           <Typography 
               component="span"
               color="#404040"
