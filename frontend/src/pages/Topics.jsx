@@ -11,6 +11,7 @@ import {
     PlusLg,
     CheckLg
 } from "react-bootstrap-icons";
+import Link from "@mui/material/Link";
 
 
 function Header() {
@@ -28,7 +29,13 @@ function Header() {
     <Grid container alignItems="center">
       <Grid item xs={7}>
         <Stack spacing="8px" direction="row">
-          <ChatQuote color="#404040" size={23}/>
+          <Link href="/h/topics/:id"
+            sx={{
+                textDecoration: "none"
+            }}
+          >
+            <ChatQuote color="#404040" size={23}/>
+          </Link>
           <Typography 
               component="span"
               color="#404040"
@@ -36,7 +43,14 @@ function Header() {
                 fontSize: "17px"
               }}
           >
+            <Link href="/h/topics/:id"
+              sx={{
+                  textDecoration: "none",
+                  color: "inherit"
+              }}
+            >
               Galáxias
+            </Link>
           </Typography>
         </Stack>
       </Grid>

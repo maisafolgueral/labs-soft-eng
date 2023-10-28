@@ -45,13 +45,21 @@ export default function TopBar() {
               name="Marie Canon"
               size={34}
               fontSize={15}
+              href="/h/profile/:id"
             />
             <Typography 
               component="span"
               fontSize={18}
               color="#404040"
             >
-              Marie
+              <Link href="/h/profile/:id"
+                sx={{
+                    textDecoration: "none",
+                    color: "inherit"
+                }}
+              >
+                Marie
+              </Link>
             </Typography>
           </Stack>
         </Grid>

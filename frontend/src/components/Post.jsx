@@ -7,6 +7,7 @@ import AvatarInfo from "@/components/AvatarInfo";
 import PostExpanded from "@/components/PostExpanded";
 import Reactions from "@/components/Reactions";
 import { ChatQuote, Chat } from "react-bootstrap-icons";
+import Link from "@mui/material/Link";
 
 
 export default function Post() {
@@ -33,14 +34,28 @@ export default function Post() {
             </Grid>
             <Grid item container xs={6} justifyContent="right">
                 <Stack spacing="8px" direction="row">
-                    <ChatQuote color="#777777" size={23}/>
-                    <Typography 
-                        component="span"
-                        fontSize={18}
-                        color="#777777"
+                    <Link href="/h/topics/:id"
+                        sx={{
+                            textDecoration: "none"
+                        }}
                     >
-                        Galáxias
-                    </Typography>
+                        <ChatQuote color="#777777" size={23}/>
+                    </Link>
+                        <Typography 
+                            component="span"
+                            fontSize={18}
+                            color="#777777"
+                        >
+                            <Link href="/h/topics/:id"
+                                sx={{
+                                    textDecoration: "none",
+                                    color: "inherit"
+                                }}
+                            >
+                                Galáxias
+                            </Link>
+                        </Typography>
+
                 </Stack>
             </Grid>
         </Grid>
