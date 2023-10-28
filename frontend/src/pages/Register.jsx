@@ -51,156 +51,157 @@ export default function Register() {
 
   return (
     <Main>
-      <Grid 
-        container  
+      <Box
         sx={{ 
-          minHeight: "100%"
+          width: "500px",
+          backgroundColor: "#fff",
+          padding: "60px",
+          boxSizing: "border-box"
         }}
       >
-        <Grid 
-          item 
-          xs={4}
-          sx={{ 
-            backgroundColor: "#fff",
-            padding: "60px"
+        <img 
+          src={isologo}
+          style={{
+            width: 164.4
+          }}
+        />
+        <Typography
+          variant="h5"
+          component="h1"
+          sx={{
+            fontSize: "28px",
+            paddingTop: "125px",
+            paddingBottom: "50px"
           }}
         >
-          <img 
-            src={isologo}
-            style={{
-              width: 164.4
-            }}
-          />
-          <Typography
-            variant="h5"
-            component="h1"
-            sx={{
-              fontSize: "28px",
-              paddingTop: "125px",
-              paddingBottom: "50px"
-            }}
-          >
-            Criar Conta
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            onSubmit={submitHandler}
-          >
-            <Stack direction="column" spacing={2}>
-              <TextField 
-                fullWidth  
-                label="Nome" 
-                variant="outlined"
-                size="small"
-              />
-              <TextField 
-                fullWidth  
-                label="Sobrenome" 
-                variant="outlined"
-                size="small"
-              />
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt">
-                  <DatePicker 
-                      id="birthday" 
-                      label="Aniversário" 
-                      variant="outlined" 
-                      format="DD/MM/YYYY"
-                      slotProps={{ textField: { size: 'small' } }}
-                  />
-              </LocalizationProvider>
-              <TextField
-                // value={value}
-                // onChange={(e) => setValue(e.target.value)}
-                fullWidth 
-                select 
-                label="Sexo" 
-                variant="outlined"
-                size="small"
-              >
-                <MenuItem key={1} value="M">
-                  Masculino
-                </MenuItem>
-                <MenuItem key={2} value="F">
-                  Feminino
-                </MenuItem>
-              </TextField>
-              <TextField 
-                fullWidth  
-                label="E-mail" 
-                variant="outlined"
-                size="small"
-              />
-              <FormControl variant="outlined" size="small">
-                  <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
-                  <OutlinedInput
-                      id="outlined-adornment-password"
-                      type={showNewPassword ? 'text' : 'password'}
-                      endAdornment={
-                      <InputAdornment position="end" >
-                          <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowNewPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                          >
-                          {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                      </InputAdornment>
-                      }
-                      label="Senha"
-                  />
-              </FormControl>
+          Criar Conta
+        </Typography>
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={submitHandler}
+        >
+          <Stack direction="column" spacing={2}>
+            <TextField 
+              fullWidth  
+              label="Nome" 
+              variant="outlined"
+              size="small"
+            />
+            <TextField 
+              fullWidth  
+              label="Sobrenome" 
+              variant="outlined"
+              size="small"
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt">
+                <DatePicker 
+                    id="birthday" 
+                    label="Aniversário" 
+                    variant="outlined" 
+                    format="DD/MM/YYYY"
+                    slotProps={{ textField: { size: 'small' } }}
+                />
+            </LocalizationProvider>
+            <TextField
+              // value={value}
+              // onChange={(e) => setValue(e.target.value)}
+              fullWidth 
+              select 
+              label="Sexo" 
+              variant="outlined"
+              size="small"
+            >
+              <MenuItem key={1} value="M">
+                Masculino
+              </MenuItem>
+              <MenuItem key={2} value="F">
+                Feminino
+              </MenuItem>
+            </TextField>
+            <TextField 
+              fullWidth  
+              label="E-mail" 
+              variant="outlined"
+              size="small"
+            />
+            <FormControl variant="outlined" size="small">
+                <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
+                <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showNewPassword ? 'text' : 'password'}
+                    endAdornment={
+                    <InputAdornment position="end" >
+                        <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowNewPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        >
+                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
+                    }
+                    label="Senha"
+                />
+            </FormControl>
 
-              <FormControl variant="outlined" size="small">
-                  <InputLabel htmlFor="outlined-adornment-password">Repita a senha</InputLabel>
-                  <OutlinedInput
-                      id="outlined-adornment-password"
-                      type={showPassword ? 'text' : 'password'}
-                      endAdornment={
-                      <InputAdornment position="end" >
-                          <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                          >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                      </InputAdornment>
-                      }
-                      label="Repita a senha"
-                  />
-              </FormControl>
-              <LoadingButton 
-                fullWidth 
-                variant="contained"
-                type="submit"
-                sx={{
-                  fontSize: "16px"
-                }}
-                onClick={handleRegister}
-                loading={loading}
-                disabled
-              >
-                Criar conta
-              </LoadingButton>
-            </Stack>
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          <Box
-            component="img"
-            sx={{
-              width: "100%",
-              height: "100vh",
-              objectFit: "cover"
-            }}
-            src={bannerConversation}
-          />
-        </Grid>
-      </Grid>
+            <FormControl variant="outlined" size="small">
+                <InputLabel htmlFor="outlined-adornment-password">Repita a senha</InputLabel>
+                <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    endAdornment={
+                    <InputAdornment position="end" >
+                        <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
+                    }
+                    label="Repita a senha"
+                />
+            </FormControl>
+            <LoadingButton 
+              fullWidth 
+              variant="contained"
+              type="submit"
+              sx={{
+                fontSize: "16px"
+              }}
+              onClick={handleRegister}
+              loading={loading}
+              disabled
+            >
+              Criar conta
+            </LoadingButton>
+          </Stack>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: "500px"
+        }}
+      >
+        <Box
+          component="img"
+          sx={{
+            width: "100%",
+            height: "100vh",
+            objectFit: "cover",
+          }}
+          src={bannerConversation}
+        />
+      </Box>
     </Main>
   );
 }
