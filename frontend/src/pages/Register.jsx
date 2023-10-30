@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -24,13 +24,26 @@ import IconButton from '@mui/material/IconButton';
 
 
 export default function Register() {
-  const [showNewPassword, setShowNewPassword] = React.useState(false);
+  const [passwords, setPasswords] = useState({
+    password1: '',
+    password2: '',
+    password1Visible: false,
+    password2Visible: false,
+});
 
-  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
+const handlePasswordChange = (field) => (event) => {
+    setPasswords({
+    ...passwords,
+    [field]: event.target.value,
+    });
+};
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+const togglePasswordVisibility = (field) => () => {
+    setPasswords({
+    ...passwords,
+    [field]: !passwords[field],
+    });
+};
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -100,7 +113,7 @@ export default function Register() {
                     id="birthday" 
                     label="Aniversário" 
                     variant="outlined" 
-                    format="DD/MM/YYYY"
+                    format="DD/MM/AAAA"
                     slotProps={{ textField: { size: 'small' } }}
                 />
             </LocalizationProvider>
@@ -130,20 +143,22 @@ export default function Register() {
                 <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
-                    type={showNewPassword ? 'text' : 'password'}
+                    label="Senha"
+                    type={passwords.password1Visible ? 'text' : 'password'}
+                    value={passwords.password1}
+                    onChange={handlePasswordChange('password1')}
                     endAdornment={
                     <InputAdornment position="end" >
                         <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowNewPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                        >
-                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                          aria-label="toggle password visibility"
+                          onClick={togglePasswordVisibility('password1Visible')}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          >
+                          {passwords.password1Visible ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                     </InputAdornment>
                     }
-                    label="Senha"
                 />
             </FormControl>
 
@@ -151,20 +166,22 @@ export default function Register() {
                 <InputLabel htmlFor="outlined-adornment-password">Repita a senha</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
+                    label="Repita a senha"
+                    type={passwords.password2Visible ? 'text' : 'password'}
+                    value={passwords.password2}
+                    onChange={handlePasswordChange('password2')}
                     endAdornment={
                     <InputAdornment position="end" >
                         <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                        >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                          aria-label="toggle password visibility"
+                          onClick={togglePasswordVisibility('password2Visible')}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          >
+                          {passwords.password2Visible ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                     </InputAdornment>
                     }
-                    label="Repita a senha"
                 />
             </FormControl>
             <LoadingButton 

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import Box from "@mui/material/Box";
@@ -60,6 +61,29 @@ function a11yProps(index) {
 }
 
 export default function EditProfile(props) {
+    const [passwords, setPasswords] = useState({
+        password1: 'senhaatual',
+        password2: 'novasenha',
+        password3: 'novasenha',
+        password1Visible: false,
+        password2Visible: false,
+        password3Visible: false,
+    });
+    
+    const handlePasswordChange = (field) => (event) => {
+        setPasswords({
+        ...passwords,
+        [field]: event.target.value,
+        });
+    };
+    
+    const togglePasswordVisibility = (field) => () => {
+        setPasswords({
+        ...passwords,
+        [field]: !passwords[field],
+        });
+    };
+
   const [loadingPersonal, setLoadingPersonal] = React.useState(false);
   const [loadingSecurity, setLoadingSecurity] = React.useState(false);
 
@@ -76,18 +100,6 @@ export default function EditProfile(props) {
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
-
-  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
-
-  const handleClickShowCurrentPassword = () => setShowCurrentPassword((show) => !show);
-
-  const [showNewPassword, setShowNewPassword] = React.useState(false);
-
-  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
-
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -159,7 +171,7 @@ export default function EditProfile(props) {
                                     id="birthday" 
                                     label="Aniversário" 
                                     variant="outlined" 
-                                    format="DD/MM/YYYY"
+                                    format="DD/MM/AAAA"
                                     slotProps={{ textField: { size: 'small' } }}
                                     defaultValue={dayjs('2022-04-25')}
                                 />
@@ -209,43 +221,45 @@ export default function EditProfile(props) {
                                 <InputLabel htmlFor="outlined-adornment-password">Senha atual</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
-                                    type={showCurrentPassword ? 'text' : 'password'}
+                                    label="Senha atual"
+                                    type={passwords.password1Visible ? 'text' : 'password'}
+                                    value={passwords.password1}
+                                    onChange={handlePasswordChange('password1')}
                                     endAdornment={
                                     <InputAdornment position="end" >
                                         <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={handleClickShowCurrentPassword}
+                                        onClick={togglePasswordVisibility('password1Visible')}
                                         onMouseDown={handleMouseDownPassword}
                                         edge="end"
                                         >
-                                        {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+                                        {passwords.password1Visible ? <Visibility /> : <VisibilityOff />}
                                         </IconButton>
                                     </InputAdornment>
                                     }
-                                    label="Senha atual"
-                                    defaultValue="senhaatual" 
                                 />
                             </FormControl>
 
                             <FormControl variant="outlined" size="small">
                                 <InputLabel htmlFor="outlined-adornment-password">Nova senha</InputLabel>
                                 <OutlinedInput
-                                    id="outlined-adornment-password"
-                                    type={showNewPassword ? 'text' : 'password'}
+                                     id="outlined-adornment-password"
+                                     label="Nova senha"
+                                     type={passwords.password2Visible ? 'text' : 'password'}
+                                     value={passwords.password2}
+                                     onChange={handlePasswordChange('password2')}
                                     endAdornment={
                                     <InputAdornment position="end" >
                                         <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={handleClickShowNewPassword}
+                                        onClick={togglePasswordVisibility('password2Visible')}
                                         onMouseDown={handleMouseDownPassword}
                                         edge="end"
                                         >
-                                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                        {passwords.password2Visible ? <Visibility /> : <VisibilityOff />}
                                         </IconButton>
                                     </InputAdornment>
                                     }
-                                    label="Nova senha"
-                                    defaultValue="novasenha" 
                                 />
                             </FormControl>
 
@@ -253,21 +267,22 @@ export default function EditProfile(props) {
                                 <InputLabel htmlFor="outlined-adornment-password">Repita a nova senha</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
-                                    type={showPassword ? 'text' : 'password'}
+                                    label="Repita a nova senha"
+                                    type={passwords.password3Visible ? 'text' : 'password'}
+                                    value={passwords.password3}
+                                    onChange={handlePasswordChange('password3')}
                                     endAdornment={
                                     <InputAdornment position="end" >
                                         <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
+                                        onClick={togglePasswordVisibility('password3Visible')}
                                         onMouseDown={handleMouseDownPassword}
                                         edge="end"
                                         >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {passwords.password3Visible ? <Visibility /> : <VisibilityOff />}
                                         </IconButton>
                                     </InputAdornment>
                                     }
-                                    label="Repita a nova senha"
-                                    defaultValue="novasenha" 
                                 />
                             </FormControl>
 
