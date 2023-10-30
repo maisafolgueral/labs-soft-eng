@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { Main } from "@/components/Styled";
+import { Main } from "@/components/Main";
 import { Stack } from "@mui/material";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerHome from "@/assets/images/banner-home.png";
