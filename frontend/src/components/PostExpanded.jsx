@@ -131,7 +131,12 @@ export default function PostExpanded({ insideTopic }) {
             startIcon={<Chat color="#777777" size={23}/>}
             sx={{
                 fontSize: "15px",
-                color: "#777777"
+                color: "#777777",
+                marginRight: 0,
+                paddingRight: 0,
+                "&:hover": {
+                  background: "none"
+                }
             }}
             onClick={handleClickOpen}
         >
