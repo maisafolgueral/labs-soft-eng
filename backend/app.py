@@ -5,6 +5,7 @@ from routes.user import user_bp
 from routes.topic import topic_bp
 from routes.post import post_bp
 from routes.feedback import feedback_bp
+from routes.auth import auth_bp
 import json
 
 # Define application
@@ -18,6 +19,7 @@ app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(topic_bp, url_prefix='/api')
 app.register_blueprint(post_bp, url_prefix='/api')
 app.register_blueprint(feedback_bp, url_prefix='/api')
+app.register_blueprint(auth_bp, url_prefix='/api')
 
 # Global generic error handler
 @app.errorhandler(HTTPException)

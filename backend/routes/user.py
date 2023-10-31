@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
+from helper import token_required
 from models import (
     User as UserModel,
     Topic as TopicModel

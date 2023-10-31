@@ -4,3 +4,4 @@ marshmallow
 sqlalchemy
 bcrypt
 psycopg2-binary
+PyJWT
