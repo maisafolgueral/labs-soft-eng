@@ -1,9 +1,7 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import AvatarWithLetter from "@/components/AvatarWithLetter";
+import AvatarInfo from "@/components/AvatarInfo";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 
 
@@ -33,34 +31,15 @@ export default function TopBar() {
             />
           </Link>
         </Grid>
-        <Grid item xs={1}>
-          <Stack 
-            spacing={1} 
-            direction="row"
-            alignItems="center"
-            justifyContent="flex-end"
-          >
-            <AvatarWithLetter
+        <Grid item container xs={1} alignItems="center" justifyContent="right">
+          <AvatarInfo 
+              avatarSize={34}
+              avatarFontSize={15}
               name="Marie Canon"
-              size={34}
-              fontSize={15}
+              nameFontSize={18}
+              onlyFirstName
               href="/h/profile/:id"
-            />
-            <Typography 
-              component="span"
-              fontSize={18}
-              color="#404040"
-            >
-              <Link href="/h/profile/:id"
-                sx={{
-                    textDecoration: "none",
-                    color: "inherit"
-                }}
-              >
-                Marie
-              </Link>
-            </Typography>
-          </Stack>
+          />
         </Grid>
       </Grid>
     </Box>

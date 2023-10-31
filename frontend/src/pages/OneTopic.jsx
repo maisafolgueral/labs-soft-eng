@@ -93,9 +93,9 @@ export default function OneTopic() {
       <Grid container>
         <Grid item xs={8}>
           <Stack spacing="28px">
-            <AddPost insideTopic/>
+            <AddPost showTopics/>
             {Array.from(Array(10)).map((_, index) => (
-              <Post insideTopic/>
+              <Post showTopics/>
             ))}
           </Stack>
         </Grid>

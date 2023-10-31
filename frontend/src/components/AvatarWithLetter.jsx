@@ -1,5 +1,4 @@
 import Avatar from "@mui/material/Avatar";
-import Link from "@mui/material/Link";
 
 
 function stringToColor(string) {
@@ -36,14 +35,8 @@ function stringAvatar(name, size, fontSize) {
 
 export default function AvatarWithLetter(props) {
     return (
-        <Link href={props.href}
-        sx={{
-            textDecoration: "none"
-        }}
-        >
-            <Avatar
-                {...stringAvatar(props.name, props.size, props.fontSize)}
-            />
-        </Link>
+        <Avatar
+            {...stringAvatar(props.name, props.size, props.fontSize)}
+        />
     );
 }

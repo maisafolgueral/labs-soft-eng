@@ -1,22 +1,22 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
-import AvatarInfo from "@/components/AvatarInfo";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
-import { ChatQuote, Chat } from "react-bootstrap-icons";
-import Reactions from "@/components/Reactions";
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
+import LoadingButton from '@mui/lab/LoadingButton';
+import CloseIcon from '@mui/icons-material/Close';
+import AvatarInfo from "@/components/AvatarInfo";
+import Reactions from "@/components/Reactions";
+import { ChatQuote, Chat } from "react-bootstrap-icons";
 
 
-function Header({ insideTopic }) {
+function Header({ showTopics }) {
   return (
     <Grid container alignItems="center">
       <Grid item xs={6}>
@@ -29,7 +29,7 @@ function Header({ insideTopic }) {
         />
       </Grid>
       <Grid item container xs={6} justifyContent="right">
-        {!insideTopic &&
+        {!showTopics &&
         <Stack spacing="8px" direction="row">
           <ChatQuote color="#777777" size={23}/>
           <Typography 
@@ -106,7 +106,7 @@ function Comment() {
   );
 }
 
-export default function PostExpanded({ insideTopic }) {
+export default function PostExpanded({ showTopics }) {
   const [loading, setLoading] = React.useState(false);
 
   const handleComment= () => {
@@ -182,7 +182,7 @@ export default function PostExpanded({ insideTopic }) {
             }}
           >
             <Stack spacing="40px">
-              <Header insideTopic={insideTopic ? insideTopic : undefined}/>
+              <Header showTopics={showTopics ? showTopics : undefined}/>
               <Content/>
               <Footer/>
             </Stack>

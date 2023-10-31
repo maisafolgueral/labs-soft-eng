@@ -13,9 +13,9 @@ export default function InfoBox({ Header, Content }) {
                 padding: "28px"
             }}
         >
-            <Header />
+            <Header/>
             <Divider sx={{ marginTop: "27px", marginBottom: "27px" }}/>
-            <Content />
+            <Content/>
         </Box>
     );
 }

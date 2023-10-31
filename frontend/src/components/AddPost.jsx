@@ -2,22 +2,22 @@ import * as React from 'react';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import LoadingButton from '@mui/lab/LoadingButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
-export default function AddPost({ insideTopic }) {
+export default function AddPost(props) {
     const [topic, setTopic] = React.useState('');
     const [loading, setLoading] = React.useState(false);
 
-    const handleChange = (event) => {
+    const handleTopicChange = (event) => {
         setTopic(event.target.value);
     };
 
-    const handlePublish = () => {
+    const handlePost = () => {
         setLoading(true);
     };
 
@@ -31,12 +31,7 @@ export default function AddPost({ insideTopic }) {
                 borderRadius: "5px"
             }}
         >
-            <Box
-                sx={{
-                    
-                    padding: "12px 12px 0 12px"
-                }}
-            >
+            <Box sx={{ padding: "12px 12px 0 12px" }}>
                 <Stack spacing="12px">
                     <TextField 
                         label="Título" 
@@ -60,13 +55,13 @@ export default function AddPost({ insideTopic }) {
                     margin: "12px"
                 }}
             >
-                {!insideTopic &&
+                {!props.showTopics &&
                 <FormControl sx={{ width: "110px" }} size="small">
                     <InputLabel sx={{ fontSize: "15px" }}>Tópico</InputLabel>
                     <Select
                         value={topic}
                         label="Tópico"
-                        onChange={handleChange}
+                        onChange={handleTopicChange}
                         sx={{
                             height: "36px"
                         }}
@@ -85,7 +80,7 @@ export default function AddPost({ insideTopic }) {
                         height: "36px",
                         fontSize: "15px"
                     }}
-                    onClick={handlePublish}
+                    onClick={handlePost}
                     loading={loading}
                     disabled
                 >

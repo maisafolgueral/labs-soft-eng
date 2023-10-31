@@ -6,11 +6,11 @@ import Button from "@mui/material/Button";
 import AvatarInfo from "@/components/AvatarInfo";
 import PostExpanded from "@/components/PostExpanded";
 import Reactions from "@/components/Reactions";
-import { ChatQuote, Chat } from "react-bootstrap-icons";
-import Link from "@mui/material/Link";
+import IconWithTitle from "@/components/IconWithTitle";
+import { Chat } from "react-bootstrap-icons";
 
 
-export default function Post({ insideTopic }) {
+export default function Post({ showTopics }) {
   return (
     <Box
         sx={{
@@ -33,31 +33,13 @@ export default function Post({ insideTopic }) {
                 />
             </Grid>
             <Grid item container xs={6} justifyContent="right">
-                {!insideTopic && 
-                <Stack spacing="8px" direction="row">
-                    <Link href="/h/topics/:id"
-                        sx={{
-                            textDecoration: "none"
-                        }}
-                    >
-                        <ChatQuote color="#777777" size={23}/>
-                    </Link>
-                        
-                        <Typography 
-                            component="span"
-                            fontSize={18}
-                            color="#777777"
-                        >
-                            <Link href="/h/topics/:id"
-                                sx={{
-                                    textDecoration: "none",
-                                    color: "inherit"
-                                }}
-                            >
-                                Galáxias
-                            </Link>
-                        </Typography>
-                </Stack>
+                {!showTopics && 
+                <IconWithTitle
+                    iconName="ChatQuote"
+                    title="Galáxias"
+                    color="#777777"
+                    href="/h/profile/:id"
+                />
                 }
             </Grid>
         </Grid>
@@ -91,11 +73,10 @@ export default function Post({ insideTopic }) {
                     alignItems="center"
                     direction="row"
                 >
-                    <PostExpanded insideTopic={insideTopic ? insideTopic : undefined}/>
+                    <PostExpanded showTopics={showTopics ? showTopics : undefined}/>
                 </Stack>
             </Grid>
         </Grid>
-
     </Box>                                                 
   );
 }
