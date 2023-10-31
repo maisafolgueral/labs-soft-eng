@@ -77,7 +77,9 @@ export default function Post({ showTopics }) {
                 
                 <Grid container alignItems="center" sx={{ paddingTop: "35px" }}>
                     <Grid item xs={6}>
-                        <Reactions/>
+                        <Box sx={{marginLeft: "-5px"}}>
+                            <Reactions/>
+                        </Box>
                     </Grid>
                     <Grid item container xs={6} justifyContent="right">
                         <Stack 

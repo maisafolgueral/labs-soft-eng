@@ -28,10 +28,11 @@ export default function AddPost(props) {
                 height: "auto",
                 backgroundColor: "#fff",
                 border: "1px solid #c4c4c4",
-                borderRadius: "5px"
+                borderRadius: "5px",
+                padding: "20px"
             }}
         >
-            <Box sx={{ padding: "12px 12px 0 12px" }}>
+            <Box>
                 <Stack spacing="12px">
                     <TextField 
                         label="Título" 
@@ -52,7 +53,7 @@ export default function AddPost(props) {
                 spacing="12px" 
                 justifyContent="right"
                 sx={{
-                    margin: "12px"
+                    marginTop: "12px"
                 }}
             >
                 {!props.showTopics &&
