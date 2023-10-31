@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Stack from "@mui/material/Stack";
@@ -13,37 +12,37 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AvatarInfo from "@/components/AvatarInfo";
 import Reactions from "@/components/Reactions";
-import { ChatQuote, Chat } from "react-bootstrap-icons";
+import { ChatQuote } from "react-bootstrap-icons";
 
 
 function Header({ showTopics }) {
-  return (
-    <Grid container alignItems="center">
-      <Grid item xs={6}>
-        <AvatarInfo 
-          avatarSize={35}
-          avatarFontSize={16}
-          name="Mark Alain"
-          description="Publicado em 03 set 2023"
-          href="/h/profile/:id"
-        />
+    return (
+      <Grid container alignItems="center">
+        <Grid item xs={6}>
+          <AvatarInfo 
+            avatarSize={35}
+            avatarFontSize={16}
+            name="Mark Alain"
+            description="Publicado em 03 set 2023"
+            href="/h/profile/:id"
+          />
+        </Grid>
+        <Grid item container xs={6} justifyContent="right">
+          {!showTopics &&
+          <Stack spacing="8px" direction="row">
+            <ChatQuote color="#777777" size={23}/>
+            <Typography 
+                component="span"
+                fontSize={18}
+                color="#777777"
+            >
+                Galáxias
+            </Typography>
+          </Stack>
+          }
+        </Grid>
       </Grid>
-      <Grid item container xs={6} justifyContent="right">
-        {!showTopics &&
-        <Stack spacing="8px" direction="row">
-          <ChatQuote color="#777777" size={23}/>
-          <Typography 
-              component="span"
-              fontSize={18}
-              color="#777777"
-          >
-              Galáxias
-          </Typography>
-        </Stack>
-        }
-      </Grid>
-    </Grid>
-  );
+    );
 }
 
 function Content() {
@@ -106,47 +105,23 @@ function Comment() {
   );
 }
 
-export default function PostExpanded({ showTopics }) {
+export default function PostExpanded({ showTopics, open, onClose }) {
   const [loading, setLoading] = React.useState(false);
 
   const handleComment= () => {
       setLoading(true);
   };
   
-  const [open, setOpen] = React.useState(false);
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('lg');
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <React.Fragment>
-      <Button 
-            startIcon={<Chat color="#777777" size={23}/>}
-            sx={{
-                fontSize: "15px",
-                color: "#777777",
-                marginRight: 0,
-                paddingRight: 0,
-                "&:hover": {
-                  background: "none"
-                }
-            }}
-            onClick={handleClickOpen}
-        >
-            Comentar
-        </Button>
       <Dialog
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         sx={{
           zIndex: 3001
         }}
@@ -167,7 +142,7 @@ export default function PostExpanded({ showTopics }) {
             <IconButton
               edge="start"
               color="inherit"
-              onClick={handleClose}
+              onClick={onClose}
               aria-label="close"
               justifyContent="right"
             >
