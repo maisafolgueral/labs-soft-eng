@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -8,7 +8,7 @@ import AvatarInfo from "@/components/AvatarInfo";
 import PostExpanded from "@/components/PostExpanded";
 import Reactions from "@/components/Reactions";
 import IconWithTitle from "@/components/IconWithTitle";
-import { Chat } from "react-bootstrap-icons";
+import { Icon } from "@/components/Icon";
 
 
 export default function Post({ showTopics }) {
@@ -75,7 +75,11 @@ export default function Post({ showTopics }) {
                     </Typography>
                 </Box>
                 
-                <Grid container alignItems="center" sx={{ paddingTop: "35px" }}>
+                <Grid 
+                    container 
+                    alignItems="center" 
+                    sx={{ paddingTop: "35px" }}
+                >
                     <Grid item xs={6}>
                         <Box sx={{marginLeft: "-5px"}}>
                             <Reactions/>
@@ -88,7 +92,7 @@ export default function Post({ showTopics }) {
                             direction="row"
                         >
                             <Button 
-                                startIcon={<Chat color="#777777" size={23}/>}
+                                startIcon={<Icon iconName="Chat" color="#777777" size={23}/>}
                                 sx={{
                                     fontSize: "15px",
                                     color: "#777777",
@@ -106,7 +110,12 @@ export default function Post({ showTopics }) {
                     </Grid>
                 </Grid>
             </Box>  
-            <PostExpanded showTopics={showTopics ? showTopics : undefined} open={open} onClose={handleClose}/>
+
+            <PostExpanded 
+                showTopics={showTopics ? showTopics : undefined} 
+                open={open} 
+                onClose={handleClose}
+            />
         </>                                               
     );
 }
