@@ -13,7 +13,7 @@ feedback_bp = Blueprint('feedback_bp', __name__)
 # Create database session
 session = sessionmaker(bind=engine)()
 
-@feedback_bp.route('/feedbacks', methods=["POST"])
+@feedback_bp.route('/feedbacks', methods=['POST'])
 @token_required
 def sendFeedback():
     try:
@@ -39,7 +39,7 @@ def sendFeedback():
         abort(500)
 
 
-@feedback_bp.route('/feedbacks/<id>', methods=["GET"])
+@feedback_bp.route('/feedbacks/<id>', methods=['GET'])
 @token_required
 def getFeedback(id):
     try:

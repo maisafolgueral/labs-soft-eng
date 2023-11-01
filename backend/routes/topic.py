@@ -17,7 +17,7 @@ topic_bp = Blueprint('topic_bp', __name__)
 session = sessionmaker(bind=engine)()
 
 
-@topic_bp.route('/topics', methods=["GET"])
+@topic_bp.route('/topics', methods=['GET'])
 @token_required
 def getAllTopics():
     try:
@@ -28,7 +28,7 @@ def getAllTopics():
         abort(500)
 
 
-@topic_bp.route('/topics/<topic_id>/users', methods=["GET"])
+@topic_bp.route('/topics/<topic_id>/users', methods=['GET'])
 @token_required
 def getAllTopicFollowers(topic_id):
     try:
@@ -47,7 +47,7 @@ def getAllTopicFollowers(topic_id):
         abort(500)
 
 
-@topic_bp.route('/topics/<topic_id>/posts', methods=["GET"])
+@topic_bp.route('/topics/<topic_id>/posts', methods=['GET'])
 @token_required
 def getAllTopicPosts(topic_id):
     try:

@@ -59,7 +59,7 @@ class Reaction(Schema):
     type = fields.String(
         required=True, 
         validate=[
-            validate.OneOf(['loved', 'funny', 'surprised', 'sad', 'angry'])
+            validate.OneOf(['love', 'funny', 'surprise', 'sadness', 'anger'])
         ]
     )
     created_at = fields.DateTime(dump_only=True)
@@ -70,7 +70,7 @@ class Post(Schema):
     user_id = fields.Integer(required=True)
     topic_id = fields.Integer(required=True)
     title = fields.String(required=True, validate=[validate.Length(min=10, max=100)])
-    content = fields.String(required=True, validate=[validate.Length(min=10, max=300)])
+    content = fields.String(required=True, validate=[validate.Length(min=30, max=300)])
     created_at = fields.DateTime(dump_only=True)
 
 
@@ -78,7 +78,7 @@ class Comment(Schema):
     id = fields.Integer(dump_only=True)
     user_id = fields.Integer(required=True)
     post_id = fields.Integer(required=True)
-    content = fields.String(required=True, validate=[validate.Length(min=3, max=300)])
+    content = fields.String(required=True, validate=[validate.Length(min=1, max=300)])
     created_at = fields.DateTime(dump_only=True)
 
 
@@ -86,5 +86,5 @@ class Feedback(Schema):
     id = fields.Integer(dump_only=True)
     user_id = fields.Integer(required=True)
     subject = fields.String(required=True, validate=[validate.Length(min=10, max=100)])
-    description = fields.String(required=True, validate=[validate.Length(min=30, max=500)])
+    description = fields.String(required=True, validate=[validate.Length(min=50, max=500)])
     created_at = fields.DateTime(dump_only=True)

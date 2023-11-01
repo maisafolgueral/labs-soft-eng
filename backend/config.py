@@ -8,10 +8,10 @@ from sqlalchemy import create_engine
 
 # Database
 USER = "postgres"
-PASSWORD = "holapostgres"
-SERVER = "postgres-1.csa5zq8qsnjp.us-east-1.rds.amazonaws.com"
+PASSWORD = "Nohack?99"
+SERVER = "localhost"
 PORT = "5432"
-DATABASE = "postgres"
+DATABASE = "hola"
 
 engine = create_engine(
     f"postgresql+psycopg2://{USER}:{PASSWORD}@{SERVER}:{PORT}/{DATABASE}"

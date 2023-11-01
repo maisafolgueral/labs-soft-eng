@@ -4,6 +4,7 @@ from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
 from helper import token_required
+from exceptions import AlreadyExistsError
 from models import (
     User as UserModel,
     Topic as TopicModel
@@ -20,7 +21,7 @@ user_bp = Blueprint('user_bp', __name__)
 # Create database session
 session = sessionmaker(bind=engine)()
 
-@user_bp.route('/users', methods=["POST"])
+@user_bp.route('/users', methods=['POST'])
 @token_required
 def createUser():
     try:
@@ -30,6 +31,11 @@ def createUser():
         # Validate data
         UserSchema().load(data)
 
+        # Check if user already exists
+        user = session.query(UserModel).filter_by(email=data['email']).first()
+        if user:
+            raise AlreadyExistsError('Email already in use')
+
         # Persist data into the database
         session.add(UserModel(**data))
         session.commit()
@@ -38,13 +44,15 @@ def createUser():
             'code': 201,
             'description': 'Successfully created'
         })
+    except AlreadyExistsError as err:
+        abort(409, err.message)
     except ValidationError as err:
         abort(400, err.messages)
     except:
         session.rollback()
         abort(500)
 
-@user_bp.route('/users/<id>', methods=["GET"])
+@user_bp.route('/users/<id>', methods=['GET'])
 @token_required
 def getUser(id):
     try:
@@ -61,7 +69,7 @@ def getUser(id):
     except:
         abort(500)
        
-@user_bp.route('/users/<id>', methods=["PUT"])
+@user_bp.route('/users/<id>', methods=['PUT'])
 @token_required
 def updateUser(id):
     try:
@@ -95,7 +103,7 @@ def updateUser(id):
         session.rollback()
         abort(500)
 
-@user_bp.route('/users/<id>', methods=["DELETE"])
+@user_bp.route('/users/<id>', methods=['DELETE'])
 @token_required
 def deleteUser(id):
     try:
@@ -117,7 +125,7 @@ def deleteUser(id):
         session.rollback()
         abort(500)
 
-@user_bp.route('/users/<user_id>/followers', methods=["GET"])
+@user_bp.route('/users/<user_id>/followers', methods=['GET'])
 @token_required
 def getAllUserFollowers(user_id):
     try:
@@ -135,7 +143,7 @@ def getAllUserFollowers(user_id):
     except:
         abort(500)
 
-@user_bp.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
+@user_bp.route('/users/<user_id>/followers/<follower_id>', methods=['DELETE'])
 @token_required
 def deleteUserFollower(user_id, follower_id):
     try:
@@ -168,7 +176,7 @@ def deleteUserFollower(user_id, follower_id):
         abort(500)
 
 # Who does the user follows.
-@user_bp.route('/users/<user_id>/followed', methods=["GET"])
+@user_bp.route('/users/<user_id>/followed', methods=['GET'])
 @token_required
 def getAllUserFollowed(user_id):
     try:
@@ -186,7 +194,7 @@ def getAllUserFollowed(user_id):
     except:
         abort(500)
 
-@user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["PUT"])
+@user_bp.route('/users/<user_id>/followed/<followed_id>', methods=['PUT'])
 @token_required
 def followUser(user_id, followed_id):
     try:
@@ -218,7 +226,7 @@ def followUser(user_id, followed_id):
         session.rollback()
         abort(500)
 
-@user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["DELETE"])
+@user_bp.route('/users/<user_id>/followed/<followed_id>', methods=['DELETE'])
 @token_required
 def unfollowUser(user_id, followed_id):
     try:
@@ -249,7 +257,7 @@ def unfollowUser(user_id, followed_id):
         abort(500)
 
 # Topics that the user follows.
-@user_bp.route('/users/<user_id>/topics', methods=["GET"])
+@user_bp.route('/users/<user_id>/topics', methods=['GET'])
 @token_required
 def getAllUserTopics(user_id):
     try:
@@ -267,7 +275,7 @@ def getAllUserTopics(user_id):
     except:
         abort(500)
 
-@user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["PUT"])
+@user_bp.route('/users/<user_id>/topics/<topic_id>', methods=['PUT'])
 @token_required
 def followTopic(user_id, topic_id):
     try:
@@ -295,7 +303,7 @@ def followTopic(user_id, topic_id):
         session.rollback()
         abort(500)
 
-@user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["DELETE"])
+@user_bp.route('/users/<user_id>/topics/<topic_id>', methods=['DELETE'])
 @token_required
 def unfollowTopic(user_id, topic_id):
     try:
@@ -322,7 +330,7 @@ def unfollowTopic(user_id, topic_id):
         abort(500)
 
 # Posts from the user.
-@user_bp.route('/users/<user_id>/posts', methods=["GET"])
+@user_bp.route('/users/<user_id>/posts', methods=['GET'])
 @token_required
 def getAllUserPosts(user_id):
     try:

@@ -21,7 +21,7 @@ post_bp = Blueprint('post_bp', __name__)
 # Create database session
 session = sessionmaker(bind=engine)()
 
-@post_bp.route('/posts', methods=["POST"])
+@post_bp.route('/posts', methods=['POST'])
 @token_required
 def createPost():
     try:
@@ -46,7 +46,7 @@ def createPost():
         session.rollback()
         abort(500)
 
-@post_bp.route('/posts/<id>', methods=["GET"])
+@post_bp.route('/posts/<id>', methods=['GET'])
 @token_required
 def getPost(id):
     try:
@@ -62,7 +62,7 @@ def getPost(id):
     except:
         abort(500)
 
-@post_bp.route('/posts/<id>', methods=["PUT"])
+@post_bp.route('/posts/<id>', methods=['PUT'])
 @token_required
 def updatePost(id):
     try:
@@ -96,7 +96,7 @@ def updatePost(id):
         session.rollback()
         abort(500)
 
-@post_bp.route('/posts/<id>', methods=["DELETE"])
+@post_bp.route('/posts/<id>', methods=['DELETE'])
 @token_required
 def deletePost(id):
     try:
@@ -118,7 +118,7 @@ def deletePost(id):
         session.rollback()
         abort(500)
 
-@post_bp.route('/posts/<post_id>/reactions', methods=["POST"])
+@post_bp.route('/posts/<post_id>/reactions', methods=['POST'])
 @token_required
 def addReactionToPost(post_id):
     try:
@@ -154,7 +154,7 @@ def addReactionToPost(post_id):
         session.rollback()
         abort(500, 'Internal Server Error')
 
-@post_bp.route('/posts/<post_id>/reactions', methods=["GET"])
+@post_bp.route('/posts/<post_id>/reactions', methods=['GET'])
 @token_required
 def getAllPostReactions(post_id):
     try:
@@ -172,7 +172,7 @@ def getAllPostReactions(post_id):
         abort(500)
 
 
-@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["GET"])
+@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=['GET'])
 @token_required
 def getPostReaction(post_id, reaction_id):
     try:
@@ -190,13 +190,13 @@ def getPostReaction(post_id, reaction_id):
         abort(500)
 
 # NOT WORKING. DON'T KNOW WHY. 
-@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["PUT"])
+@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=['PUT'])
 @token_required
 def updatePostReaction(post_id, reaction_id):
     try:
         # Received data
         data = request.get_json()
-        data["post_id"] = post_id
+        data['post_id'] = post_id
 
         # Validate data
         ReactionSchema().load(data)
@@ -221,7 +221,7 @@ def updatePostReaction(post_id, reaction_id):
     except:
         abort(500)
 
-@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["DELETE"])
+@post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=['DELETE'])
 @token_required
 def deletePostReaction(post_id, reaction_id):
     try:
@@ -247,7 +247,7 @@ def deletePostReaction(post_id, reaction_id):
         session.rollback()
         abort(500)
 
-@post_bp.route('/posts/<post_id>/comments', methods=["POST"])
+@post_bp.route('/posts/<post_id>/comments', methods=['POST'])
 @token_required
 def addCommentToPost(post_id):
     try:
@@ -280,7 +280,7 @@ def addCommentToPost(post_id):
         session.rollback()
         abort(500, 'Internal Server Error')
 
-@post_bp.route('/posts/<post_id>/comments', methods=["GET"])
+@post_bp.route('/posts/<post_id>/comments', methods=['GET'])
 @token_required
 def getAllPostComments(post_id):
     try:
@@ -297,7 +297,7 @@ def getAllPostComments(post_id):
     except:
         abort(500)
 
-@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["GET"])
+@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=['GET'])
 @token_required
 def getPostComment(post_id, comment_id):
     try:
@@ -315,13 +315,13 @@ def getPostComment(post_id, comment_id):
         abort(500)
 
 
-@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["PUT"])
+@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=['PUT'])
 @token_required
 def updatePostComment(post_id, comment_id):
     try:
         # Received data
         data = request.get_json()
-        data["post_id"] = post_id
+        data['post_id'] = post_id # to validate in schema
 
         # Validate data
         CommentSchema().load(data)
@@ -346,7 +346,7 @@ def updatePostComment(post_id, comment_id):
     except:
         abort(500)
 
-@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["DELETE"])
+@post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=['DELETE'])
 @token_required
 def deletePostComment(post_id, comment_id):
     try:
