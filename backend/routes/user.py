@@ -44,6 +44,7 @@ def createUser():
         abort(500)
 
 @user_bp.route('/users/<id>', methods=["GET"])
+@token_required
 def getUser(id):
     try:
         user = session.query(UserModel).filter_by(id=id).first()

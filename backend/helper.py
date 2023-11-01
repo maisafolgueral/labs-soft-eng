@@ -1,9 +1,8 @@
 import jwt, datetime
 from functools import wraps
 from sqlalchemy.orm import sessionmaker
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from config import engine, SECRET_KEY
 from models import User as UserModel
 
@@ -25,8 +24,7 @@ def authenticate():
         return jsonify({'message':'User not found', 'data':{}}), 401
     
     if user and user.password == auth.password:
-        token = jwt.encode({'email':user.email, 'exp':datetime.datetime.now() + datetime.timedelta(hours=12)},
-                           SECRET_KEY)
+        token = jwt.encode({'email':user.email, 'exp':datetime.datetime.now() + datetime.timedelta(hours=12)}, SECRET_KEY, algorithm='HS256')
         return jsonify({'message':'Validate successfully', 'token':token, 
                         'exp':datetime.datetime.now() + datetime.timedelta(hours=12)})
         
@@ -35,13 +33,14 @@ def authenticate():
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.args.get('token')
+        token = request.headers.get('token')
         if not token:
             return jsonify({'message':'token is missing', 'data':{}}), 401
         try:
-            data = jwt.decode(token, SECRET_KEY)
+            # for future use:
+            data = jwt.decode(token, SECRET_KEY, algorithms='HS256')
             current_user = user_by_email(email=data['email'])
         except:
             return jsonify({'message':'token is invalid or expired', 'data':{}}), 401
-        return f(current_user, *args, **kwargs)
+        return f(*args, **kwargs)
     return decorated

@@ -5,21 +5,17 @@ of the project
 '''
 
 from sqlalchemy import create_engine
-import random
-import string
 
 # Database
 USER = "postgres"
-PASSWORD = "holapostgres"
-SERVER = "postgres-1.csa5zq8qsnjp.us-east-1.rds.amazonaws.com"
+PASSWORD = "Nohack?99"
+SERVER = "localhost"
 PORT = "5432"
-DATABASE = "postgres"
+DATABASE = "hola"
 
 engine = create_engine(
     f"postgresql+psycopg2://{USER}:{PASSWORD}@{SERVER}:{PORT}/{DATABASE}"
 )
 
 # Secret Key for authentication
-random_str = string.ascii_letters + string.digits + string.ascii_uppercase
-key = ''.join(random.choice(random_str) for _ in range(16))
-SECRET_KEY = key
+SECRET_KEY = '1j(((7th^av$kz^!x47mdtkreya%*ounq(&s%fxkxp$=07*v#2'
