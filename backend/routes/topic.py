@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, abort
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from config import engine
+from helper import token_required
 from models import Topic as TopicModel
 from schemas import (
     Topic as TopicSchema,
@@ -17,6 +18,7 @@ session = sessionmaker(bind=engine)()
 
 
 @topic_bp.route('/topics', methods=["GET"])
+@token_required
 def getAllTopics():
     try:
         topics = session.query(TopicModel).all()
@@ -27,6 +29,7 @@ def getAllTopics():
 
 
 @topic_bp.route('/topics/<topic_id>/users', methods=["GET"])
+@token_required
 def getAllTopicFollowers(topic_id):
     try:
         topic = session.query(TopicModel).filter_by(id=topic_id).first()
@@ -45,6 +48,7 @@ def getAllTopicFollowers(topic_id):
 
 
 @topic_bp.route('/topics/<topic_id>/posts', methods=["GET"])
+@token_required
 def getAllTopicPosts(topic_id):
     try:
         topic = session.query(TopicModel).filter_by(id=topic_id).first()

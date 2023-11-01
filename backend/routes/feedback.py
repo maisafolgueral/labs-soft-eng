@@ -3,9 +3,9 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
+from helper import token_required
 from models import Feedback as FeedbackModel
 from schemas import Feedback as FeedbackSchema
-import json
 
 # Set current module
 feedback_bp = Blueprint('feedback_bp', __name__)
@@ -14,6 +14,7 @@ feedback_bp = Blueprint('feedback_bp', __name__)
 session = sessionmaker(bind=engine)()
 
 @feedback_bp.route('/feedbacks', methods=["POST"])
+@token_required
 def sendFeedback():
     try:
         # Received data
@@ -39,6 +40,7 @@ def sendFeedback():
 
 
 @feedback_bp.route('/feedbacks/<id>', methods=["GET"])
+@token_required
 def getFeedback(id):
     try:
         feedback = session.query(FeedbackModel).filter_by(id=id).first()

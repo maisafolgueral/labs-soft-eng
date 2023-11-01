@@ -3,20 +3,17 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
-
+from helper import token_required
 from models import (
     Post as PostModel,
     Reaction as ReactionModel,
     Comment as CommentModel
 )
-
 from schemas import (
     Post as PostSchema,
     Reaction as ReactionSchema,
     Comment as CommentSchema
 )
-
-import json
 
 # Set current module
 post_bp = Blueprint('post_bp', __name__)
@@ -25,6 +22,7 @@ post_bp = Blueprint('post_bp', __name__)
 session = sessionmaker(bind=engine)()
 
 @post_bp.route('/posts', methods=["POST"])
+@token_required
 def createPost():
     try:
         # Received data
@@ -49,6 +47,7 @@ def createPost():
         abort(500)
 
 @post_bp.route('/posts/<id>', methods=["GET"])
+@token_required
 def getPost(id):
     try:
         post = session.query(PostModel).filter_by(id=id).first()
@@ -64,6 +63,7 @@ def getPost(id):
         abort(500)
 
 @post_bp.route('/posts/<id>', methods=["PUT"])
+@token_required
 def updatePost(id):
     try:
         # Received data
@@ -97,6 +97,7 @@ def updatePost(id):
         abort(500)
 
 @post_bp.route('/posts/<id>', methods=["DELETE"])
+@token_required
 def deletePost(id):
     try:
         # Get post to be deleted
@@ -118,6 +119,7 @@ def deletePost(id):
         abort(500)
 
 @post_bp.route('/posts/<post_id>/reactions', methods=["POST"])
+@token_required
 def addReactionToPost(post_id):
     try:
         # Retireve the post from the database.
@@ -153,6 +155,7 @@ def addReactionToPost(post_id):
         abort(500, 'Internal Server Error')
 
 @post_bp.route('/posts/<post_id>/reactions', methods=["GET"])
+@token_required
 def getAllPostReactions(post_id):
     try:
         post = session.query(PostModel).filter_by(id=post_id).first()
@@ -170,6 +173,7 @@ def getAllPostReactions(post_id):
 
 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["GET"])
+@token_required
 def getPostReaction(post_id, reaction_id):
     try:
         reaction = session.query(ReactionModel).filter_by(id=reaction_id, post_id=post_id).first()
@@ -187,6 +191,7 @@ def getPostReaction(post_id, reaction_id):
 
 # NOT WORKING. DON'T KNOW WHY. 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["PUT"])
+@token_required
 def updatePostReaction(post_id, reaction_id):
     try:
         # Received data
@@ -217,6 +222,7 @@ def updatePostReaction(post_id, reaction_id):
         abort(500)
 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=["DELETE"])
+@token_required
 def deletePostReaction(post_id, reaction_id):
     try:
         post = session.query(PostModel).filter_by(id=post_id)
@@ -242,6 +248,7 @@ def deletePostReaction(post_id, reaction_id):
         abort(500)
 
 @post_bp.route('/posts/<post_id>/comments', methods=["POST"])
+@token_required
 def addCommentToPost(post_id):
     try:
         post = session.query(PostModel).filter_by(id=post_id).first()
@@ -274,6 +281,7 @@ def addCommentToPost(post_id):
         abort(500, 'Internal Server Error')
 
 @post_bp.route('/posts/<post_id>/comments', methods=["GET"])
+@token_required
 def getAllPostComments(post_id):
     try:
         post = session.query(PostModel).filter_by(id=post_id).first()
@@ -290,6 +298,7 @@ def getAllPostComments(post_id):
         abort(500)
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["GET"])
+@token_required
 def getPostComment(post_id, comment_id):
     try:
         comment = session.query(CommentModel).filter_by(id=comment_id, post_id=post_id).first()
@@ -307,6 +316,7 @@ def getPostComment(post_id, comment_id):
 
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["PUT"])
+@token_required
 def updatePostComment(post_id, comment_id):
     try:
         # Received data
@@ -337,6 +347,7 @@ def updatePostComment(post_id, comment_id):
         abort(500)
 
 @post_bp.route('/posts/<post_id>/comments/<comment_id>', methods=["DELETE"])
+@token_required
 def deletePostComment(post_id, comment_id):
     try:
         post = session.query(PostModel).filter_by(id=post_id)

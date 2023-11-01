@@ -21,6 +21,7 @@ user_bp = Blueprint('user_bp', __name__)
 session = sessionmaker(bind=engine)()
 
 @user_bp.route('/users', methods=["POST"])
+@token_required
 def createUser():
     try:
         # Received data
@@ -61,6 +62,7 @@ def getUser(id):
         abort(500)
        
 @user_bp.route('/users/<id>', methods=["PUT"])
+@token_required
 def updateUser(id):
     try:
         # Received data
@@ -94,6 +96,7 @@ def updateUser(id):
         abort(500)
 
 @user_bp.route('/users/<id>', methods=["DELETE"])
+@token_required
 def deleteUser(id):
     try:
         # Get user to be deleted
@@ -115,6 +118,7 @@ def deleteUser(id):
         abort(500)
 
 @user_bp.route('/users/<user_id>/followers', methods=["GET"])
+@token_required
 def getAllUserFollowers(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
@@ -132,6 +136,7 @@ def getAllUserFollowers(user_id):
         abort(500)
 
 @user_bp.route('/users/<user_id>/followers/<follower_id>', methods=["DELETE"])
+@token_required
 def deleteUserFollower(user_id, follower_id):
     try:
         # Get user who is followed
@@ -164,6 +169,7 @@ def deleteUserFollower(user_id, follower_id):
 
 # Who does the user follows.
 @user_bp.route('/users/<user_id>/followed', methods=["GET"])
+@token_required
 def getAllUserFollowed(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
@@ -181,6 +187,7 @@ def getAllUserFollowed(user_id):
         abort(500)
 
 @user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["PUT"])
+@token_required
 def followUser(user_id, followed_id):
     try:
         # Get user that will follow
@@ -212,6 +219,7 @@ def followUser(user_id, followed_id):
         abort(500)
 
 @user_bp.route('/users/<user_id>/followed/<followed_id>', methods=["DELETE"])
+@token_required
 def unfollowUser(user_id, followed_id):
     try:
         # Get user that follows
@@ -242,6 +250,7 @@ def unfollowUser(user_id, followed_id):
 
 # Topics that the user follows.
 @user_bp.route('/users/<user_id>/topics', methods=["GET"])
+@token_required
 def getAllUserTopics(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
@@ -259,6 +268,7 @@ def getAllUserTopics(user_id):
         abort(500)
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["PUT"])
+@token_required
 def followTopic(user_id, topic_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
@@ -286,6 +296,7 @@ def followTopic(user_id, topic_id):
         abort(500)
 
 @user_bp.route('/users/<user_id>/topics/<topic_id>', methods=["DELETE"])
+@token_required
 def unfollowTopic(user_id, topic_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
@@ -312,6 +323,7 @@ def unfollowTopic(user_id, topic_id):
 
 # Posts from the user.
 @user_bp.route('/users/<user_id>/posts', methods=["GET"])
+@token_required
 def getAllUserPosts(user_id):
     try:
         user = session.query(UserModel).filter_by(id=user_id).first()
