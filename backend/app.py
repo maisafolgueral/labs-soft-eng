@@ -1,3 +1,4 @@
+import json
 from flask import Flask
 from werkzeug.exceptions import HTTPException
 from flasgger import Swagger
@@ -6,7 +7,6 @@ from routes.topic import topic_bp
 from routes.post import post_bp
 from routes.feedback import feedback_bp
 from routes.auth import auth_bp
-import json
 
 # Define application
 app = Flask(__name__) 

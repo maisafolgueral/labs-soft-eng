@@ -3,6 +3,7 @@ In this file, it is set the
 database models for ORM
 '''
 
+import datetime, hashlib
 from sqlalchemy import (
     Column, 
     Integer, 
@@ -15,11 +16,13 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-import datetime
-import bcrypt
+from sqlalchemy.event import listens_for
 
 Base = declarative_base()
 
+'''
+Definitions
+'''
 follow_user = Table(
     'follow_user',
     Base.metadata,
@@ -69,6 +72,13 @@ class User(Base):
     posts = relationship('Post', back_populates='user')
     comments = relationship('Comment', back_populates='user')
     feedbacks = relationship('Feedback', back_populates='user')
+    
+    def hash_password(self, password):
+        password_bytes = password.encode('utf-8')
+        return hashlib.sha256(password_bytes).hexdigest()
+
+    def check_password(self, password):
+        return self.password == self.hash_password(password)
 
 
 class Topic(Base):
@@ -129,3 +139,11 @@ class Feedback(Base):
     description = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), default=datetime.datetime.now)
     user = relationship('User', back_populates='feedbacks')
+
+'''
+Listeners
+'''
+@listens_for(User, 'before_insert')
+def hash_password(mapper, connection, target):
+    if target.password:
+        target.password = target.hash_password(target.password)
