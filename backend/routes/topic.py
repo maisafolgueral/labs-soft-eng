@@ -1,8 +1,10 @@
-from flask import Blueprint, jsonify, abort
+from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
+from marshmallow import ValidationError
 from config import engine
 from helper import token_required
+from exceptions import AlreadyExistsError
 from models import Topic as TopicModel
 from schemas import (
     Topic as TopicSchema,
@@ -15,6 +17,38 @@ topic_bp = Blueprint('topic_bp', __name__)
 
 # Create database session
 session = sessionmaker(bind=engine)()
+
+
+@topic_bp.route('/topics', methods=['POST'])
+@token_required
+def createTopic():
+    try:
+        # Received data
+        data = request.get_json()
+
+        # Validate data
+        TopicSchema().load(data)
+
+        # Check if topic already exists
+        topic = session.query(TopicModel).filter_by(subject=data['subject']).first()
+        if topic:
+            raise AlreadyExistsError('Topic already exists')
+
+        # Persist data into the database
+        session.add(TopicModel(**data))
+        session.commit()
+            
+        return jsonify({
+            'code': 201,
+            'description': 'Successfully created'
+        })
+    except AlreadyExistsError as err:
+        abort(409, err.message)
+    except ValidationError as err:
+        abort(400, err.messages)
+    except:
+        session.rollback()
+        abort(500)
 
 
 @topic_bp.route('/topics', methods=['GET'])

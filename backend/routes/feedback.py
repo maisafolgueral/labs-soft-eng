@@ -45,7 +45,7 @@ def getFeedback(id):
     try:
         feedback = session.query(FeedbackModel).filter_by(id=id).first()
         if feedback is None:
-            raise NoResultFound('Post not found')
+            raise NoResultFound('Feedback not found')
         
         result = FeedbackSchema().dump(feedback)
         return jsonify(result)
