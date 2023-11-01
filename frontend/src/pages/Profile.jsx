@@ -1,65 +1,17 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import Button from '@mui/material/Button';
-import Post from '@/components/Post';
+import Button from "@mui/material/Button";
+import Post from "@/components/Post";
 import InfoBox from "@/components/InfoBox";
-import AvatarInfo from '@/components/AvatarInfo';
-import ListDetail from '@/components/ListDetail';
-import { 
-    ChatQuote,
-    Person,
-    PencilFill,
-    PlusLg,
-    CheckLg
-} from "react-bootstrap-icons";
+import AvatarInfo from "@/components/AvatarInfo";
+import ListDetail from "@/components/ListDetail";
+import FollowButton from "@/components/FollowButton";
+import { Icon } from "@/components/Icon";
 
-
-function InfoBoxAction() {
-  const [following, setFollowing] = React.useState(false);
-
-  const handleFollow = () => {
-    setFollowing(true);
-  };
-
-  const handleUnfollow = () => {
-    setFollowing(false);
-  };
-
-  return (
-    <>
-      {following ?
-      <Button 
-        variant="contained"
-        size="small"
-        color="secondary"
-        startIcon={<CheckLg size={13}/>}
-        sx={{
-          fontSize: "12px"
-        }}
-        onClick={handleUnfollow}
-      >
-        Seguindo
-      </Button>
-      :
-      <Button 
-        variant="contained"
-        size="small"
-        startIcon={<PlusLg size={13}/>}
-        sx={{
-          fontSize: "12px"
-        }}
-        onClick={handleFollow}
-      >
-        Seguir
-      </Button>
-      }
-    </>
-  );
-}
 
 function InfoBoxHeader() {
-  const [owner, setOwner] = React.useState(false);
+  const [profileOwner, setProfileOwner] = React.useState(false);
 
   return (
     <Grid container alignItems="center">
@@ -73,11 +25,11 @@ function InfoBoxHeader() {
         />
       </Grid>
       <Grid container item xs={5} justifyContent="right">
-        {owner ?
+        {profileOwner ?
         <Button 
           variant="contained"
           size="small"
-          startIcon={<PencilFill size={10} />}
+          startIcon={<Icon iconName="PencilFill" size={10}/>}
           href="/h/profile/edit"
           sx={{
             fontSize: "12px"
@@ -86,7 +38,7 @@ function InfoBoxHeader() {
           Editar
         </Button>
         :
-        <InfoBoxAction/>
+        <FollowButton/>
         }
       </Grid>
     </Grid>
@@ -96,11 +48,11 @@ function InfoBoxHeader() {
 function InfoBoxContent() {
   let listDetailItems = [
     {
-        "icon": <Person color="#777777" size={20}/>,
+        "icon": <Icon iconName="Person" color="#777777" size={20}/>,
         "title": "20 pessoas"
     },
     {
-        "icon": <ChatQuote color="#777777" size={20}/>,
+        "icon": <Icon iconName="ChatQuote" color="#777777" size={20}/>,
         "title": "5 tópicos"
     }
   ];

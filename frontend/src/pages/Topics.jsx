@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import ListDetail from '@/components/ListDetail';
+import ListDetail from "@/components/ListDetail";
 import InfoBox from "@/components/InfoBox";
 import IconWithTitle from "@/components/IconWithTitle";
 import FollowButton from "@/components/FollowButton";
@@ -14,7 +14,7 @@ function Header() {
             iconName="ChatQuote"
             title="Galáxias"
             color="#404040"
-            href="/h/profile/:id"
+            href="/h/topics/:id"
         />
       </Grid>
       <Grid container item xs={5} justifyContent="right">

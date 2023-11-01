@@ -1,11 +1,10 @@
-import * as React from 'react';
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import LoadingButton from '@mui/lab/LoadingButton';
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Main } from "@/components/Main";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
@@ -13,15 +12,11 @@ import bannerConversation from "@/assets/images/banner-conversation.png";
 
 export default function RequestAccess() {
   const [loading, setLoading] = React.useState(false);
-
-  const handleRequestAccess= () => {
-      setLoading(true);
-  };
-
   const navigate = useNavigate();
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setLoading(true);
     navigate("/");
   }
 
@@ -72,7 +67,6 @@ export default function RequestAccess() {
               sx={{
                 fontSize: "16px"
               }}
-              onClick={handleRequestAccess}
               loading={loading}
               disabled
             >

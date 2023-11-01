@@ -1,27 +1,22 @@
-import * as React from 'react';
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import LoadingButton from '@mui/lab/LoadingButton';
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Main } from "@/components/Main";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
 
 
 export default function Login() {
-  const [loading, setLoading] = React.useState(false);
-
-  const handleLogin = () => {
-      setLoading(true);
-  };
-
   const navigate = useNavigate();
+  const [loading, setLoading] = React.useState(false);
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setLoading(true);
     navigate("/h/timeline");
   }
 
@@ -79,7 +74,6 @@ export default function Login() {
               sx={{
                 fontSize: "16px"
               }}
-              onClick={handleLogin}
               loading={loading}
               disabled
             >

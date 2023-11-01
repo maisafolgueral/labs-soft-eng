@@ -1,7 +1,8 @@
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import AddPost from '@/components/AddPost';
-import Post from '@/components/Post';
+import AddPost from "@/components/AddPost";
+import Post from "@/components/Post";
+
 
 export default function Timeline() {
   return (
