@@ -17,6 +17,10 @@ def validate_birthday_within_range(value):
     if not min_birthdate <= value <= max_birthdate:
         raise ValidationError('Birthday must be between 14 and 30 years ago.')
 
+def not_blank(value):
+    if value == '' or value == None:
+        raise ValidationError('This field must not be blank.')
+
 
 '''
 Schemas
@@ -30,19 +34,19 @@ class FollowTopic(Schema):
 class FollowUser(Schema):
     follower_id = fields.Integer(required=True)
     followed_id = fields.Integer(required=True)
-    created_at = fields.DateTime(load_only=True)
+    created_at = fields.DateTime(dump_only=True)
 
 
 class User(Schema):
     id = fields.Integer(dump_only=True)
     name = fields.String(required=True, validate=[validate.Length(min=2, max=30)])
     surname = fields.String(required=True, validate=[validate.Length(min=2, max=60)])
-    birthday = fields.Date(format='%Y-%m-%d', validate=[validate_birthday_within_range])
+    birthday = fields.Date(required=True, format='%Y-%m-%d', validate=[validate_birthday_within_range, not_blank])
     gender = fields.String(required=True, validate=[validate.OneOf(['M', 'F'])])
-    email = fields.Email(required=True)
-    password = fields.String(required=True, load_only=True)
-    is_bot = fields.Boolean(required=True)
-    is_active = fields.Boolean(required=True)
+    email = fields.Email(required=True, validate=[not_blank])
+    password = fields.String(required=True, load_only=True, validate=[validate.Length(min=6, max=12)])
+    is_bot = fields.Boolean(required=True, validate=[not_blank])
+    is_active = fields.Boolean(required=True, validate=[not_blank])
     created_at = fields.DateTime(dump_only=True)
 
 

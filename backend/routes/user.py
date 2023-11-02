@@ -22,7 +22,6 @@ user_bp = Blueprint('user_bp', __name__)
 session = sessionmaker(bind=engine)()
 
 @user_bp.route('/users', methods=['POST'])
-@token_required
 def createUser():
     try:
         # Received data

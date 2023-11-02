@@ -46,7 +46,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement='auto')
     name = Column(String(30), nullable=False)
     surname = Column(String(60), nullable=False)
-    birthday = Column(Date)
+    birthday = Column(Date, nullable=False)
     gender = Column(String(1), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     password = Column(String(255), nullable=False)

@@ -1,5 +1,6 @@
 import json
 from flask import Flask
+from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from flasgger import Swagger
 from routes.user import user_bp
@@ -10,6 +11,7 @@ from routes.auth import auth_bp
 
 # Define application
 app = Flask(__name__) 
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Define documentation
 swagger = Swagger(app) 
