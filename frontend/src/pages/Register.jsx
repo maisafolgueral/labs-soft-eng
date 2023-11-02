@@ -10,6 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
+import Alert from '@mui/material/Alert';
 import LoadingButton from "@mui/lab/LoadingButton";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -18,15 +19,21 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "dayjs/locale/pt";
 import { Main } from "@/components/Main";
+import { socialAPI } from '@/globals';
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
 
 
 function Form() {
   const navigate = useNavigate();
+  const [alert, setAlert] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [surname, setSurname] = React.useState("");
+  const [birthday, setBirthday] = React.useState("");
   const [gender, setGender] = React.useState("");
-  
+  const [email, setEmail] = React.useState("");
   const [passwords, setPasswords] = React.useState({
     password1: "",
     password2: "",
@@ -34,11 +41,22 @@ function Form() {
     password2Visible: false,
   });
 
+  const handleBirthday = (value) => {
+    const date = new Date(value); 
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+
+    setBirthday(formattedDate);
+  };
+  
   const handlePasswordChange = (field) => (event) => {
     setPasswords({
       ...passwords,
       [field]: event.target.value,
     });
+    // Password verify
   };
 
   const togglePasswordVisibility = (field) => () => {
@@ -51,26 +69,69 @@ function Form() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  
-  const submitHandler = (event) => {
-    event.preventDefault();
+
+  let handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    navigate("/h/timeline");
-  }
+    try {
+      let res = await fetch(socialAPI+"/users", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          surname: surname,
+          birthday: birthday,
+          gender: gender,
+          email: email,
+          password: passwords["password1"],
+          is_bot: false,
+          is_active: true
+        }),
+      });
+
+      let resJson = await res.json();
+      console.log(resJson)
+
+      if (res.status === 200) {
+        navigate("/h/timeline");
+      } else if (res.status === 400) {
+        setAlert(true);
+        setAlertMessage(resJson.name);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box
       component="form"
       noValidate
       autoComplete="off"
-      onSubmit={submitHandler}
+      onSubmit={handleSubmit}
     >
       <Stack direction="column" spacing={2}>
+
+        {alert &&
+        <Alert 
+          variant="filled" 
+          severity="error"
+        >
+          { alertMessage }
+        </Alert>
+        }
+
         <TextField 
           fullWidth  
           label="Nome" 
           variant="outlined"
           size="small"
+          onChange={(e) => setName(e.target.value)}
         />
 
         <TextField 
@@ -78,26 +139,27 @@ function Form() {
           label="Sobrenome" 
           variant="outlined"
           size="small"
+          onChange={(e) => setSurname(e.target.value)}
         />
 
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt">
-            <DatePicker 
-                id="birthday" 
+            <DatePicker  
                 label="Aniversário" 
                 variant="outlined" 
                 format="DD/MM/YYYY"
                 slotProps={{ textField: { size: "small" } }}
+                onChange={handleBirthday}
             />
         </LocalizationProvider>
 
         <TextField
           value={gender}
-          onChange={(e) => setGender(e.target.value)}
           fullWidth 
           select 
           label="Sexo" 
           variant="outlined"
           size="small"
+          onChange={(e) => setGender(e.target.value)}
         >
           <MenuItem key={1} value="M">
             Masculino
@@ -112,12 +174,12 @@ function Form() {
           label="E-mail" 
           variant="outlined"
           size="small"
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <FormControl variant="outlined" size="small">
             <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
             <OutlinedInput
-                id="outlined-adornment-password"
                 label="Senha"
                 type={passwords.password1Visible ? "text" : "password"}
                 value={passwords.password1}
@@ -140,7 +202,6 @@ function Form() {
         <FormControl variant="outlined" size="small">
             <InputLabel htmlFor="outlined-adornment-password">Repita a senha</InputLabel>
             <OutlinedInput
-                id="outlined-adornment-password"
                 label="Repita a senha"
                 type={passwords.password2Visible ? "text" : "password"}
                 value={passwords.password2}
@@ -168,7 +229,7 @@ function Form() {
             fontSize: "16px"
           }}
           loading={loading}
-          disabled
+          //disabled
         >
           Criar conta
         </LoadingButton>
