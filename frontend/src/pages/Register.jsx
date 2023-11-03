@@ -25,7 +25,6 @@ import { socialAPI } from '@/globals';
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
 
-
 const validationSchema = yup.object({
   name: yup
     .string('Preencha o seu nome')
@@ -199,12 +198,16 @@ function Form() {
             label="Aniversário" 
             variant="outlined" 
             format="DD/MM/YYYY"
-            slotProps={{ textField: { size: "small" } }}
-            value={formik.values.birthday}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.birthday && Boolean(formik.errors.birthday)}
-            helperText={formik.touched.birthday && formik.errors.birthday}
+            slotProps={{
+              textField: {
+                  size: "small",
+                  selected: formik.values.birthday,
+                  error: formik.touched.birthday && Boolean(formik.errors.birthday),
+                  helperText: formik.touched.birthday && formik.errors.birthday,
+                  onBlur: formik.handleBlur,
+                  onChange: formik.handleChange
+              }
+            }}
           />
         </LocalizationProvider>
 
@@ -247,8 +250,12 @@ function Form() {
             <OutlinedInput
                 label="Senha"
                 type={passwords.password1Visible ? "text" : "password"}
-                value={passwords.password1}
-                onChange={handlePasswordChange("password1")}
+                value={passwords.password1 + formik.values.password}
+                onChange={(e) => {
+                  handlePasswordChange("password1");
+                  formik.handleChange(e)}}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
                 endAdornment={
                 <InputAdornment position="end" >
                     <IconButton
@@ -269,8 +276,12 @@ function Form() {
             <OutlinedInput
                 label="Repita a senha"
                 type={passwords.password2Visible ? "text" : "password"}
-                value={passwords.password2}
-                onChange={handlePasswordChange("password2")}
+                value={passwords.password2 + formik.values.password}
+                onChange={(e) => {
+                  handlePasswordChange("password2");
+                  formik.handleChange(e)}}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
                 endAdornment={
                 <InputAdornment position="end" >
                     <IconButton
