@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Main } from "@/components/Main";
+import PasswordInput from "@/components/PasswordInput";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 import bannerConversation from "@/assets/images/banner-conversation.png";
 
@@ -13,12 +14,6 @@ import bannerConversation from "@/assets/images/banner-conversation.png";
 export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-    setLoading(true);
-    navigate("/h/timeline");
-  }
 
   return (
     <Main>
@@ -51,21 +46,24 @@ export default function Login() {
           component="form"
           noValidate
           autoComplete="off"
-          onSubmit={submitHandler}
+          onSubmit={formik.handleSubmit}
         >
           <Stack direction="column" spacing={2}>
             <TextField 
               fullWidth  
+              name="email"
               label="E-mail" 
               variant="outlined"
               size="small"
             />
-            <TextField 
+            <PasswordInput
               fullWidth  
+              name="password"
               label="Senha" 
               variant="outlined"
               size="small"
               type="password"
+
             />
             <LoadingButton 
               fullWidth 
@@ -75,7 +73,6 @@ export default function Login() {
                 fontSize: "16px"
               }}
               loading={loading}
-              disabled
             >
               Acessar
             </LoadingButton>
