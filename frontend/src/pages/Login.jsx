@@ -18,12 +18,10 @@ import bannerConversation from "@/assets/images/banner-conversation.png";
 
 
 const validationSchema = yup.object({
-  email: yup
-    .string("Preencha o seu e-mail")
+  email: yup.string()
     .email("E-mail inválido")
     .required("E-mail é obrigatório"),
-  password: yup
-    .string("Preencha a sua senha")
+  password: yup.string()
     .required("Senha é obrigatório"),
 });
 
@@ -79,8 +77,8 @@ export default function Login() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (data) => {
-      handleSubmit(data);
+    onSubmit: (values) => {
+      handleSubmit(values);
     },
   });
 
@@ -144,7 +142,6 @@ export default function Login() {
               label="Senha" 
               variant="outlined"
               size="small"
-              type="password"
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
