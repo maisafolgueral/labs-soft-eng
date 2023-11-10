@@ -16,6 +16,7 @@ Left Bar
 */
 .left-bar-item {
     text-decoration: none;
+    cursor: pointer;
 }
 .left-bar-item-icon,
 .left-bar-item-title {

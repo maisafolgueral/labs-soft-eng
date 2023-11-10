@@ -1,3 +1,4 @@
+import Cookies from "universal-cookie";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -12,6 +13,12 @@ import {
 
 
 export default function LeftBar() {
+  const logout = () => {
+    const cookies = new Cookies();
+    cookies.remove("utoken", { path: "/" });
+    window.location.reload(true);
+  }
+
   return (
     <Box
       sx={{
@@ -67,18 +74,19 @@ export default function LeftBar() {
             </Typography>
           </Stack>
         </NavLink>
-        <NavLink to="/" className="left-bar-item">
+        <div className="left-bar-item" onClick={logout}>
           <Stack spacing="12px" direction="row">
-            <BoxArrowLeft size={30} className="left-bar-item-icon"/>
-            <Typography 
-              component="span"
-              fontSize={20}
-              className="left-bar-item-title"
-            >
-              Sair
-            </Typography>
-          </Stack>
-        </NavLink>
+              <BoxArrowLeft size={30} className="left-bar-item-icon"/>
+              <Typography 
+                component="span"
+                fontSize={20}
+                className="left-bar-item-title"
+                onClick={logout}
+              >
+                Sair
+              </Typography>
+            </Stack>
+        </div>
       </Stack>
     </Box>
   );

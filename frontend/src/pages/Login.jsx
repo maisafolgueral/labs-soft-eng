@@ -73,8 +73,8 @@ export default function Login() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "pedrorodrigues@email.com",
+      password: "123pedro",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -156,7 +156,7 @@ export default function Login() {
                 fontSize: "16px"
               }}
               loading={loading}
-              disabled={!formik.dirty}
+              //disabled={!formik.dirty}
             >
               Acessar
             </LoadingButton>
