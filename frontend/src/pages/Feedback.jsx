@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as yup from "yup";
+import Cookies from "universal-cookie";
 import { useFormik } from "formik";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -9,30 +10,65 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Alert from "@mui/material/Alert";
+import { urlApis } from "@/globals";
 import { Icon } from "@/components/Icon";
 
 const validationSchema = yup.object({
     subject: yup.string()
-      .required("Título é obrigatório"),
+        .min(10, "Título deve conter no mínimo 10 caracteres")
+        .max(100, "Título deve conter no máximo 100 caracteres")
+        .required("Título é obrigatório"),
     description: yup.string()
-      .required("Descrição é obrigatório"),
-  });
+        .min(50, "Descrição deve conter no mínimo 50 caracteres")
+        .max(500, "Descrição deve conter no máximo 500 caracteres")
+        .required("Descrição é obrigatório"),
+});
   
 
 export default function Feedback() {
     const [loading, setLoading] = React.useState(false);
     const [alert, setAlert] = React.useState(false);
+    const [alertType, setAlertType] = React.useState("");
     const [alertMessage, setAlertMessage] = React.useState("");
   
-    let displayError = (message) => {
+    let displayMessage = (type, message) => {
       setAlert(true);
+      setAlertType(type);
       setAlertMessage(message);
     }
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    let handleSubmit = async (values) => {
         setLoading(true);
-    }
+        try {
+            const cookies = new Cookies();
+            const token = cookies.get("utoken");
+
+            let res = await fetch(urlApis["social"]+"/feedbacks", {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer "+token
+                },
+                body: JSON.stringify({
+                    user_id: "",
+                    subject: values.subject,
+                    description: values.description
+                }),
+            });
+
+            if (res.status === 200) {
+                displayMessage("success", "Obrigado pelo feedback!");
+            } else if (res.status === 409) {
+                displayMessage("error", "Este e-mail já está em uso");
+            } else {
+                displayMessage("error", "Ocorreu um erro em nosso servidor");
+            }
+        } catch (err) {
+            displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+        }
+        setLoading(false);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -87,7 +123,7 @@ export default function Feedback() {
                                 {alert &&
                                     <Alert 
                                     variant="filled" 
-                                    severity="error"
+                                    severity={alertType}
                                     >
                                         { alertMessage }
                                     </Alert>
@@ -122,6 +158,7 @@ export default function Feedback() {
                                     justifyContent="right"
                                 >
                                     <LoadingButton 
+                                        type="submit"
                                         variant="contained"
                                         size="medium"
                                         spacing={2}

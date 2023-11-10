@@ -13,7 +13,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import "dayjs/locale/pt";
-import { socialAPI } from "@/globals";
+import { urlApis } from "@/globals";
 import { Main } from "@/components/Main";
 import PasswordInput from "@/components/PasswordInput";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
@@ -93,7 +93,7 @@ function Form() {
   let handleSubmit = async (values) => {
     setLoading(true);
     try {
-      let res = await fetch(socialAPI+"/users", {
+      let res = await fetch(urlApis["social"]+"/users", {
         method: "POST",
         mode: "cors",
         headers: {

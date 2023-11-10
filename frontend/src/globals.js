@@ -1,7 +1,9 @@
 import Cookies from "universal-cookie";
 
 
-const socialAPI = 'http://127.0.0.1:5000/api';
+const urlApis = {
+    "social": 'http://127.0.0.1:5000/api'
+};
 
 const isAuthenticated = () => {
     const cookies = new Cookies();
@@ -13,6 +15,6 @@ const isAuthenticated = () => {
 }
 
 export {
-    socialAPI,
+    urlApis,
     isAuthenticated
 }

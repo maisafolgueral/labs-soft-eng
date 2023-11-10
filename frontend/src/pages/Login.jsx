@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { socialAPI } from "@/globals";
+import { urlApis } from "@/globals";
 import { Main } from "@/components/Main";
 import PasswordInput from "@/components/PasswordInput";
 import isologo from "@/assets/branding/hola-isologo-coloful.svg";
@@ -39,7 +39,7 @@ export default function Login() {
   let handleSubmit = async (values) => {
     setLoading(true);
     try {
-      let res = await fetch(socialAPI+"/auth", {
+      let res = await fetch(urlApis["social"]+"/auth", {
         method: "POST",
         mode: "cors",
         headers: {
