@@ -22,8 +22,7 @@ const validationSchema = yup.object({
       .min(30, "Título deve conter no mínimo 30 caracteres")
       .max(300, "Título deve conter no máximo 300 caracteres"),
     topic: yup.string()
-    .oneOf(["Futebol", "Galáxias", "Medicina"])
-    .required("Tópico é obrigatório"),
+        .required("Obrigatório"),
   });
 
 export default function AddPost(props) {
@@ -123,9 +122,6 @@ export default function AddPost(props) {
                         label="Tópico"
                         variant="outlined"
                         size="small"
-                        sx={{
-                            height: "36px"
-                        }}
                         onClick={handleTopicChange}
                         value={formik.values.topic}
                         onChange={formik.handleChange}
@@ -144,7 +140,7 @@ export default function AddPost(props) {
                     size="small"
                     sx={{
                         width: "110px",
-                        height: "36px",
+                        height: "40px",
                         fontSize: "15px"
                     }}
                     onClick={handlePost}
