@@ -51,6 +51,7 @@ export default function Login() {
       
       if (res.status === 200) {
         const cookies = new Cookies();
+
         cookies.set(
           "utoken", 
           resJson.token, 
@@ -59,6 +60,25 @@ export default function Login() {
             expires: new Date(resJson.exp)
           }
         );
+
+        cookies.set(
+          "uid", 
+          resJson.user.id, 
+          { 
+            path: "/",
+            expires: new Date(resJson.exp)
+          }
+        );
+
+        cookies.set(
+          "uname", 
+          resJson.user.name, 
+          { 
+            path: "/",
+            expires: new Date(resJson.exp)
+          }
+        );
+        
         navigate("/h/timeline");
       } else if (res.status === 401) {
         displayError("E-mail ou senha inválida");

@@ -13,6 +13,7 @@ import Alert from "@mui/material/Alert";
 import { urlApis } from "@/globals";
 import { Icon } from "@/components/Icon";
 
+
 const validationSchema = yup.object({
     subject: yup.string()
         .min(10, "Título deve conter no mínimo 10 caracteres")
@@ -23,7 +24,6 @@ const validationSchema = yup.object({
         .max(500, "Descrição deve conter no máximo 500 caracteres")
         .required("Descrição é obrigatório"),
 });
-  
 
 export default function Feedback() {
     const [loading, setLoading] = React.useState(false);
@@ -51,7 +51,7 @@ export default function Feedback() {
                     "Authorization": "Bearer "+token
                 },
                 body: JSON.stringify({
-                    user_id: "",
+                    user_id: cookies.get("uid"),
                     subject: values.subject,
                     description: values.description
                 }),
@@ -59,8 +59,6 @@ export default function Feedback() {
 
             if (res.status === 200) {
                 displayMessage("success", "Obrigado pelo feedback!");
-            } else if (res.status === 409) {
-                displayMessage("error", "Este e-mail já está em uso");
             } else {
                 displayMessage("error", "Ocorreu um erro em nosso servidor");
             }

@@ -16,6 +16,8 @@ export default function LeftBar() {
   const logout = () => {
     const cookies = new Cookies();
     cookies.remove("utoken", { path: "/" });
+    cookies.remove("uid", { path: "/" });
+    cookies.remove("uname", { path: "/" });
     window.location.reload(true);
   }
 
