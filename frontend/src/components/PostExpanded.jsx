@@ -1,4 +1,6 @@
 import * as React from "react";
+import * as yup from "yup";
+import { useFormik } from "formik";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
@@ -7,12 +9,21 @@ import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
 import Divider from "@mui/material/Divider";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CloseIcon from "@mui/icons-material/Close";
 import AvatarInfo from "@/components/AvatarInfo";
 import Reactions from "@/components/Reactions";
 import IconWithTitle from "@/components/IconWithTitle";
+
+
+const validationSchema = yup.object({
+  content: yup.string()
+    .required("O conteúdo é obrigatório")
+    .min(1, "O conteúdo deve conter no mínimo 1 caractere")
+    .max(300, "O conteúdo deve conter no máximo 300 caracteres"),
+});
 
 
 function Header({ showTopics }) {
@@ -102,10 +113,28 @@ function Comment() {
 
 export default function PostExpanded({ showTopics, open, onClose }) {
   const [loading, setLoading] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("");
 
-  const handleComment= () => {
-      setLoading(true);
-  };
+  let displayError = (message) => {
+    setAlert(true);
+    setAlertMessage(message);
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+}
+
+  const formik = useFormik({
+    initialValues: {
+      content: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      handleSubmit(values);
+    },
+  });
   
   return (
     <React.Fragment>
@@ -126,6 +155,7 @@ export default function PostExpanded({ showTopics, open, onClose }) {
             borderBottom: "1px solid #c4c4c4",
             padding: "14px 27px"
           }}
+          onSubmit={formik.handleSubmit}
         >
           <Stack direction="row" spacing="10px" alignItems="center">
             <Typography sx={{flex: 1 }} variant="h6" component="div">
@@ -195,14 +225,28 @@ export default function PostExpanded({ showTopics, open, onClose }) {
                 alignItems="center" 
                 sx={{padding: "27px"}}
               >
+                {alert &&
+                  <Alert 
+                    variant="filled" 
+                    severity="error"
+                  >
+                    { alertMessage }
+                  </Alert>
+                }
                 <FormControl fullWidth>
                   <TextField 
+                    name="content"
                     id="outlined-multiline-flexible" 
                     label="Escreva um comentário..." 
                     multiline
                     rows={3}
                     variant="outlined" 
-                    size="small"                  
+                    size="small"       
+                    value={formik.values.content}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.content && Boolean(formik.errors.content)}
+                    helperText={formik.touched.content && formik.errors.content}           
                   />
                 </FormControl>
                 <LoadingButton 
@@ -211,9 +255,9 @@ export default function PostExpanded({ showTopics, open, onClose }) {
                   sx={{
                     height: "35px"
                   }}
-                  onClick={handleComment}
+                  onClick={handleSubmit}
                   loading={loading}
-                  disabled
+                  disabled={!formik.dirty}
                 >
                   Comentar
                 </LoadingButton>
