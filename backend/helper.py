@@ -44,7 +44,11 @@ def authenticate():
         return jsonify({
             'message':'Validate successfully', 
             'token':token, 
-            'exp':datetime.datetime.now() + datetime.timedelta(hours=12)
+            'exp':datetime.datetime.now() + datetime.timedelta(hours=12),
+            'user': {
+                'id': user.id,
+                'name': user.name
+            }
         })
         
     return jsonify({
