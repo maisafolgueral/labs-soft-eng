@@ -23,7 +23,6 @@ export default function AvatarInfo(props) {
                     component= "span"
                     fontSize= {props.nameFontSize ? props.nameFontSize : "15px"}
                     color= "#404040"
-                    //height= "10.7px"
                 >
                     <Link href={props.href}
                         sx={{
@@ -37,16 +36,6 @@ export default function AvatarInfo(props) {
                         }
                     </Link>
                 </Typography>
-
-                {props.description &&
-                <Typography 
-                    component= "span"
-                    fontSize= {props.descFontSize ? props.descFontSize : "11px"}
-                    color= "#777777"
-                >
-                    { props.description }
-                </Typography>
-                }
             </Stack>
         </Stack>
     );
