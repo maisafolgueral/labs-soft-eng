@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as yup from "yup";
+import Cookies from "universal-cookie";
 import { useFormik } from "formik";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -16,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AvatarInfo from "@/components/AvatarInfo";
 import Reactions from "@/components/Reactions";
 import IconWithTitle from "@/components/IconWithTitle";
+import { urlApis } from "@/globals";
 
 
 const validationSchema = yup.object({
@@ -133,17 +135,44 @@ function Comment() {
 export default function PostExpanded({ showTopics, open, onClose }) {
   const [loading, setLoading] = React.useState(false);
   const [alert, setAlert] = React.useState(false);
+  const [alertType, setAlertType] = React.useState("");
   const [alertMessage, setAlertMessage] = React.useState("");
 
-  let displayError = (message) => {
+  let displayMessage = (type, message) => {
     setAlert(true);
+    setAlertType(type);
     setAlertMessage(message);
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  let handleSubmit = async (values) => {
     setLoading(true);
-}
+    try {
+        const cookies = new Cookies();
+
+        let res = await fetch(urlApis["social"]+"/posts", {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer "+cookies.get("utoken")
+            },
+            body: JSON.stringify({
+                user_id: cookies.get("uid"),
+                post_id: values.topic,
+                content: values.content
+            }),
+        });
+
+        if (res.status === 200) {
+            displayMessage("success", "Comentário criado!");
+        } else {
+            displayMessage("error", "Ocorreu um erro em nosso servidor");
+        }
+    } catch (err) {
+        displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+    }
+    setLoading(false);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -174,6 +203,9 @@ export default function PostExpanded({ showTopics, open, onClose }) {
             borderBottom: "1px solid #c4c4c4",
             padding: "14px 27px"
           }}
+          component="form"
+          noValidate
+          autoComplete="off"
           onSubmit={formik.handleSubmit}
         >
           <Stack direction="row" spacing="10px" alignItems="center">
@@ -246,12 +278,12 @@ export default function PostExpanded({ showTopics, open, onClose }) {
               >
                 {alert &&
                   <Alert 
-                    variant="filled" 
-                    severity="error"
+                      variant="filled" 
+                      severity={alertType}
                   >
-                    { alertMessage }
+                      { alertMessage }
                   </Alert>
-                }
+                  }
                 <FormControl fullWidth>
                   <TextField 
                     name="content"
@@ -269,12 +301,12 @@ export default function PostExpanded({ showTopics, open, onClose }) {
                   />
                 </FormControl>
                 <LoadingButton 
+                  type="submit"
                   variant="contained"
                   size="medium"
                   sx={{
                     height: "35px"
                   }}
-                  onClick={handleSubmit}
                   loading={loading}
                   disabled={!formik.dirty}
                 >
