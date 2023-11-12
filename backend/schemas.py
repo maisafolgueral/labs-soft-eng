@@ -53,6 +53,7 @@ class User(Schema):
 class Topic(Schema):
     id = fields.Integer(dump_only=True)
     subject = fields.String(required=True, validate=[validate.Length(min=3, max=100)])
+    total_followers = fields.Integer(dump_only=True)
     created_at = fields.DateTime(dump_only=True)
 
 

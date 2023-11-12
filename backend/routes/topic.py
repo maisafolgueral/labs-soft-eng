@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request, abort
+from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
@@ -55,8 +56,18 @@ def createTopic():
 @token_required
 def getAllTopics():
     try:
-        topics = session.query(TopicModel).all()
+        conn = engine.connect()
+        
+        stmt = text("SELECT T.id, T.subject, T.created_at, COUNT(DISTINCT F.follower_id) AS total_followers FROM topic T LEFT JOIN follow_topic F ON T.id=F.topic_id GROUP BY T.id")
+
+        result = conn.execute(stmt)
+
+        topics = result.fetchall()
+
+        conn.close()
+
         result = TopicSchema(many=True).dump(topics)
+
         return jsonify(result)
     except:
         abort(500)
