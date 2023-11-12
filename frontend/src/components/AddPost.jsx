@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as yup from "yup";
+import Cookies from "universal-cookie";
 import { useFormik } from "formik";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -10,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { urlApis } from "@/globals";
 
 
 const validationSchema = yup.object({
@@ -29,22 +31,45 @@ export default function AddPost(props) {
     const [topic, setTopic] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const [alert, setAlert] = React.useState(false);
+    const [alertType, setAlertType] = React.useState("");
     const [alertMessage, setAlertMessage] = React.useState("");
-
-    let displayError = (message) => {
+  
+    let displayMessage = (type, message) => {
       setAlert(true);
+      setAlertType(type);
       setAlertMessage(message);
     }
 
-    const handleTopicChange = (event) => {
-        event.preventDefault();
+    let handleSubmit = async (values) => {
         setLoading(true);
-    }
+        try {
+            const cookies = new Cookies();
 
-    const handlePost = (event) => {
-        event.preventDefault();
-        setLoading(true);
-    }
+            let res = await fetch(urlApis["social"]+"/posts", {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer "+cookies.get("utoken")
+                },
+                body: JSON.stringify({
+                    user_id: cookies.get("uid"),
+                    topic_id: values.topic,
+                    title: values.title,
+                    content: values.content
+                }),
+            });
+
+            if (res.status === 200) {
+                displayMessage("success", "Post criado!");
+            } else {
+                displayMessage("error", "Ocorreu um erro em nosso servidor");
+            }
+        } catch (err) {
+            displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+        }
+        setLoading(false);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -68,6 +93,9 @@ export default function AddPost(props) {
                 borderRadius: "5px",
                 padding: "20px"
             }}
+            component="form"
+            noValidate
+            autoComplete="off"
             onSubmit={formik.handleSubmit}
         >
             <Box>
@@ -75,7 +103,7 @@ export default function AddPost(props) {
                     {alert &&
                         <Alert 
                             variant="filled" 
-                            severity="error"
+                            severity={alertType}
                         >
                             { alertMessage }
                         </Alert>
@@ -122,20 +150,20 @@ export default function AddPost(props) {
                         label="Tópico"
                         variant="outlined"
                         size="small"
-                        onClick={handleTopicChange}
                         value={formik.values.topic}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         error={formik.touched.topic && Boolean(formik.errors.topic)}
                         helperText={formik.touched.topic && formik.errors.topic}
                     >
-                        <MenuItem value={10}>Galáxias</MenuItem>
-                        <MenuItem value={20}>Futebol</MenuItem>
-                        <MenuItem value={30}>Medicina</MenuItem>
+                        <MenuItem value={1}>Galáxias</MenuItem>
+                        <MenuItem value={2}>Futebol</MenuItem>
+                        <MenuItem value={3}>Medicina</MenuItem>
                     </TextField>
                 </FormControl>
                 }
                 <LoadingButton 
+                    type="submit"
                     variant="contained"
                     size="small"
                     sx={{
@@ -143,7 +171,6 @@ export default function AddPost(props) {
                         height: "40px",
                         fontSize: "15px"
                     }}
-                    onClick={handlePost}
                     loading={loading}
                     disabled={!formik.dirty}
                 >
