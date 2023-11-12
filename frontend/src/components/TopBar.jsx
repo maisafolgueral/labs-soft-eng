@@ -1,3 +1,4 @@
+import Cookies from "universal-cookie";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
@@ -6,6 +7,10 @@ import isologo from "@/assets/branding/hola-isologo-coloful.svg";
 
 
 export default function TopBar() {
+  const cookies = new Cookies();
+  const userFullName = cookies.get("uname")+" "+cookies.get("usurname");
+  const userId = cookies.get("uid");
+
   return (
     <Box
       sx={{
@@ -35,10 +40,10 @@ export default function TopBar() {
           <AvatarInfo 
               avatarSize={34}
               avatarFontSize={15}
-              name="Marie Canon"
+              name={userFullName}
               nameFontSize={18}
               onlyFirstName
-              href="/h/profile/:id"
+              href={"/h/profile/"+userId}
           />
         </Grid>
       </Grid>

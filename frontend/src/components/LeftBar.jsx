@@ -18,6 +18,7 @@ export default function LeftBar() {
     cookies.remove("utoken", { path: "/" });
     cookies.remove("uid", { path: "/" });
     cookies.remove("uname", { path: "/" });
+    cookies.remove("usurname", { path: "/" });
     window.location.reload(true);
   }
 

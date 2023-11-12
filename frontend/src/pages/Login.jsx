@@ -78,6 +78,15 @@ export default function Login() {
             expires: new Date(resJson.exp)
           }
         );
+
+        cookies.set(
+          "usurname", 
+          resJson.user.surname, 
+          { 
+            path: "/",
+            expires: new Date(resJson.exp)
+          }
+        );
         
         navigate("/h/timeline");
       } else if (res.status === 401) {
