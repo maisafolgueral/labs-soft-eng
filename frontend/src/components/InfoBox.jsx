@@ -2,7 +2,8 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 
 
-export default function InfoBox({ Header, Content }) {
+export default function InfoBox(props) {
+    const { Header, Content } = props;
     return (
         <Box
             sx={{

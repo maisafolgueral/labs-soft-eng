@@ -6,15 +6,17 @@ import {
 } from "react-bootstrap-icons";
 
 
-export default function FollowButton() {
-  const [following, setFollowing] = React.useState(false);
+export default function FollowButton({ onClick, isFollowing }) {
+  const [following, setFollowing] = React.useState(isFollowing);
 
   const handleFollow = () => {
     setFollowing(true);
+    onClick(true);
   };
 
   const handleUnfollow = () => {
     setFollowing(false);
+    onClick(false);
   };
 
   return (

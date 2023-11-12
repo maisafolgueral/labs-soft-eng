@@ -41,14 +41,13 @@ export default function Feedback() {
         setLoading(true);
         try {
             const cookies = new Cookies();
-            const token = cookies.get("utoken");
 
             let res = await fetch(urlApis["social"]+"/feedbacks", {
                     method: "POST",
                     mode: "cors",
                     headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer "+token
+                    "Authorization": "Bearer "+cookies.get("utoken")
                 },
                 body: JSON.stringify({
                     user_id: cookies.get("uid"),
