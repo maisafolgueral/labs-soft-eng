@@ -47,7 +47,8 @@ def authenticate():
             'exp':datetime.datetime.now() + datetime.timedelta(hours=12),
             'user': {
                 'id': user.id,
-                'name': user.name
+                'name': user.name,
+                'surname': user.surname
             }
         })
         
