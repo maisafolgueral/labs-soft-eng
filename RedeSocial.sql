@@ -24,7 +24,7 @@ CREATE TABLE "reaction" (
   "id" SERIAL PRIMARY KEY,
   "user_id" INTEGER NOT NULL,
   "post_id" INTEGER NOT NULL,
-  "type" VARCHAR(30) NOT NULL
+  "type" VARCHAR(30) NOT NULL,
   "created_at" TIMESTAMP
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE "comment" (
 
 CREATE TABLE "topic" (
   "id" SERIAL PRIMARY KEY,
-  "subject" VARCHAR(100) NOT NULL
+  "subject" VARCHAR(100) NOT NULL,
   "created_at" TIMESTAMP
 );
 
