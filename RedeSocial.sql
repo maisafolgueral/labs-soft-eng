@@ -64,7 +64,7 @@ CREATE TABLE "follow_topic" (
 
 COMMENT ON COLUMN "post"."user_id" IS 'Post Creator';
 
-COMMENT ON COLUMN "post"."id_topic" IS 'Which topic belongs to';
+COMMENT ON COLUMN "post"."topic_id" IS 'Which topic belongs to';
 
 ALTER TABLE "post" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 
