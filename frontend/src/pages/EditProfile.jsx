@@ -144,7 +144,14 @@ function PersonalTab({ currentTab }) {
 
     const [loading, setLoading] = React.useState(false);
     const [alert, setAlert] = React.useState(false);
+    const [alertType, setAlertType] = React.useState("");
     const [alertMessage, setAlertMessage] = React.useState("");
+  
+    let displayMessage = (type, message) => {
+      setAlert(true);
+      setAlertType(type);
+      setAlertMessage(message);
+    }
   
     const handleBirthday = (value) => {
       let outputDate = null;
@@ -160,15 +167,37 @@ function PersonalTab({ currentTab }) {
       formik.setFieldValue('birthday', outputDate);
     };
   
-    let displayError = (message) => {
-      setAlert(true);
-      setAlertMessage(message);
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    let handleSubmit = async (values) => {
         setLoading(true);
-    }
+        try {
+          let res = await fetch(urlApis["social"]+"/users", {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: values.name,
+              surname: values.surname,
+              birthday: values.birthday,
+              gender: values.gender,
+              email: values.email,
+              password: values.password,
+              is_bot: false,
+              is_active: true
+            }),
+          });
+          
+            if (res.status === 200) {
+                displayMessage("success", "Dados atualizados!");
+            } else {
+                displayMessage("error", "Ocorreu um erro em nosso servidor");
+            }
+        } catch (err) {
+            displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+        }
+        setLoading(false);
+      };
 
     const formik = useFormik({
         initialValues: {
@@ -194,12 +223,12 @@ function PersonalTab({ currentTab }) {
             >
                 <Stack spacing="28px">
                     {alert &&
-                    <Alert 
-                        variant="filled" 
-                        severity="error"
-                    >
-                        { alertMessage }
-                    </Alert>
+                        <Alert 
+                            variant="filled" 
+                            severity={alertType}
+                        >
+                            { alertMessage }
+                        </Alert>
                     }
                     <TextField 
                         id="name" 
@@ -282,11 +311,11 @@ function PersonalTab({ currentTab }) {
                         justifyContent="right"
                     >
                         <LoadingButton 
+                            type="submit"
                             variant="contained"
                             size="medium"
                             spacing={2}
                             loading={loading}
-                            onClick={handleSubmit}
                             disabled={!formik.dirty}
                         >
                             Atualizar
