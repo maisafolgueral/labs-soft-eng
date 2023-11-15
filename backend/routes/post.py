@@ -34,11 +34,10 @@ def createPost():
         # Persist data into the database
         session.add(PostModel(**data))
         session.commit()
-            
-        return jsonify({
-            'code': 201,
-            'description': 'Successfully created'
-        })
+
+        result = PostSchema().dump(data)
+
+        return jsonify(result)
     
     except ValidationError as err:
         abort(400, err.messages)
@@ -129,6 +128,7 @@ def addReactionToPost(post_id):
         
         # Parse the reaction data from the request.
         data = request.get_json()
+        data["post_id"] = post_id
         ReactionSchema().load(data)
         
         # Create the new reaction for the post.
@@ -138,11 +138,10 @@ def addReactionToPost(post_id):
         
         p.reactions.append(reaction)
         session.commit()
+
+        result = ReactionSchema().dump(data)
         
-        return jsonify({
-            'code': 201,
-            'description': 'Successfully added reaction to the post'
-        })
+        return jsonify(result)
         
     except ValidationError as err:
         abort(400, err.messages)
@@ -189,7 +188,6 @@ def getPostReaction(post_id, reaction_id):
     except:
         abort(500)
 
-# NOT WORKING. DON'T KNOW WHY. 
 @post_bp.route('/posts/<post_id>/reactions/<reaction_id>', methods=['PUT'])
 @token_required
 def updatePostReaction(post_id, reaction_id):
@@ -264,11 +262,10 @@ def addCommentToPost(post_id):
         
         post.comments.append(comment)
         session.commit()
+
+        result = CommentSchema().dump(data)
         
-        return jsonify({
-            'code': 201,
-            'description': 'Successfully added comment to the post'
-        })
+        return jsonify(result)
         
     except ValidationError as err:
         abort(400, err.messages)

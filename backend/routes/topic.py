@@ -38,11 +38,10 @@ def createTopic():
         # Persist data into the database
         session.add(TopicModel(**data))
         session.commit()
+
+        result = TopicSchema().dump(data)
             
-        return jsonify({
-            'code': 201,
-            'description': 'Successfully created'
-        })
+        return jsonify(result)
     except AlreadyExistsError as err:
         abort(409, err.message)
     except ValidationError as err:

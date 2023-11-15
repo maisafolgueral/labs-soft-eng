@@ -26,11 +26,10 @@ def sendFeedback():
         # Persist data into the database
         session.add(FeedbackModel(**data))
         session.commit()
+
+        result = FeedbackSchema().dump(data)
             
-        return jsonify({
-            'code': 201,
-            'description': 'Successfully created'
-        })
+        return jsonify(result)
     
     except ValidationError as err:
         abort(400, err.messages)
