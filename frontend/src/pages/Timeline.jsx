@@ -67,7 +67,7 @@ export default function Timeline() {
             {loading && 
             <Skeleton variant="rounded" width="100%" height={300}/>
             }
-            {!posts &&
+            {posts.length === 0 &&
               <Box
                 sx={{
                   width: "100%",
