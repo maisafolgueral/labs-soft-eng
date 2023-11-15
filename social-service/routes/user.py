@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request, abort
+from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
@@ -349,5 +350,45 @@ def getAllUserPosts(user_id):
     
     except NoResultFound as err:
         abort(404, err.args)
+    except:
+        abort(500)
+
+
+@user_bp.route('/users/<id>/timeline', methods=['GET'])
+@token_required
+def generateTimeline(id):
+    try:
+        conn = engine.connect()
+        
+        stmt = text(f'SELECT DISTINCT ON (P.id) P.id, P.title, P.content, P.created_at, U.id as user_id, U.name as user_name, U.surname as user_surname, T.id as topic_id, T.subject as topic_subject FROM post P JOIN "user" U ON P.user_id = U.id JOIN topic T ON P.topic_id = T.id JOIN follow_topic FT ON FT.follower_id = U.id WHERE U.id = {id} ORDER BY P.id, P.created_at DESC')
+
+        result = conn.execute(stmt)
+
+        posts = result.fetchall()
+
+        posts_json = []
+
+        for post in posts:
+            posts_json.append({
+                'post': {
+                    'id': post.id,
+                    'title': post.title,
+                    'content': post.content,
+                    'date': post.created_at
+                },
+                'user': {
+                    'id': post.user_id,
+                    'name': post.user_name,
+                    'surname': post.user_surname
+                },
+                'topic': {
+                    'id': post.topic_id,
+                    'subject': post.topic_subject
+                }
+            })
+
+        conn.close()
+
+        return jsonify(posts_json)
     except:
         abort(500)

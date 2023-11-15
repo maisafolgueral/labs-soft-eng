@@ -32,10 +32,11 @@ def createPost():
         PostSchema().load(data)
 
         # Persist data into the database
-        session.add(PostModel(**data))
+        post = PostModel(**data)
+        session.add(post)
         session.commit()
 
-        result = PostSchema().dump(data)
+        result = PostSchema().dump(post)
 
         return jsonify(result)
     
