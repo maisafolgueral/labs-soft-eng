@@ -11,7 +11,7 @@ import IconWithTitle from "@/components/IconWithTitle";
 import { Icon } from "@/components/Icon";
 
 
-export default function Post({ showTopics, ...props }) {
+export default function Post({ showTopics, postId, ...props }) {
     const [open, setOpen] = React.useState(false);
 
     let formatPublishDate = (date) => {
@@ -21,7 +21,7 @@ export default function Post({ showTopics, ...props }) {
           year: "numeric",
         };
         const formatter = new Intl.DateTimeFormat("pt-BR", options);
-        const formattedDate = formatter.format(new Date());
+        const formattedDate = formatter.format(new Date(date));
         return "Publicado em "+formattedDate;
     }
 

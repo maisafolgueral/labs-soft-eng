@@ -93,6 +93,8 @@ export default function AddPost({ onPublishPost, ...props }) {
                 }),
             });
 
+            let resJson = await res.json(); 
+
             if (res.status === 200) {
                 displayMessage("success", "Publicado com sucesso!");
 
@@ -107,9 +109,10 @@ export default function AddPost({ onPublishPost, ...props }) {
                         "subject": topics[getTopicIndexById(values.topic)].subject,
                     },
                     "post": {
+                        "id": resJson.id,
                         "title": values.title,
                         "content": values.content,
-                        "date": new Date(),
+                        "date": resJson.created_at,
                     },
                 });
             } else {
