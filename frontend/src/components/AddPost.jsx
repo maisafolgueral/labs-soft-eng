@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import * as yup from "yup";
 import Cookies from "universal-cookie";
 import { useFormik } from "formik";
@@ -6,11 +6,10 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import LoadingButton from '@mui/lab/LoadingButton';
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Skeleton from "@mui/material/Skeleton";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { urlApis } from "@/globals";
 
 
@@ -21,39 +20,73 @@ const validationSchema = yup.object({
       .max(100, "Título deve conter no máximo 100 caracteres"),
     content: yup.string()
       .required("Conteúdo é obrigatório")
-      .min(30, "Título deve conter no mínimo 30 caracteres")
-      .max(300, "Título deve conter no máximo 300 caracteres"),
+      .min(30, "Conteúdo deve conter no mínimo 30 caracteres")
+      .max(300, "Conteúdo deve conter no máximo 300 caracteres"),
     topic: yup.string()
         .required("Obrigatório"),
   });
 
-export default function AddPost(props) {
-    const [topic, setTopic] = React.useState('');
+export default function AddPost({ onPublishPost, ...props }) {
+    const [topics, setTopics] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [alert, setAlert] = React.useState(false);
     const [alertType, setAlertType] = React.useState("");
     const [alertMessage, setAlertMessage] = React.useState("");
-  
+
+
+    const cookies = new Cookies();
+    const userToken = cookies.get("utoken");
+    const userId = cookies.get("uid");
+    const userName = cookies.get("uname");
+    const userSurname = cookies.get("usurname");
+
     let displayMessage = (type, message) => {
-      setAlert(true);
-      setAlertType(type);
-      setAlertMessage(message);
+        setAlert(true);
+        setAlertType(type);
+        setAlertMessage(message);
     }
+
+    let getTopicIndexById = (id) => {
+        for (let i = 0; i < topics.length; i++) {
+            if (topics[i]["id"] === id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    React.useEffect(() => {
+        const getTopics = async () => {
+          try {
+            const res = await fetch(urlApis["social"]+"/users/"+userId+"/topics", {
+              method: "GET",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer "+userToken
+              },
+            });
+            let currentTopics = await res.json();
+            setTopics(currentTopics);
+          } catch(err) {
+            setTopics(null);
+          }
+        }
+        getTopics()
+    }, []);
 
     let handleSubmit = async (values) => {
         setLoading(true);
         try {
-            const cookies = new Cookies();
-
             let res = await fetch(urlApis["social"]+"/posts", {
                     method: "POST",
                     mode: "cors",
                     headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer "+cookies.get("utoken")
+                    "Authorization": "Bearer "+userToken
                 },
                 body: JSON.stringify({
-                    user_id: cookies.get("uid"),
+                    user_id: userId,
                     topic_id: values.topic,
                     title: values.title,
                     content: values.content
@@ -61,14 +94,32 @@ export default function AddPost(props) {
             });
 
             if (res.status === 200) {
-                displayMessage("success", "Post criado!");
+                displayMessage("success", "Publicado com sucesso!");
+
+                onPublishPost({
+                    "user": {
+                        "id": userId,
+                        "name": userName,
+                        "surname": userSurname,
+                    },
+                    "topic": {
+                        "id": values.topic,
+                        "subject": topics[getTopicIndexById(values.topic)].subject,
+                    },
+                    "post": {
+                        "title": values.title,
+                        "content": values.content,
+                        "date": new Date(),
+                    },
+                });
             } else {
                 displayMessage("error", "Ocorreu um erro em nosso servidor");
             }
         } catch (err) {
             displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const formik = useFormik({
@@ -142,7 +193,7 @@ export default function AddPost(props) {
                     marginTop: "12px"
                 }}
             >
-                {!props.showTopics &&
+                {!props.showTopics && topics &&
                 <FormControl sx={{ width: "110px" }} size="small">
                     <TextField
                         select 
@@ -156,11 +207,14 @@ export default function AddPost(props) {
                         error={formik.touched.topic && Boolean(formik.errors.topic)}
                         helperText={formik.touched.topic && formik.errors.topic}
                     >
-                        <MenuItem value={1}>Galáxias</MenuItem>
-                        <MenuItem value={2}>Futebol</MenuItem>
-                        <MenuItem value={3}>Medicina</MenuItem>
+                        {topics.map(topic => (
+                        <MenuItem value={topic.id}>{topic.subject}</MenuItem>
+                        ))}
                     </TextField>
                 </FormControl>
+                }
+                {!props.showTopics && !topics &&
+                <Skeleton variant="rounded" width={110} height={40}/>
                 }
                 <LoadingButton 
                     type="submit"
