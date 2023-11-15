@@ -36,11 +36,13 @@ def createUser():
             raise AlreadyExistsError('Email already in use')
 
         # Persist data into the database
-        session.add(UserModel(**data))
+        new_user = UserModel(**data)
+        session.add(new_user)
+        session.flush()
         session.commit()
 
-        result = UserSchema().dump(data)
-            
+        result = UserSchema().dump(new_user)
+
         return jsonify(result)
     except AlreadyExistsError as err:
         abort(409, err.message)
@@ -66,7 +68,7 @@ def getUser(id):
         abort(404, err.args)
     except:
         abort(500)
-       
+
 @user_bp.route('/users/<id>', methods=['PUT'])
 @token_required
 def updateUser(id):
@@ -82,15 +84,19 @@ def updateUser(id):
         if user.first() is None:
             raise NoResultFound('User not found')
 
-        # Persist data into the database
-        user.update(data)
+        if 'password' in data:
+            is_pass = user.first().check_password(data['newPassword'])
+            if is_pass is None:
+                raise ValidationError("Incorrect password")
+            user.first().password = user.first().hash_password(data['newPassword'])
+        else:
+            user.update(data)
+
         session.commit()
 
-        # Dump user updated data
         result = UserSchema().dump(user.first())
             
         return jsonify(result)
-    
     except ValidationError as err:
         abort(400, err.messages)
     

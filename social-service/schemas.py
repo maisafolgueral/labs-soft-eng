@@ -39,14 +39,15 @@ class FollowUser(Schema):
 
 class User(Schema):
     id = fields.Integer(dump_only=True)
-    name = fields.String(required=True, validate=[validate.Length(min=2, max=30)])
-    surname = fields.String(required=True, validate=[validate.Length(min=2, max=60)])
-    birthday = fields.Date(required=True, format='%Y-%m-%d', validate=[validate_birthday_within_range, not_blank])
-    gender = fields.String(required=True, validate=[validate.OneOf(['M', 'F'])])
-    email = fields.Email(required=True, validate=[not_blank])
-    password = fields.String(required=True, load_only=True, validate=[validate.Length(min=6, max=12)])
-    is_bot = fields.Boolean(required=True, validate=[not_blank])
-    is_active = fields.Boolean(required=True, validate=[not_blank])
+    name = fields.String(validate=[validate.Length(min=2, max=30)])
+    surname = fields.String(validate=[validate.Length(min=2, max=60)])
+    birthday = fields.Date(format='%Y-%m-%d', validate=[validate_birthday_within_range])
+    gender = fields.String(validate=[validate.OneOf(['M', 'F'])])
+    email = fields.Email()
+    password = fields.String(load_only=True, validate=[validate.Length(min=6, max=12)])
+    newPassword = fields.String(load_only=True, validate=[validate.Length(min=6, max=12)])
+    is_bot = fields.Boolean()
+    is_active = fields.Boolean()
     created_at = fields.DateTime(dump_only=True)
 
 
