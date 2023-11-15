@@ -1,3 +1,4 @@
+import random
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
@@ -360,7 +361,7 @@ def generateTimeline(id):
     try:
         conn = engine.connect()
         
-        stmt = text(f'SELECT DISTINCT ON (P.id) P.id, P.title, P.content, P.created_at, U.id as user_id, U.name as user_name, U.surname as user_surname, T.id as topic_id, T.subject as topic_subject FROM post P JOIN "user" U ON P.user_id = U.id JOIN topic T ON P.topic_id = T.id JOIN follow_topic FT ON FT.follower_id = U.id WHERE U.id = {id} ORDER BY P.id, P.created_at DESC')
+        stmt = text(f'SELECT DISTINCT ON (P.id) P.id, P.title, P.content, P.created_at, U.id as user_id, U.name as user_name, U.surname as user_surname, T.id as topic_id, T.subject as topic_subject FROM post P JOIN "user" U ON P.user_id = U.id JOIN topic T ON P.topic_id = T.id JOIN follow_topic FT ON FT.topic_id = T.id WHERE FT.follower_id = {id} ORDER BY P.id')
 
         result = conn.execute(stmt)
 
@@ -388,6 +389,8 @@ def generateTimeline(id):
             })
 
         conn.close()
+
+        random.shuffle(posts_json)
 
         return jsonify(posts_json)
     except:
