@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as yup from "yup";
+import Cookies from "universal-cookie";
+import Skeleton from '@mui/material/Skeleton';
 import { useFormik } from "formik";
 import PropTypes from 'prop-types';
 import Box from "@mui/material/Box";
@@ -25,6 +27,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import dayjs from 'dayjs';
 import "dayjs/locale/pt";
+import { urlApis } from "@/globals";
 import { Icon } from "@/components/Icon";
 import PasswordInput from "@/components/PasswordInput";
 
@@ -143,9 +146,57 @@ function PersonalTab({ currentTab }) {
     });
 
     const [loading, setLoading] = React.useState(false);
+    const [loadingUser, setLoadingUser] = React.useState(true);
     const [alert, setAlert] = React.useState(false);
     const [alertType, setAlertType] = React.useState("");
     const [alertMessage, setAlertMessage] = React.useState("");
+
+    const formik = useFormik({
+        initialValues: {
+          name: "",
+          surname: "",
+          birthday: "",
+          gender: "",
+          email: "",
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+          handleSubmit(values);
+        },
+      });
+
+    React.useEffect(() => {
+        let getUser = async () => {
+          setLoadingUser(true);
+          try {
+            const cookies = new Cookies();
+            const user_id = cookies.get("uid");
+            
+            const res = await fetch(urlApis["social"]+"/users/"+user_id, {
+              method: "GET",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer "+cookies.get("utoken")
+              },
+            });
+            
+            const resJson = await res.json();
+            formik.values.name = resJson.name;
+            formik.values.surname = resJson.surname;
+            formik.values.birthday = resJson.birthday;
+            formik.values.gender = resJson.gender;
+            formik.values.email = resJson.email;
+          } catch(err) {
+    
+          }
+          finally {
+            setLoadingUser(false);
+          }
+        }
+        getUser()
+    }, []);
+    
   
     let displayMessage = (type, message) => {
       setAlert(true);
@@ -168,13 +219,17 @@ function PersonalTab({ currentTab }) {
     };
   
     let handleSubmit = async (values) => {
+
+        const cookies = new Cookies();
+        const user_id = cookies.get("uid");
         setLoading(true);
         try {
-          let res = await fetch(urlApis["social"]+"/users", {
+          let res = await fetch(urlApis["social"]+"/users/"+user_id, {
             method: "PUT",
             mode: "cors",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": "Bearer "+cookies.get("utoken")
             },
             body: JSON.stringify({
               name: values.name,
@@ -182,12 +237,9 @@ function PersonalTab({ currentTab }) {
               birthday: values.birthday,
               gender: values.gender,
               email: values.email,
-              password: values.password,
-              is_bot: false,
-              is_active: true
             }),
           });
-          
+
             if (res.status === 200) {
                 displayMessage("success", "Dados atualizados!");
             } else {
@@ -199,19 +251,7 @@ function PersonalTab({ currentTab }) {
         setLoading(false);
       };
 
-    const formik = useFormik({
-        initialValues: {
-          name: "Marie",
-          surname: "Canon",
-          birthday: "",
-          gender: "F",
-          email: "marie.canon@gmail.com",
-        },
-        validationSchema: validationSchema,
-        onSubmit: (values) => {
-          handleSubmit(values);
-        },
-      });
+    
 
     return (
         <CustomTabPanel value={currentTab} index={0}>
@@ -223,13 +263,17 @@ function PersonalTab({ currentTab }) {
             >
                 <Stack spacing="28px">
                     {alert &&
-                        <Alert 
-                            variant="filled" 
-                            severity={alertType}
-                        >
-                            { alertMessage }
-                        </Alert>
+                    <Alert 
+                        variant="filled" 
+                        severity={alertType}
+                    >
+                        { alertMessage }
+                    </Alert>
                     }
+
+                    {loadingUser ? 
+                    <Skeleton variant="rounded" width="100%" height={40}/>
+                    :
                     <TextField 
                         id="name" 
                         variant="outlined" 
@@ -240,7 +284,11 @@ function PersonalTab({ currentTab }) {
                         error={formik.touched.name && Boolean(formik.errors.name)}
                         helperText={formik.touched.name && formik.errors.name}
                     />
+                    }
 
+                    {loadingUser ? 
+                    <Skeleton variant="rounded" width="100%" height={40}/>
+                    :
                     <TextField 
                         id="surname" 
                         variant="outlined" 
@@ -251,8 +299,11 @@ function PersonalTab({ currentTab }) {
                         error={formik.touched.surname && Boolean(formik.errors.surname)}
                         helperText={formik.touched.surname && formik.errors.surname}
                     />
+                    }
 
-
+                    {loadingUser ? 
+                    <Skeleton variant="rounded" width="100%" height={40}/>
+                    :
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt">
                             <DatePicker  
                                 id="birthday"
@@ -260,7 +311,7 @@ function PersonalTab({ currentTab }) {
                                 variant="outlined" 
                                 format="DD/MM/YYYY"
                                 onChange={handleBirthday}
-                                defaultValue={dayjs('2022-04-25')}
+                                value={formik.values.birthday ? dayjs(formik.values.birthday) : null}
                                 slotProps={{
                                 textField: {
                                     size: "small",
@@ -272,7 +323,11 @@ function PersonalTab({ currentTab }) {
                                 }}
                             />
                     </LocalizationProvider>
+                    }
 
+                    {loadingUser ? 
+                    <Skeleton variant="rounded" width="100%" height={40}/>
+                    :
                     <TextField
                         fullWidth 
                         select 
@@ -293,7 +348,11 @@ function PersonalTab({ currentTab }) {
                             Feminino
                         </MenuItem>
                     </TextField>
+                    }
 
+                    {loadingUser ? 
+                    <Skeleton variant="rounded" width="100%" height={40}/>
+                    :
                     <TextField 
                         id="email" 
                         variant="outlined" 
@@ -304,6 +363,7 @@ function PersonalTab({ currentTab }) {
                         error={formik.touched.email && Boolean(formik.errors.email)}
                         helperText={formik.touched.email && formik.errors.email}
                     />
+                    }
 
                     <Stack 
                         direction="row"
@@ -333,34 +393,61 @@ function SecurityTab({ currentTab }) {
         .min(6, "Senha deve conter no mínimo 6 caracteres")
         .max(12, "Senha deve conter no máximo 12 caracteres")
         .required("Senha é obrigatório"),
-        newpassword: yup.string()
+        newPassword: yup.string()
           .min(6, "Senha deve conter no mínimo 6 caracteres")
           .max(12, "Senha deve conter no máximo 12 caracteres")
           .required("Senha é obrigatório"),
         passwordConfirmation: yup.string()
-          .oneOf([yup.ref('newpassword')], 'As senhas devem ser iguais')
+          .oneOf([yup.ref('newPassword')], 'As senhas devem ser iguais')
           .required("Confirmar a senha é obrigatório"),
     });
 
     const [loading, setLoading] = React.useState(false);
     const [alert, setAlert] = React.useState(false);
+    const [alertType, setAlertType] = React.useState("");
     const [alertMessage, setAlertMessage] = React.useState("");
    
-    let displayError = (message) => {
-      setAlert(true);
-      setAlertMessage(message);
+    let displayMessage = (type, message) => {
+        setAlert(true);
+        setAlertType(type);
+        setAlertMessage(message);
     }
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    let handleSubmit = async (values) => {
         setLoading(true);
-    }
+        try {
+            const cookies = new Cookies();
+            const user_id = cookies.get("uid");
+            
+            const res = await fetch(urlApis["social"]+"/users/"+user_id, {
+                    method: "PUT",
+                    mode: "cors",
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer "+cookies.get("utoken")
+                },
+                body: JSON.stringify({
+                    password: values.password,
+                    newPassword: values.newPassword,
+                }),
+            });
+
+            if (res.status === 200) {
+                displayMessage("success", "Senha atualizada!");
+            } else {
+                displayMessage("error", "Ocorreu um erro em nosso servidor");
+            }
+        } catch (err) {
+            displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+        }
+        setLoading(false);
+    };
 
     const formik = useFormik({
         initialValues: {
-          password: "senhaatual",
-          newpassword: "novasenha",
-          passwordConfirmation: "novasenha",
+          password: "",
+          newPassword: "",
+          passwordConfirmation: "",
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -380,15 +467,16 @@ function SecurityTab({ currentTab }) {
                     {alert &&
                     <Alert 
                         variant="filled" 
-                        severity="error"
+                        severity={alertType}
                     >
                         { alertMessage }
                     </Alert>
                     }
+
                         <PasswordInput
                             fullWidth  
                             name="password"
-                            label="Senha" 
+                            label="Senha atual" 
                             variant="outlined"
                             size="small"
                             value={formik.values.password}
@@ -397,24 +485,24 @@ function SecurityTab({ currentTab }) {
                             error={formik.touched.password && Boolean(formik.errors.password)}
                             helperText={formik.touched.password && formik.errors.password}
                         />
-
+                    
                         <PasswordInput
                             fullWidth  
-                            name="newpassword"
-                            label="Senha" 
+                            name="newPassword"
+                            label="Nova senha" 
                             variant="outlined"
                             size="small"
-                            value={formik.values.newpassword}
+                            value={formik.values.newPassword}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.newpassword && Boolean(formik.errors.newpassword)}
-                            helperText={formik.touched.newpassword && formik.errors.newpassword}
+                            error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+                            helperText={formik.touched.newPassword && formik.errors.newPassword}
                         />
 
                         <PasswordInput
                             fullWidth  
                             name="passwordConfirmation"
-                            label="Confirmar senha" 
+                            label="Confirmar nova senha" 
                             variant="outlined"
                             size="small"
                             type="password"
@@ -431,11 +519,11 @@ function SecurityTab({ currentTab }) {
                         justifyContent="right"
                     >
                         <LoadingButton 
+                            type="submit"
                             variant="contained"
                             size="medium"
                             spacing={2}
                             loading={loading}
-                            onClick={handleSubmit}
                             disabled={!formik.dirty}
                         >
                             Atualizar
