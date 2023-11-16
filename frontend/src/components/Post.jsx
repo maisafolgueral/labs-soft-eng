@@ -102,7 +102,7 @@ export default function Post({ showTopics, postId, ...props }) {
                 >
                     <Grid item xs={6}>
                         <Box sx={{marginLeft: "-5px"}}>
-                            <Reactions/>
+                            <Reactions postId={postId}/>
                         </Box>
                     </Grid>
                     <Grid item container xs={6} justifyContent="right">
