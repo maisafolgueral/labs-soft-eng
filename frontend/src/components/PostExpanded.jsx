@@ -12,6 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import Divider from "@mui/material/Divider";
+import Skeleton from '@mui/material/Skeleton';
 import LoadingButton from "@mui/lab/LoadingButton";
 import CloseIcon from "@mui/icons-material/Close";
 import AvatarInfo from "@/components/AvatarInfo";
@@ -108,15 +109,26 @@ function Footer({ postId }) {
   );
 }
 
-function Comment() {
+function Comment({ ...props }) {
+  let formatPublishDate = (date) => {
+    const options = {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    };
+    const formatter = new Intl.DateTimeFormat("pt-BR", options);
+    const formattedDate = formatter.format(new Date(date));
+    return "Publicado em "+formattedDate;
+  }
+
   return (
     <Stack spacing="10px">
       <AvatarInfo 
         avatarSize={35}
         avatarFontSize={16}
-        name="Mark Alain"
-        description="Publicado em 03 set 2023"
-        href="/h/profile/:id"
+        name={props.userFullname}
+        nameFontSize={18}
+        href={"/h/profile/"+props.userId}
       />
       <Typography 
         component="p"
@@ -127,7 +139,7 @@ function Comment() {
           paddingLeft: "45px"
         }}
       >
-        Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas quis erat sed massa lacinia accumsan sit amet sit amet quam. 
+        { props.commentContent } 
       </Typography>
       <Typography 
           fontSize={14}
@@ -137,17 +149,23 @@ function Comment() {
               paddingLeft: "45px"
           }}
       >
-          Publicado em 03 set 2023
+          { formatPublishDate(props.commentDate) }
       </Typography>
     </Stack>
   );
 }
 
-export default function PostExpanded({ showTopics, open, onClose, postId, ...props }) {
+function AddComment({ postId, onPublishComment }) {
   const [loading, setLoading] = React.useState(false);
   const [alert, setAlert] = React.useState(false);
   const [alertType, setAlertType] = React.useState("");
   const [alertMessage, setAlertMessage] = React.useState("");
+
+  const cookies = new Cookies();
+  const userToken = cookies.get("utoken");
+  const userId = cookies.get("uid");
+  const userName = cookies.get("uname");
+  const userSurname = cookies.get("usurname");
 
   let displayMessage = (type, message) => {
     setAlert(true);
@@ -156,33 +174,48 @@ export default function PostExpanded({ showTopics, open, onClose, postId, ...pro
   }
 
   let handleSubmit = async (values) => {
-    setLoading(true);
     try {
-        const cookies = new Cookies();
+      setLoading(true);
 
-        let res = await fetch(urlApis["social"]+"/posts", {
-                method: "POST",
-                mode: "cors",
-                headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer "+cookies.get("utoken")
+      let res = await fetch(urlApis["social"]+"/posts/"+postId+"/comments", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer "+userToken
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          post_id: postId,
+          content: values.content
+        }),
+      });
+
+      let resJson = await res.json();
+
+      if (res.status === 200) {
+          displayMessage("success", "Comentário criado!");
+
+          onPublishComment({
+            "user": {
+                "id": userId,
+                "name": userName,
+                "surname": userSurname,
             },
-            body: JSON.stringify({
-                user_id: cookies.get("uid"),
-                post_id: values.topic,
-                content: values.content
-            }),
+            "comment": {
+                "id": resJson.id,
+                "content": values.content,
+                "date": resJson.created_at,
+            },
         });
-
-        if (res.status === 200) {
-            displayMessage("success", "Comentário criado!");
-        } else {
-            displayMessage("error", "Ocorreu um erro em nosso servidor");
-        }
+      } else {
+          displayMessage("error", "Ocorreu um erro em nosso servidor");
+      }
     } catch (err) {
         displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const formik = useFormik({
@@ -194,7 +227,94 @@ export default function PostExpanded({ showTopics, open, onClose, postId, ...pro
       handleSubmit(values);
     },
   });
-  
+
+  return (
+    <Box
+      component="form"
+      noValidate
+      autoComplete="off"
+      onSubmit={formik.handleSubmit}
+    >
+      <Stack 
+        spacing="10px" 
+        direction="row" 
+        alignItems="center" 
+        sx={{padding: "27px"}}
+      >
+        {alert &&
+        <Alert 
+            variant="filled" 
+            severity={alertType}
+        >
+            { alertMessage }
+        </Alert>
+        }
+        <FormControl fullWidth>
+          <TextField 
+            name="content"
+            label="Escreva um comentário..." 
+            multiline
+            rows={3}
+            variant="outlined" 
+            size="small"       
+            value={formik.values.content}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.content && Boolean(formik.errors.content)}
+            helperText={formik.touched.content && formik.errors.content}
+          />
+        </FormControl>
+        <LoadingButton 
+          type="submit"
+          variant="contained"
+          size="medium"
+          sx={{
+            height: "35px"
+          }}
+          loading={loading}
+          disabled={!formik.dirty}
+        >
+          Comentar
+        </LoadingButton>
+      </Stack>
+    </Box>
+  );
+}
+
+export default function PostExpanded({ showTopics, open, onClose, postId, ...props }) {
+  const [comments, setComments] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  const cookies = new Cookies();
+  const userToken = cookies.get("utoken");
+
+  React.useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await fetch(urlApis["social"]+"/posts/"+postId+"/comments", {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "+userToken
+          },
+        });
+        
+        let currentComments = await res.json();
+        setComments(currentComments);
+      } catch(err) {
+        setComments([]);
+      } finally {
+        setLoading(false);
+      }  
+    }
+    getComments()
+  }, []);
+
+  let onPublishComment = (comment) => {
+    setComments([comment, ...comments]);
+  }
+
   return (
     <React.Fragment>
       <Dialog
@@ -214,10 +334,6 @@ export default function PostExpanded({ showTopics, open, onClose, postId, ...pro
             borderBottom: "1px solid #c4c4c4",
             padding: "14px 27px"
           }}
-          component="form"
-          noValidate
-          autoComplete="off"
-          onSubmit={formik.handleSubmit}
         >
           <Stack direction="row" spacing="10px" alignItems="center">
             <Typography sx={{flex: 1 }} variant="h6" component="div">
@@ -263,17 +379,62 @@ export default function PostExpanded({ showTopics, open, onClose, postId, ...pro
               sx={{
                 position: "absolute",
                 top: 0,
+                right: 0,
                 bottom: "140px",
+                left: 0,
                 padding: "27px",
+                boxSizing: "border-box",
                 overflowY: "auto"
               }}
             >
-              {Array.from(Array(10)).map((_, index) => (
+              {loading && 
+              <>
+                <Stack direction="row" spacing="7px">
+                  <Skeleton variant="circular" width={35} height={35}/>
+                  <Skeleton variant="text" width={150} sx={{ fontSize: '16px' }}/>
+                </Stack>
+                <Box sx={{ width: "100%" }}>
+                  <Skeleton variant="text" sx={{ fontSize: '14px' }}/>
+                  <Skeleton variant="text" sx={{ fontSize: '14px' }}/>
+                  <Skeleton variant="text" sx={{ fontSize: '14px' }}/>
+                </Box>
+                <Skeleton variant="text" width={150} sx={{ fontSize: '14px' }}/>
+              </>
+              }
+
+              {!loading && comments.map((comment, index) => (
                 <>
                   {index>0 && <Divider/>}
-                  <Comment/>
+                  <Comment 
+                    userFullname={comment.user.name+" "+comment.user.surname}
+                    userId={comment.user.id}
+                    commentContent={comment.comment.content}
+                    commentDate={comment.comment.date}
+                    commentId={comment.comment.id}
+                  />
                 </>
               ))}
+              
+              {!loading && comments.length === 0 &&
+                <Box
+                  sx={{
+                    height: "100vh", 
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                      variant="h1"
+                      fontSize="28px"
+                      fontWeight="bold"
+                      textAlign="center"
+                      color= "#b7b7b7"
+                  >
+                      Ainda não existem comentários!
+                  </Typography>
+                </Box>
+              }
             </Stack>
             <Box
               sx={{
@@ -284,49 +445,10 @@ export default function PostExpanded({ showTopics, open, onClose, postId, ...pro
                 borderTop: "1px solid #c4c4c4",
               }}
             >
-              <Stack 
-                spacing="10px" 
-                direction="row" 
-                alignItems="center" 
-                sx={{padding: "27px"}}
-              >
-                {alert &&
-                  <Alert 
-                      variant="filled" 
-                      severity={alertType}
-                  >
-                      { alertMessage }
-                  </Alert>
-                  }
-                <FormControl fullWidth>
-                  <TextField 
-                    name="content"
-                    id="outlined-multiline-flexible" 
-                    label="Escreva um comentário..." 
-                    multiline
-                    rows={3}
-                    variant="outlined" 
-                    size="small"       
-                    value={formik.values.content}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.content && Boolean(formik.errors.content)}
-                    helperText={formik.touched.content && formik.errors.content}           
-                  />
-                </FormControl>
-                <LoadingButton 
-                  type="submit"
-                  variant="contained"
-                  size="medium"
-                  sx={{
-                    height: "35px"
-                  }}
-                  loading={loading}
-                  disabled={!formik.dirty}
-                >
-                  Comentar
-                </LoadingButton>
-              </Stack>
+              <AddComment 
+                postId={postId} 
+                onPublishComment={onPublishComment}
+              />
             </Box>            
           </Grid>
         </Grid>
