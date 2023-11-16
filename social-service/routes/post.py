@@ -264,7 +264,7 @@ def addCommentToPost(post_id):
         post.comments.append(comment)
         session.commit()
 
-        result = CommentSchema().dump(data)
+        result = CommentSchema().dump(comment)
         
         return jsonify(result)
         
@@ -287,8 +287,23 @@ def getAllPostComments(post_id):
             raise NoResultFound('Post not found')
         
         comments = post.comments
-        result = CommentSchema(many=True).dump(comments)
-        return jsonify(result)
+
+        comments_json = []
+        for comment in comments:
+            comments_json.append({
+                'comment': {
+                    'id': comment.id,
+                    'content': comment.content,
+                    'date': comment.created_at
+                },
+                'user': {
+                    'id': comment.user.id,
+                    'name': comment.user.name,
+                    'surname': comment.user.surname
+                },
+            })
+
+        return jsonify(comments_json)
     
     except NoResultFound as err:
         abort(404, err.args)
