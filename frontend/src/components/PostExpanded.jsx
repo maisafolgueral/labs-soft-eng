@@ -28,33 +28,44 @@ const validationSchema = yup.object({
 });
 
 
-function Header({ showTopics }) {
+function Header({ showTopics, ...props }) {
   return (
     <Grid container alignItems="center">
       <Grid item xs={6}>
         <AvatarInfo 
           avatarSize={35}
           avatarFontSize={16}
-          name="Mark Alain"
-          description="Publicado em 03 set 2023"
-          href="/h/profile/:id"
+          name={props.userFullname}
+          nameFontSize={18}
+          href={"/h/profile/"+props.userId}
         />
       </Grid>
       <Grid item container xs={6} justifyContent="right">
-        {!showTopics &&
-          <IconWithTitle
-            iconName="ChatQuote"
-            title="Galáxias"
-            color="#777777"
-            href="/h/profile/:id"
-          />
+        {!showTopics && 
+        <IconWithTitle
+          iconName="ChatQuote"
+          title={props.topicSubject}
+          color="#777777"
+          href={"/h/topics/"+props.topicId}
+        />
         }
       </Grid>
     </Grid>
   );
 }
 
-function Content() {
+function Content({ ...props }) {
+  let formatPublishDate = (date) => {
+    const options = {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    };
+    const formatter = new Intl.DateTimeFormat("pt-BR", options);
+    const formattedDate = formatter.format(new Date(date));
+    return "Publicado em "+formattedDate;
+  }
+
   return (
     <Box sx={{ width: "100%", marginTop: "30px" }}>
       <Typography 
@@ -63,7 +74,7 @@ function Content() {
           fontWeight="bold"
           color="#404040"
       >
-          Título da publicação
+          { props.postTitle }
       </Typography>
       <Typography 
           component="p"
@@ -71,7 +82,7 @@ function Content() {
           color="#404040"
           textAlign="justify"
       >
-          Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas quis erat sed massa lacinia accumsan sit amet sit amet quam. Morbi at ante sed turpis blandit molestie. Duis lacus nunc, rhoncus a mattis vel, imperdiet at sem. Ut in lorem ac nisl venenatis malesuada vel non massa. Maecenas nec fringilla eros, tempor ultricies risus. Nullam risus lacus, luctus non viverra ac, suscipit non magna. Ut quis risus varius, rutrum sem sit amet, ullamcorper nibh. Fusce tincidunt rutrum leo, eget posuere diam dictum eget. Mauris sollicitudin sem nec erat dictum, eget consectetur tortor pulvinar. Ut facilisis sagittis ante ac tincidunt. Sed porttitor interdum sodales. Nunc lacinia leo vitae sapien consectetur rutrum at eu risus. Ut mollis arcu non diam accumsan congue. 
+          { props.postContent }
       </Typography>
       <Typography 
           fontSize={14}
@@ -80,17 +91,17 @@ function Content() {
               marginTop: "10px"
           }}
       >
-          Publicado em 03 set 2023
+          { formatPublishDate(props.postDate) }
       </Typography>
     </Box>
   );
 }
 
-function Footer() {
+function Footer({ postId }) {
   return (
     <Grid container alignItems="center">
       <Grid item xs={6}>
-        <Reactions/>
+        <Reactions postId={postId}/>
       </Grid>
       <Grid item xs={6}></Grid>
     </Grid>
@@ -132,7 +143,7 @@ function Comment() {
   );
 }
 
-export default function PostExpanded({ showTopics, open, onClose }) {
+export default function PostExpanded({ showTopics, open, onClose, postId, ...props }) {
   const [loading, setLoading] = React.useState(false);
   const [alert, setAlert] = React.useState(false);
   const [alertType, setAlertType] = React.useState("");
@@ -230,9 +241,12 @@ export default function PostExpanded({ showTopics, open, onClose }) {
             }}
           >
             <Stack spacing="40px">
-              <Header showTopics={showTopics ? showTopics : undefined}/>
-              <Content/>
-              <Footer/>
+              <Header 
+                showTopics={showTopics ? showTopics : undefined}
+                {...props}
+              />
+              <Content {...props}/>
+              <Footer postId={postId}/>
             </Stack>
           </Grid>
           <Grid 

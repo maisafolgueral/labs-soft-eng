@@ -135,6 +135,8 @@ export default function Post({ showTopics, postId, ...props }) {
                 showTopics={showTopics ? showTopics : undefined} 
                 open={open} 
                 onClose={handleClose}
+                postId={postId}
+                {...props}
             />
         </>                                               
     );
