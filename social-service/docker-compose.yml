@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+    flask:
+        build: .
+        container_name: social_service
+        stop_signal: SIGINT
+        ports:
+            - "9000:5000"
+        volumes:
+            - .:/code
+        depends_on:
+            - db
+        restart: always
+        networks:
+            - socialntw
+
+    db:
+        image: postgres:13
+        container_name: social_service_db
+        ports:
+            - "5433:5432"
+        volumes:
+            - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./db/data:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=adminhola
+            - POSTGRES_PASSWORD=Hola23*
+            - POSTGRES_DB=hola
+        restart: always
+        networks:
+            - socialntw
+
+networks:
+    socialntw:
+        driver: bridge

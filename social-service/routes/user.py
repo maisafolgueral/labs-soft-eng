@@ -46,6 +46,7 @@ def createUser():
         result = UserSchema().dump(new_user)
 
         return jsonify(result)
+
     except AlreadyExistsError as err:
         abort(409, err.message)
     except ValidationError as err:
