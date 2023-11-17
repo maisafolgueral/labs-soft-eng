@@ -345,9 +345,28 @@ def getAllUserPosts(user_id):
             raise NoResultFound('User not found')
         
         posts = user.posts
-        result = PostSchema(many=True).dump(posts)
 
-        return jsonify(result)
+        posts_json = []
+        for post in posts:
+            posts_json.append({
+                'post': {
+                    'id': post.id,
+                    'title': post.title,
+                    'content': post.content,
+                    'date': post.created_at
+                },
+                'user': {
+                    'id': post.user.id,
+                    'name': post.user.name,
+                    'surname': post.user.surname
+                },
+                'topic': {
+                    'id': post.topic.id,
+                    'subject': post.topic.subject
+                }
+            })
+
+        return jsonify(posts_json)
     
     except NoResultFound as err:
         abort(404, err.args)
