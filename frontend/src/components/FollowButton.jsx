@@ -6,7 +6,7 @@ import {
 } from "react-bootstrap-icons";
 
 
-export default function FollowButton({ onClick, isFollowing }) {
+export default function FollowButton({ onClick, isFollowing, ...props }) {
   const [following, setFollowing] = React.useState(isFollowing);
 
   const handleFollow = () => {
@@ -30,6 +30,7 @@ export default function FollowButton({ onClick, isFollowing }) {
         sx={{
           fontSize: "12px"
         }}
+        disabled={props.disabled}
         onClick={handleUnfollow}
       >
         Seguindo
@@ -42,6 +43,7 @@ export default function FollowButton({ onClick, isFollowing }) {
         sx={{
           fontSize: "12px"
         }}
+        disabled={props.disabled}
         onClick={handleFollow}
       >
         Seguir

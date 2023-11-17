@@ -51,9 +51,11 @@ export default function Timeline() {
       <Grid container>
         <Grid item xs={8}>
           <Stack spacing="28px">
-            <AddPost onPublishPost={onPublishPost}/>
+            <AddPost showTopics onPublishPost={onPublishPost}/>
             {!loading && posts.map(post => (
             <Post
+              key={post.post.id}
+              showTopics
               userFullname={post.user.name+" "+post.user.surname}
               userId={post.user.id}
               topicSubject={post.topic.subject}

@@ -56,7 +56,7 @@ export default function Post({ showTopics, postId, ...props }) {
                         />
                     </Grid>
                     <Grid item container xs={6} justifyContent="right">
-                        {!showTopics && 
+                        {showTopics && 
                         <IconWithTitle
                             iconName="ChatQuote"
                             title={props.topicSubject}

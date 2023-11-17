@@ -42,7 +42,7 @@ function Header({ showTopics, ...props }) {
         />
       </Grid>
       <Grid item container xs={6} justifyContent="right">
-        {!showTopics && 
+        {showTopics && 
         <IconWithTitle
           iconName="ChatQuote"
           title={props.topicSubject}

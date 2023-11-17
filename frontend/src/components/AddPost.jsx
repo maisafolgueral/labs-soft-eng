@@ -33,7 +33,6 @@ export default function AddPost({ onPublishPost, ...props }) {
     const [alertType, setAlertType] = React.useState("");
     const [alertMessage, setAlertMessage] = React.useState("");
 
-
     const cookies = new Cookies();
     const userToken = cookies.get("utoken");
     const userId = cookies.get("uid");
@@ -77,6 +76,9 @@ export default function AddPost({ onPublishPost, ...props }) {
 
     let handleSubmit = async (values) => {
         setLoading(true);
+
+        const topicId = props.showTopics ? values.topic : parseInt(props.topicId);
+
         try {
             let res = await fetch(urlApis["social"]+"/posts", {
                     method: "POST",
@@ -87,7 +89,7 @@ export default function AddPost({ onPublishPost, ...props }) {
                 },
                 body: JSON.stringify({
                     user_id: userId,
-                    topic_id: values.topic,
+                    topic_id: topicId,
                     title: values.title,
                     content: values.content
                 }),
@@ -105,8 +107,8 @@ export default function AddPost({ onPublishPost, ...props }) {
                         "surname": userSurname,
                     },
                     "topic": {
-                        "id": values.topic,
-                        "subject": topics[getTopicIndexById(values.topic)].subject,
+                        "id": topicId,
+                        "subject": topics[getTopicIndexById(topicId)].subject,
                     },
                     "post": {
                         "id": resJson.id,
@@ -129,7 +131,7 @@ export default function AddPost({ onPublishPost, ...props }) {
         initialValues: {
           title: "",
           content: "",
-          topic: "",
+          topic: props.showTopics ? "" : props.topicId,
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -196,7 +198,7 @@ export default function AddPost({ onPublishPost, ...props }) {
                     marginTop: "12px"
                 }}
             >
-                {!props.showTopics && topics &&
+                {props.showTopics && topics &&
                 <FormControl sx={{ width: "110px" }} size="small">
                     <TextField
                         select 
@@ -216,7 +218,7 @@ export default function AddPost({ onPublishPost, ...props }) {
                     </TextField>
                 </FormControl>
                 }
-                {!props.showTopics && !topics &&
+                {props.showTopics && !topics &&
                 <Skeleton variant="rounded" width={110} height={40}/>
                 }
                 <LoadingButton 
