@@ -208,7 +208,7 @@ export default function OneTopic() {
         </Grid>
         {loading && 
           <Grid item xs={2} sm={4} md={4}>
-            <Skeleton variant="rectangular" width={340} height={194}/>
+            <Skeleton variant="rounded" width={340} height={194}/>
           </Grid>
         }
         {!loading && 

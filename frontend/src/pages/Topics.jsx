@@ -147,7 +147,7 @@ export default function Topics() {
       >
         {loading && Array.from(Array(6)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <Skeleton variant="rectangular" width={340} height={194}/>
+            <Skeleton variant="rounded" width={340} height={194}/>
           </Grid>
         ))}
 
