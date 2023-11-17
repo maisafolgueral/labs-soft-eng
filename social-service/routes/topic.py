@@ -51,6 +51,27 @@ def createTopic():
         abort(500)
 
 
+@topic_bp.route('/topics/<id>', methods=['GET'])
+@token_required
+def getTopic(id):
+    try:
+        topic = session.query(TopicModel).filter_by(id=id).first()
+        if topic is None:
+            raise NoResultFound('Topic not found')
+
+        to_dump = topic
+        to_dump.total_followers = len(topic.followers)
+
+        result = TopicSchema().dump(to_dump)
+        
+        return jsonify(result)
+    
+    except NoResultFound as err:
+        abort(404, err.args)
+    except:
+        abort(500)
+
+
 @topic_bp.route('/topics', methods=['GET'])
 @token_required
 def getAllTopics():
@@ -100,9 +121,28 @@ def getAllTopicPosts(topic_id):
             raise NoResultFound('Topic not found')
         
         posts = topic.posts
-        posts_data = PostSchema(many=True).dump(posts)
-        
-        return jsonify(posts_data)
+
+        posts_json = []
+        for post in posts:
+            posts_json.append({
+                'post': {
+                    'id': post.id,
+                    'title': post.title,
+                    'content': post.content,
+                    'date': post.created_at
+                },
+                'user': {
+                    'id': post.user.id,
+                    'name': post.user.name,
+                    'surname': post.user.surname
+                },
+                'topic': {
+                    'id': post.topic.id,
+                    'subject': post.topic.subject
+                }
+            })
+
+        return jsonify(posts_json)
     
     except NoResultFound as err:
         abort(404, err.args)
