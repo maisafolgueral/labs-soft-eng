@@ -182,11 +182,13 @@ function PersonalTab({ currentTab }) {
             });
             
             const resJson = await res.json();
-            formik.values.name = resJson.name;
-            formik.values.surname = resJson.surname;
-            formik.values.birthday = resJson.birthday;
-            formik.values.gender = resJson.gender;
-            formik.values.email = resJson.email;
+            if(res.status === 200) {
+                formik.values.name = resJson.name;
+                formik.values.surname = resJson.surname;
+                formik.values.birthday = resJson.birthday;
+                formik.values.gender = resJson.gender;
+                formik.values.email = resJson.email;
+            }
           } catch(err) {
     
           }

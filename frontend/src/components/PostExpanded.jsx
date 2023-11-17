@@ -15,6 +15,7 @@ import Divider from "@mui/material/Divider";
 import Skeleton from '@mui/material/Skeleton';
 import LoadingButton from "@mui/lab/LoadingButton";
 import CloseIcon from "@mui/icons-material/Close";
+import CustomizedSnackbar from "@/components/CustomizedSnackbar";
 import AvatarInfo from "@/components/AvatarInfo";
 import Reactions from "@/components/Reactions";
 import IconWithTitle from "@/components/IconWithTitle";
@@ -157,21 +158,13 @@ function Comment({ ...props }) {
 
 function AddComment({ postId, onPublishComment }) {
   const [loading, setLoading] = React.useState(false);
-  const [alert, setAlert] = React.useState(false);
-  const [alertType, setAlertType] = React.useState("");
-  const [alertMessage, setAlertMessage] = React.useState("");
+  const [message, setMessage] = React.useState(null);
 
   const cookies = new Cookies();
   const userToken = cookies.get("utoken");
   const userId = cookies.get("uid");
   const userName = cookies.get("uname");
   const userSurname = cookies.get("usurname");
-
-  let displayMessage = (type, message) => {
-    setAlert(true);
-    setAlertType(type);
-    setAlertMessage(message);
-  }
 
   let handleSubmit = async (values) => {
     try {
@@ -194,8 +187,6 @@ function AddComment({ postId, onPublishComment }) {
       let resJson = await res.json();
 
       if (res.status === 200) {
-          displayMessage("success", "Comentário criado!");
-
           onPublishComment({
             "user": {
                 "id": userId,
@@ -209,10 +200,10 @@ function AddComment({ postId, onPublishComment }) {
             },
         });
       } else {
-          displayMessage("error", "Ocorreu um erro em nosso servidor");
+        setMessage("Ocorreu um erro em nosso servidor");
       }
     } catch (err) {
-        displayMessage("error", "Ocorreu um erro ao enviar seus dados");
+      setMessage("Ocorreu um erro ao enviar seus dados");
     } finally {
       setLoading(false);
     }
@@ -223,61 +214,62 @@ function AddComment({ postId, onPublishComment }) {
       content: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       handleSubmit(values);
+      resetForm();
     },
   });
 
   return (
-    <Box
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={formik.handleSubmit}
-    >
-      <Stack 
-        spacing="10px" 
-        direction="row" 
-        alignItems="center" 
-        sx={{padding: "27px"}}
+    <>
+      {message &&
+        <CustomizedSnackbar 
+          message={message} 
+          severity="error"
+        />
+      }
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        onSubmit={formik.handleSubmit}
       >
-        {alert &&
-        <Alert 
-            variant="filled" 
-            severity={alertType}
+        <Stack 
+          spacing="10px" 
+          direction="row" 
+          alignItems="center" 
+          sx={{padding: "27px"}}
         >
-            { alertMessage }
-        </Alert>
-        }
-        <FormControl fullWidth>
-          <TextField 
-            name="content"
-            label="Escreva um comentário..." 
-            multiline
-            rows={3}
-            variant="outlined" 
-            size="small"       
-            value={formik.values.content}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.content && Boolean(formik.errors.content)}
-            helperText={formik.touched.content && formik.errors.content}
-          />
-        </FormControl>
-        <LoadingButton 
-          type="submit"
-          variant="contained"
-          size="medium"
-          sx={{
-            height: "35px"
-          }}
-          loading={loading}
-          disabled={!formik.dirty}
-        >
-          Comentar
-        </LoadingButton>
-      </Stack>
-    </Box>
+          <FormControl fullWidth>
+            <TextField 
+              name="content"
+              label="Escreva um comentário..." 
+              multiline
+              rows={3}
+              variant="outlined" 
+              size="small"       
+              value={formik.values.content}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.content && Boolean(formik.errors.content)}
+              helperText={formik.touched.content && formik.errors.content}
+            />
+          </FormControl>
+          <LoadingButton 
+            type="submit"
+            variant="contained"
+            size="medium"
+            sx={{
+              height: "35px"
+            }}
+            loading={loading}
+            disabled={!formik.dirty}
+          >
+            Comentar
+          </LoadingButton>
+        </Stack>
+      </Box>
+    </>
   );
 }
 
@@ -301,7 +293,9 @@ export default function PostExpanded({ showTopics, open, onClose, postId, ...pro
         });
         
         let currentComments = await res.json();
-        setComments(currentComments);
+        if(res.status === 200) {
+          setComments(currentComments);
+        }
       } catch(err) {
         setComments([]);
       } finally {
@@ -402,7 +396,7 @@ export default function PostExpanded({ showTopics, open, onClose, postId, ...pro
               </>
               }
 
-              {!loading && comments.map((comment, index) => (
+              {!loading && comments.length !== 0 && comments.map((comment, index) => (
                 <>
                   {index>0 && <Divider/>}
                   <Comment 

@@ -73,8 +73,9 @@ export default function Feedback() {
           description: "",
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: (values, { resetForm }) => {
           handleSubmit(values);
+          resetForm();
         },
     });
 

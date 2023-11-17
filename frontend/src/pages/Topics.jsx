@@ -30,8 +30,10 @@ const Header = (subject, id) => {
         });
         
         const followers = await res.json();
-        const isUserInFollowers = followers.some(obj => obj['id'] == user_id);
-        setFollowing(isUserInFollowers);
+        if(res.status === 200) {
+          const isUserInFollowers = followers.some(obj => obj['id'] == user_id);
+          setFollowing(isUserInFollowers);
+        }
       } catch(err) {
 
       }
@@ -125,8 +127,10 @@ export default function Topics() {
         }
         
         let currentTopics = await res.json();
-        setTopics(currentTopics);
-        setError(null);
+        if(res.status === 200) {
+          setTopics(currentTopics);
+          setError(null);
+        }
       } catch(err) {
         setError("Ocorreu um erro ao carregar os tópicos");
         setTopics(null);
@@ -154,6 +158,7 @@ export default function Topics() {
         {!loading && topics.map(topic => (
           <Grid item xs={2} sm={4} md={4} key={topic.id}>
             <InfoBox
+              key={topic.id}
               Header={() => Header(topic.subject, topic.id)}
               Content={() => Content(topic.total_followers)}
             />

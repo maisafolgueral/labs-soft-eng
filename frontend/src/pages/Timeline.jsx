@@ -32,7 +32,9 @@ export default function Timeline() {
         });
         
         let currentPosts = await res.json();
-        setPosts(currentPosts);
+        if(res.status === 200) {
+          setPosts(currentPosts);
+        }
       } catch(err) {
         setPosts([]);
       } finally {

@@ -134,8 +134,9 @@ export default function AddPost({ onPublishPost, ...props }) {
           topic: props.showTopics ? "" : props.topicId,
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: (values, { resetForm }) => {
           handleSubmit(values);
+          resetForm();
         },
     });
 

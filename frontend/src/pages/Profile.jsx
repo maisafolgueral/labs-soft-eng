@@ -37,8 +37,10 @@ function InfoBoxHeader(id, user) {
         });
         
         const followers = await res.json();
-        const isUserInFollowers = followers.some(obj => obj['id'] == userId);
-        setFollowing(isUserInFollowers);
+        if(res.status === 200) {
+          const isUserInFollowers = followers.some(obj => obj['id'] == userId);
+          setFollowing(isUserInFollowers);
+        }
       } catch(err) {
 
       }
@@ -159,7 +161,9 @@ export default function Profile() {
         });
         
         let currentUser = await res.json();
-        setUser(currentUser);
+        if(res.status === 200) {
+          setUser(currentUser);
+        }
       } catch(err) {
         setUser(null);
       } finally {
@@ -182,7 +186,9 @@ export default function Profile() {
         });
         
         let currentFollowed = await res.json();
-        setFollowed(currentFollowed);
+        if(res.status === 200) {
+          setFollowed(currentFollowed);
+        }
       } catch(err) {
         setFollowed([]);
       } finally {
@@ -205,7 +211,9 @@ export default function Profile() {
         });
         
         let currentTopics = await res.json();
-        setTopics(currentTopics);
+        if(res.status === 200) {
+          setTopics(currentTopics);
+        }
       } catch(err) {
         setTopics([]);
       } finally {
@@ -229,7 +237,9 @@ export default function Profile() {
         });
         
         let currentPosts = await res.json();
-        setPosts(currentPosts);
+        if(res.status === 200) {
+          setPosts(currentPosts);
+        }
       } catch(err) {
         setPosts([]);
       } finally {

@@ -37,8 +37,10 @@ const Header = (subject, id) => {
         });
         
         const followers = await res.json();
-        const isUserInFollowers = followers.some(obj => obj['id'] == userId);
-        setFollowing(isUserInFollowers);
+        if(res.status === 200) {
+          const isUserInFollowers = followers.some(obj => obj['id'] == userId);
+          setFollowing(isUserInFollowers);
+        }
       } catch(err) {
 
       }
@@ -124,9 +126,11 @@ export default function OneTopic() {
             "Authorization": "Bearer "+userToken
           },
         });
-        
+
         let currentTopic = await res.json();
-        setTopic(currentTopic);
+        if(res.status === 200) {
+          setTopic(currentTopic);
+        }
       } catch(err) {
         setTopic(null);
       } finally {
@@ -148,9 +152,11 @@ export default function OneTopic() {
             "Authorization": "Bearer "+userToken
           },
         });
-        
+
         let currentPosts = await res.json();
-        setPosts(currentPosts);
+        if(res.status === 200) {
+          setPosts(currentPosts);
+        }
       } catch(err) {
         setPosts([]);
       } finally {
