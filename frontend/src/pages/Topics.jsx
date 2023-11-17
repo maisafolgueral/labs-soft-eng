@@ -2,6 +2,8 @@ import * as React from "react";
 import Cookies from "universal-cookie";
 import Skeleton from '@mui/material/Skeleton';
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from '@mui/material/Typography';
 import { urlApis } from "@/globals";
 import ListDetail from "@/components/ListDetail";
 import InfoBox from "@/components/InfoBox";
@@ -164,6 +166,25 @@ export default function Topics() {
             />
           </Grid>
         ))}
+
+        {!loading && topics.length === 0 &&
+          <Box
+            sx={{
+              width: "100%",
+              padding: "60px 0",
+            }}
+          >
+            <Typography
+                variant="h1"
+                fontSize="28px"
+                fontWeight="bold"
+                textAlign="center"
+                color= "#b7b7b7"
+            >
+                Ainda não existem tópicos!
+            </Typography>
+          </Box>
+        }
       </Grid>
     </>
   );
