@@ -1,13 +1,14 @@
 import * as React from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Alert from "@mui/material/Alert";
+import Skeleton from '@mui/material/Skeleton';
 import LoadingButton from "@mui/lab/LoadingButton";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -66,10 +67,53 @@ const validationSchema = yup.object({
 });
 
 function Form() {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
   const [alert, setAlert] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
+  const [admission, setAdmission] = React.useState(null);
+  const [loadingAdmission, setLoadingAdmission] = React.useState(false);
+
+  const code = searchParams.get("code");
+
+  React.useEffect(() => {
+    let getAdmission = async () => {
+      try {
+        setLoadingAdmission(true);
+
+        const res = await fetch(urlApis["admission"]+"/admissions/"+code, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        
+        if(res.status === 200) {
+          const admission = await res.json();
+          console.log(admission)
+          if (admission.status !== 1) {
+            navigate("/request-access");
+          }
+          setAdmission(admission);
+          formik.values.email = admission.email;
+        } else {
+          // if code is invalid, redirect to request access
+          navigate("/request-access");
+        }
+      } catch(err) {
+
+      }
+      finally {
+        setLoadingAdmission(false);
+      }
+    }
+
+    if(code) {
+      getAdmission();
+    }
+  }, []);
 
   const handleBirthday = (value) => {
     let outputDate = null;
@@ -104,10 +148,11 @@ function Form() {
           surname: values.surname,
           birthday: values.birthday,
           gender: values.gender,
-          email: values.email,
+          email: admission.email,
           password: values.password,
           is_bot: false,
-          is_active: true
+          is_active: true,
+          code: code
         }),
       });
       
@@ -222,7 +267,10 @@ function Form() {
             Feminino
           </MenuItem>
         </TextField>
-
+        
+        {loadingAdmission ? 
+        <Skeleton variant="rounded" width="100%" height={40}/>
+        :
         <TextField 
           fullWidth  
           name="email"
@@ -234,7 +282,9 @@ function Form() {
           onBlur={formik.handleBlur}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
+          disabled
         />
+        }
 
         <PasswordInput
           fullWidth  
@@ -281,6 +331,18 @@ function Form() {
 }
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const code = searchParams.get("code");
+  
+  React.useEffect(() => {
+    // if no code was given, redirect to request access
+    if (code === undefined || code === null || code === "") {
+      navigate("/request-access");
+    }
+  }, []);
+
   return (
     <Main>
       <Box

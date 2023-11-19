@@ -2,7 +2,8 @@ import Cookies from "universal-cookie";
 
 
 const urlApis = {
-    "social": 'http://127.0.0.1:9000/api'
+    "social": "http://127.0.0.1:9000/api",
+    "admission": "http://127.0.0.1:9010/api"
 };
 
 const isAuthenticated = () => {
