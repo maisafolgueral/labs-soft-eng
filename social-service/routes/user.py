@@ -6,6 +6,10 @@ from sqlalchemy.exc import NoResultFound
 from marshmallow import ValidationError
 from config import engine
 from helper import token_required
+from adapters.apis.social import (
+    get_admission,
+    update_admission
+)
 from exceptions import AlreadyExistsError
 from models import (
     User as UserModel,
@@ -32,12 +36,24 @@ def createUser():
         # Validate data
         UserSchema().load(data)
 
+        code = data['code']
+        data.pop('code') # remove code key to persist data
+
+        # Check if user was authorized to use the social network
+        admission = get_admission(code)
+        if 'error' in admission:
+            if admission['error'] == 404:
+                raise NoResultFound('Code not found')
+            else:
+                # error 500
+                raise
+        if admission['status'] != 1:
+            raise
+
         # Check if user already exists
-        user = session.query(UserModel).filter_by(email=data['email']).first()
+        user = session.query(UserModel).filter_by(email=admission['email']).first()
         if user:
-            raise AlreadyExistsError('Email already in use')
-        
-        
+            raise AlreadyExistsError('Email already in use') 
 
         # Persist data into the database
         new_user = UserModel(**data)
@@ -45,10 +61,11 @@ def createUser():
         session.flush()
         session.commit()
 
+        update_admission(code, admission['email'])
+
         result = UserSchema().dump(new_user)
 
         return jsonify(result)
-
     except AlreadyExistsError as err:
         abort(409, err.message)
     except ValidationError as err:
