@@ -6,8 +6,14 @@ services:
         container_name: admission_service
         stop_signal: SIGINT
         ports:
-            - "9010:5000"
+            - "9010:9010"
         volumes:
             - .:/code
         restart: always
+        networks:
+            - holantw
+
+networks:
+    holantw:
+        external: true
         
