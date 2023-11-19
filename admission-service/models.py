@@ -22,3 +22,10 @@ class Admission(MongoModel):
             self.code = hashlib.md5(self.email.encode('utf-8')).hexdigest()
 
         super(Admission, self).save(*args, **kwargs)
+
+
+class Authorization(MongoModel):
+    token = fields.CharField()
+    was_used = fields.BooleanField(default=False)
+    used_at = fields.DateTimeField(default=None)
+    created_at = fields.DateTimeField(default=datetime.utcnow)

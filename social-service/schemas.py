@@ -49,6 +49,7 @@ class User(Schema):
     is_bot = fields.Boolean()
     is_active = fields.Boolean()
     created_at = fields.DateTime(dump_only=True)
+    code = fields.String(load_only=True)
 
 
 class Topic(Schema):

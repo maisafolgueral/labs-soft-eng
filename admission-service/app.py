@@ -4,6 +4,7 @@ from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from flasgger import Swagger
 from routes.admission import admission_bp
+from routes.authorization import authorization_bp
 
 # Define application
 app = Flask(__name__) 
@@ -14,6 +15,7 @@ swagger = Swagger(app)
 
 # Routes
 app.register_blueprint(admission_bp, url_prefix='/api')
+app.register_blueprint(authorization_bp, url_prefix='/api')
 
 # Global generic error handler
 @app.errorhandler(HTTPException)

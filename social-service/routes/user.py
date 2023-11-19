@@ -36,6 +36,8 @@ def createUser():
         user = session.query(UserModel).filter_by(email=data['email']).first()
         if user:
             raise AlreadyExistsError('Email already in use')
+        
+        
 
         # Persist data into the database
         new_user = UserModel(**data)
